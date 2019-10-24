@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>vue-music</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+<script>
+  // 判断ie浏览器
+  var userAgent = navigator.userAgent
+  var isIE = userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1
+  if (isIE) {
+    var head = (document.head || document.getElementsByTagName('head')[0] || document.documentElement)
+    var script = document.createElement('script')
+    script.src = '//expcloud.huawei.com/expcloud/navBar/publicNavBar.js'
+    head.insertBefore(script, head.firstChild)
+    var cssEle = document.createElement('link')
+    cssEle.rel = 'stylesheet'
+    cssEle.href = '//expcloud.huawei.com/expcloud/navBar/css/publicNavBar.css'
+    head.insertBefore(cssEle, head.firstChild)
+  }
+</script>
+</html>
