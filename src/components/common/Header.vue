@@ -1,10 +1,10 @@
 <template>
-  <div class="footer">底部</div>
+  <div class="header">头部</div>
 </template>
 
 <script>
 export default {
-  name: 'Footer'
+  name: 'Header'
 }
 </script>
 

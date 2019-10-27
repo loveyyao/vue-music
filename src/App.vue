@@ -1,13 +1,16 @@
 <template>
   <div id="app">
+    <Header></Header>
     <div class="route-container">
-      <Home/>
+      <router-view></router-view>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Home from './components/Home'
+import Header from './components/common/Header'
+import Footer from './components/common/Footer'
 export default {
   name: 'App',
   data () {
@@ -15,7 +18,8 @@ export default {
     }
   },
   components: {
-    Home
+    Header,
+    Footer
   },
 
   computed: {
@@ -43,7 +47,5 @@ export default {
   overflow: hidden;
 }
 .route-container {
-  width: 100%;
-  height: 100%;
 }
 </style>

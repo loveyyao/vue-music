@@ -5,6 +5,7 @@
 ``` bash
 # install
 git clone https://github.com/loveyyao/vue-music.git
+
 # install dependencies
 npm install
 
