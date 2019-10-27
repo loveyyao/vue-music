@@ -1,5 +1,5 @@
 <template>
-  <div>111</div>
+  <div>{{msg}}</div>
 </template>
 <script>
 
@@ -10,6 +10,7 @@ export default {
 
   data () {
     return {
+      msg: 'hello world'
     }
   },
 
@@ -26,4 +27,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  @import "../assets/styles/common/functions";
 </style>

@@ -134,7 +134,7 @@ function dateFormat (stamp_, dateSplit, timeSplit) {
     return year + dateSplit + month + dateSplit + day + ' ' + hh + timeSplit + mm + timeSplit + ss
   }
 }
-Date.prototype.format = function (fmt) {
+window.Date.prototype.format = function (fmt) {
   var o = {
     'M+': this.getMonth() + 1, // 月份
     'd+': this.getDate(), // 日

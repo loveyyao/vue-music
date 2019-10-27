@@ -19,47 +19,15 @@ export default {
   },
 
   computed: {
-    authorize () {
-      return this.$store.state.experience.authority
-    },
-    notify () {
-      return this.$store.state.experience.notify
-    },
-    isFull () {
-      return this.$store.state.common.isFull
-    }
   },
 
   watch: {
-    authorize (val, oldVal) {
-      if (val === 0) {
-        // this.$store.dispatch('returnBooking')
-      }
-    },
-    notify (val, oldVal) {
-      if (!val) {
-        return
-      }
-      this.$notify({
-        title: 'Warning',
-        message: 'Experience within 5 minutes',
-        type: 'warning',
-        duration: 3000,
-        offset: window.innerHeight - 125
-      })
-    }
   },
 
   mounted () {
   },
 
   methods: {
-    languageChange (lang_) {
-      this.$i18n.locale = lang_
-    },
-    doInit () {
-
-    }
   }
 }
 </script>
