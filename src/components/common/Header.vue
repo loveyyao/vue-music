@@ -143,8 +143,11 @@ export default {
             padding: 0;
           }
         }
-        &:hover .tooltip{
-          display: block;
+        &:hover {
+          color: #fff;
+          .tooltip{
+            display: block;
+          }
         }
       }
       .search{

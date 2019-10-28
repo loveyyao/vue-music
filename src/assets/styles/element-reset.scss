@@ -1,4 +1,18 @@
 @import "./common/functions";
+.main {
+  .el-tabs__header{
+    margin: 0;
+  }
+  .el-tabs__nav-wrap{
+    padding-left: px2vw(10);
+  }
+  .el-collapse-item__content{
+    padding: 0;
+  }
+  .el-collapse-item__header{
+    padding-left: px2vw(10);
+  }
+}
 .search{
   .el-input{
     .el-input__inner{

@@ -45,12 +45,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   overflow: hidden;
-  /*display: flex;*/
-  /*flex-direction: column;*/
-  /*justify-content: space-around;*/
+  border: 1px solid #eee;
+  border-top-color:#0096E6;
+  border-bottom-color:#0096E6;
+  box-shadow: 0 0 1px #eee;
 }
 .route-container {
   height: px2vw(550);
-  /*background: #2c3e50;*/
 }
 </style>
