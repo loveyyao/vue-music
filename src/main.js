@@ -4,15 +4,17 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-import { Notification } from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
 import Utils from './utils/VueUtils'
 import './assets/styles/common/common.scss'
+import './assets/styles/element-reset.scss'
 require('./assets/main.css')
 
 Vue.config.productionTip = false
-Vue.prototype.$notify = Notification
-
+Vue.use(ElementUI, {
+  size: 'small'
+})
 Vue.use(Utils)
 
 // Vue.http.interceptors.push(function (request, next) {

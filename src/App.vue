@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header></Header>
-    <div class="route-container">
+    <div class="route-container w">
       <router-view></router-view>
     </div>
     <Footer></Footer>
@@ -37,15 +37,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import "./assets/styles/common/functions";
 #app {
   width: 100%;
   height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: left;
   color: #2c3e50;
   overflow: hidden;
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*justify-content: space-around;*/
 }
 .route-container {
+  height: px2vw(550);
+  /*background: #2c3e50;*/
 }
 </style>

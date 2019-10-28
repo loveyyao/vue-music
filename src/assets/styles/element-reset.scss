@@ -1,0 +1,10 @@
+@import "./common/functions";
+.search{
+  .el-input{
+    .el-input__inner{
+      width: px2vw(260);
+      height: px2vw(30);
+      border-radius: 15px;
+    }
+  }
+}

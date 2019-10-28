@@ -116,9 +116,18 @@ a:hover {
 .fl {  float: left;  }
 .fr {  float: right; }
 /*cursor*/
-.cursor {  cursor: pointer;  }
+.cursor {
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
 
-
+/*-webkit-app-region*/
+.ward{
+  -webkit-app-region: drag;
+}
+.warnd{
+  -webkit-app-region: no-drag;
+}
 /*position*/
 .pr {  position: relative;  }
 .pa {  position: absolute;  }
