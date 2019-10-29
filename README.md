@@ -16,7 +16,7 @@ npm run dev
 npm run build
 ```
 ```
-#下载nw.zip
+# 下载nw.zip
 https://nwjs.org.cn/
 解压到本地，然后在根目录下新建package.json，点击nw.exe
 # package.json
