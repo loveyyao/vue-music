@@ -15,7 +15,7 @@ npm run dev
 # build for production with minification
 npm run build
 ```
-```
+``` bash
 # 下载nw.zip(nw.js用npm实在下不下来，有稳定的翻墙应该能，只有在官网下载压缩包使用)
 https://nwjs.org.cn/
 解压到本地，然后在根目录下新建package.json，点击nw.exe
