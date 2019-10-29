@@ -3,14 +3,16 @@
   .el-tabs__header{
     margin: 0;
   }
-  .el-tabs__nav-wrap{
-    padding-left: px2vw(10);
-  }
-  .el-collapse-item__content{
-    padding: 0;
-  }
-  .el-collapse-item__header{
-    padding-left: px2vw(10);
+  .main-left{
+    .el-tabs__nav-wrap{
+      padding-left: px2vw(10);
+    }
+    .el-collapse-item__content{
+      padding: 0;
+    }
+    .el-collapse-item__header{
+      padding-left: px2vw(10);
+    }
   }
 }
 .search{
@@ -19,6 +21,25 @@
       width: px2vw(260);
       height: px2vw(30);
       border-radius: 15px;
+    }
+  }
+}
+.search-container{
+  .el-tabs__nav-scroll{
+    display: flex;
+    justify-content: center;
+  }
+  .el-tabs__active-bar{
+    display: none;
+  }
+  .el-table__header-wrapper{
+    height: px2vw(40);
+  }
+  .el-table__row{
+    .cell{
+      .option{
+        font-size: 18px;
+      }
     }
   }
 }

@@ -14,7 +14,7 @@
         <i class="el-icon-refresh"></i>
         <span class="tooltip pa">刷新</span>
       </span>
-      <div class="search cursor">
+      <div class="search cursor" @keydown.enter="searchSong">
         <el-input
           size="small"
           :placeholder="hostSearch.showKeyword"
@@ -80,6 +80,19 @@ export default {
     },
     closeWindow () {
       nw.App.quit()
+    },
+    searchSong () {
+      const keywords = this.search
+      if (keywords.trim()) {
+        this.$bus.$emit('showSearch')
+        this.$axios.get('search', {keywords})
+          .then((res) => {
+            if (res.data.code === 200) {
+              this.$store.commit('addData', res.data.result.songs)
+              console.log(res.data.result.songs)
+            }
+          })
+      }
     }
   },
   mounted () {

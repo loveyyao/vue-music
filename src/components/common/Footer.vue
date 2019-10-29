@@ -69,7 +69,7 @@ export default {
   name: 'Footer',
   data () {
     return {
-      url: 'http://m8.music.126.net/20191029160843/58023f8198722d37efd8d282e6f02c6b/ymusic/603f/2799/ea87/0ac26d0e219c049b2c5a12fd6be2826f.mp3',
+      url: '',
       isPlay: false,
       // 音频当前播放时长
       currentTime: 0,
@@ -88,30 +88,42 @@ export default {
     }
   },
   methods: {
+    getSong (id) {
+      this.$axios.get('song/url', {id: id})
+        .then((res) => {
+          // console.log(res)
+          if (res.data.code === 200) {
+            console.log(res)
+            this.url = res.data.data[0].url
+          }
+        })
+    },
     playMusic () {
-      if (this.isPlay) {
-        this.$refs.audio.pause()
+      const that = this
+      if (that.isPlay) {
+        that.$refs.audio.pause()
       } else {
-        this.$refs.audio.play()
+        that.$refs.audio.play()
       }
       this.isPlay = !this.isPlay
     },
     // 当timeupdate事件大概每秒一次，用来更新音频流的当前播放时间
     onTimeupdate (res) {
-      console.log('timeupdate')
-      console.log(res)
+      // console.log('timeupdate')
+      // console.log(res)
       this.currentTime = res.target.currentTime
     },
     // 当加载语音流元数据完成后，会触发该事件的回调函数
     // 语音元数据主要是语音的长度之类的数据
     onLoadedmetadata (res) {
-      console.log('loadedmetadata')
-      console.log(res)
+      // console.log('loadedmetadata')
+      // console.log(res)
       this.maxTime = parseInt(res.target.duration)
     }
   },
   mounted () {
     // console.log(this.$refs.audio.duration)
+    this.getSong(400162138)
   }
 }
 </script>

@@ -51,18 +51,32 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-    <div class="main-right h">{{msg}}</div>
+    <div class="main-right h">
+      <el-tabs v-model="rightActiveName" :stretch="true" @tab-click="handleClick">
+        <el-tab-pane label="乐库" name="0"></el-tab-pane>
+        <el-tab-pane label="电台" name="1"></el-tab-pane>
+        <el-tab-pane label="歌单" name="2"></el-tab-pane>
+        <el-tab-pane label="MV" name="3"></el-tab-pane>
+        <el-tab-pane label="直播" name="4"></el-tab-pane>
+        <el-tab-pane label="KTV" name="5"></el-tab-pane>
+        <el-tab-pane label="歌词" name="6"></el-tab-pane>
+      </el-tabs>
+<!--      <Search v-if="!rightActiveName"></Search>-->
+      <Search/>
+    </div>
   </div>
 </template>
 <script>
-
+import Search from './common/Search'
 export default {
   props: [],
   components: {
+    Search
   },
 
   data () {
     return {
+      rightActiveName: '0',
       musicList: [
         {
           name: '海阔天空',
@@ -172,6 +186,12 @@ export default {
 
   created () {
     console.log('')
+  },
+  mounted () {
+    const that = this
+    that.$bus.$on('showSearch', function () {
+      that.rightActiveName = ''
+    })
   }
 }
 </script>
@@ -242,7 +262,7 @@ export default {
     }
     .main-right{
       width: 70%;
-      padding-right: px2vw(10);
+      overflow: hidden;
     }
   }
 </style>
