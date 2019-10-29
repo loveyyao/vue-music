@@ -29,13 +29,6 @@ export default {
   },
 
   mounted () {
-    this.$axios.get('api/search', {
-      params: {
-        keywords: '海阔天空'
-      }
-    }).then((res) => {
-      console.log(res)
-    })
   },
 
   methods: {

@@ -83,7 +83,7 @@ export default {
     }
   },
   mounted () {
-    this.$axios.get('api/search/default')
+    this.$axios.get('search/default')
       .then((res) => {
         if (res.data.code === 200) {
           this.hostSearch = res.data.data
