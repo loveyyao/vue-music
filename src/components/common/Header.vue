@@ -17,7 +17,7 @@
       <div class="search cursor">
         <el-input
           size="small"
-          placeholder="请输入内容"
+          :placeholder="hostSearch.showKeyword"
           suffix-icon="el-icon-search"
           v-model="search"
           >
@@ -69,7 +69,8 @@ export default {
   name: 'Header',
   data () {
     return {
-      search: ''
+      search: '',
+      hostSearch: ''
     }
   },
   methods: {
@@ -80,6 +81,15 @@ export default {
     closeWindow () {
       nw.App.quit()
     }
+  },
+  mounted () {
+    this.$axios.get('api/search/default')
+      .then((res) => {
+        if (res.data.code === 200) {
+          this.hostSearch = res.data.data
+        }
+        console.log(res)
+      })
   }
 }
 </script>
