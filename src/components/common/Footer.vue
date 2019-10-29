@@ -1,11 +1,17 @@
 <template>
   <div class="footer w">
+    <audio ref="audio"
+           :src="url"
+           @timeupdate="onTimeupdate"
+           @loadedmetadata="onLoadedmetadata"
+    ></audio>
     <div class="music-btn">
       <span class="icon cp">
         <i class="el-icon-arrow-left"></i>
       </span>
-      <span class="play cp">
-        <i class="el-icon-video-play"></i>
+      <span class="play cp" @click="playMusic">
+        <i class="el-icon-video-play" v-if="!isPlay"></i>
+        <i class="el-icon-video-pause" v-else></i>
       </span>
       <span class="icon cp">
        <i class="el-icon-arrow-right"></i>
@@ -18,13 +24,13 @@
         <span class="btn speed cp">倍速<i class="el-icon-caret-top"></i></span>
       </div>
       <div class="bar-bottom">
-        <div class="progress-bar-main">
+        <div class="progress-bar-main cp">
           <div class="progress-bar">
-            <div class="progress-bar-inner"></div>
+            <div class="progress-bar-inner" :style="{width:progressBarStyle + 'px'}"></div>
           </div>
-          <div class="dot"></div>
+          <div class="dot" :style="{left:dotStyle + 'px'}"></div>
         </div>
-        <span class="time">02:45/03:50</span>
+        <span class="time"><span>{{currentTime|realFormatSecond}}</span>/<span>{{maxTime|realFormatSecond}}</span></span>
       </div>
     </div>
     <div class="option-btn">
@@ -60,7 +66,53 @@
 
 <script>
 export default {
-  name: 'Footer'
+  name: 'Footer',
+  data () {
+    return {
+      url: 'http://m8.music.126.net/20191029160843/58023f8198722d37efd8d282e6f02c6b/ymusic/603f/2799/ea87/0ac26d0e219c049b2c5a12fd6be2826f.mp3',
+      isPlay: false,
+      // 音频当前播放时长
+      currentTime: 0,
+      // 音频最大播放时长
+      maxTime: 0
+    }
+  },
+  computed: {
+    progressBarStyle () {
+      const {currentTime, maxTime} = this
+      return currentTime / maxTime * 290
+    },
+    dotStyle () {
+      const {currentTime, maxTime} = this
+      return currentTime / maxTime * 282
+    }
+  },
+  methods: {
+    playMusic () {
+      if (this.isPlay) {
+        this.$refs.audio.pause()
+      } else {
+        this.$refs.audio.play()
+      }
+      this.isPlay = !this.isPlay
+    },
+    // 当timeupdate事件大概每秒一次，用来更新音频流的当前播放时间
+    onTimeupdate (res) {
+      console.log('timeupdate')
+      console.log(res)
+      this.currentTime = res.target.currentTime
+    },
+    // 当加载语音流元数据完成后，会触发该事件的回调函数
+    // 语音元数据主要是语音的长度之类的数据
+    onLoadedmetadata (res) {
+      console.log('loadedmetadata')
+      console.log(res)
+      this.maxTime = parseInt(res.target.duration)
+    }
+  },
+  mounted () {
+    // console.log(this.$refs.audio.duration)
+  }
 }
 </script>
 
@@ -135,14 +187,14 @@ export default {
             height: 100%;
             background: #fff;
             .progress-bar-inner{
-              width: px2vw(1);
+              width: px2vw(0);
               background: #00BCFF;
               height: 100%;
             }
           }
           .dot{
-            width: 5px;
-            height: 5px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: #fff;
             position: absolute;

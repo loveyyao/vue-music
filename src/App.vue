@@ -29,6 +29,11 @@ export default {
   },
 
   mounted () {
+    this.$axios.get('/search', {
+      keywords: '海宽天空'
+    }).then((res) => {
+      console.log(res)
+    })
   },
 
   methods: {
