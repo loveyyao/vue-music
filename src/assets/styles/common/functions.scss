@@ -2,4 +2,8 @@
   @return unquote(($value)+'px');
   //@return unquote(($value/19.2)+'vw');
 }
+@function pxvw($value){
+  //@return unquote(($value)+'px');
+  @return unquote(($value/19.2)+'vw');
+}
 

@@ -88,7 +88,7 @@ export default {
 @import "../../assets/styles/common/functions";
   .header{
     width: 100%;
-    height: px2vw(50);
+    height: 50px;
     background: #0096E6;
     .header-left{
       width: 30%;

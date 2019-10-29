@@ -5,20 +5,32 @@
         <el-tab-pane name="0">
           <span slot="label" class="tabs-icon"><i class="el-icon-headset"></i></span>
             <el-collapse v-model="collapseActive" accordion>
-              <el-collapse-item title="默认列表" name="1">
-                <div class="list-container">
+              <div class="list-container">
+                <el-collapse-item title="默认列表" name="1">
+                    <div class="music-item pr" v-for="(item, index) in musicList" :key="index">
+                      <span class="icon"><i class="el-icon-plus"></i></span>
+                      <span class="music-mame">{{item.name}}</span>
+                      <span class="music-time">{{item.time}}</span>
+                      <span class="options pa">
+                        <i class="el-icon-star-off"></i>
+                        <i class="el-icon-delete"></i>
+                        <i class="el-icon-more"></i>
+                      </span>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item title="默认列表" name="2">
                   <div class="music-item pr" v-for="(item, index) in musicList" :key="index">
                     <span class="icon"><i class="el-icon-plus"></i></span>
                     <span class="music-mame">{{item.name}}</span>
                     <span class="music-time">{{item.time}}</span>
                     <span class="options pa">
-                      <i class="el-icon-star-off"></i>
-                      <i class="el-icon-delete"></i>
-                      <i class="el-icon-more"></i>
-                    </span>
+                        <i class="el-icon-star-off"></i>
+                        <i class="el-icon-delete"></i>
+                        <i class="el-icon-more"></i>
+                      </span>
                   </div>
-                </div>
-              </el-collapse-item>
+                </el-collapse-item>
+              </div>
             </el-collapse>
         </el-tab-pane>
         <el-tab-pane name="1">
