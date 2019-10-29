@@ -16,14 +16,17 @@ npm run dev
 npm run build
 ```
 ```
-# nw配置
+#下载nw.zip
+https://nwjs.org.cn/
+解压到本地，然后在根目录下新建package.json，点击nw.exe
+# package.json
 {
   "name": "vue-music",
   "appName": "应用的中文别名",
   "version": "0.1.1",
   "description": "A seed project with Vue.js and Nw.js",
   "author": "anchengjian <anchengjian@gmail.com>",
-  "main": "./index.html",
+  "main": "http://localhost:8080/#/",
   "manifestUrl": "http://localhost:8080/releases/upgrade.json",
   "window": {
     "title": "vue-music",
