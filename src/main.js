@@ -21,6 +21,24 @@ Vue.filter('realFormatSecond', realFormatSecond)
 Vue.prototype.$axios = axios
 Vue.prototype.$bus = new Vue()
 Vue.prototype.$utils = Utils
+// 注册一个全局的拖拽指令
+Vue.directive('drag', {
+  inserted: function (el, cb) {
+    el.onmousedown = function (ev) {
+      var disX = ev.clientX - el.offsetLeft
+      var disY = ev.clientY - el.offsetTop
+      document.onmousemove = function (ev) {
+        var l = ev.clientX - disX
+        var t = ev.clientY - disY
+        cb && cb.value(el, t, l)
+      }
+      document.onmouseup = function () {
+        document.onmousemove = null
+        document.onmouseup = null
+      }
+    }
+  }
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

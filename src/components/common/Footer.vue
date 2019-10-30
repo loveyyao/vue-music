@@ -43,8 +43,14 @@
       <span class="icon">
         <i class="el-icon-sort"></i>
       </span>
-      <span class="icon">
+      <span class="icon pr">
         <i class="el-icon-headset"></i>
+        <div class="volume-main">
+          <div class="volume-wrap">
+            <div class="volume-inner" :style="{height: volumeBarH + 'px'}"></div>
+            <div class="volume-dot" v-drag="setVolume"></div>
+          </div>
+        </div>
       </span>
       <span class="btn">
         <i class="green-dot"></i>
@@ -59,7 +65,7 @@
       <span class="icon last">
         <i class="el-icon-s-unfold"></i>
       </span>
-      <span class="amount">288</span>
+      <span class="amount">{{defaultList.length}}</span>
     </div>
   </div>
 </template>
@@ -74,7 +80,8 @@ export default {
       // 音频当前播放时长
       currentTime: 0,
       // 音频最大播放时长
-      maxTime: 0
+      maxTime: 0,
+      volumeBarH: 35
     }
   },
   computed: {
@@ -119,6 +126,16 @@ export default {
     }
   },
   methods: {
+    // 拖拽事件触发是调用的函数
+    // el：当前元素 t：top的值 l：left的值
+    setVolume (el, t, l) {
+      var T = t
+      T = T <= 0 ? 0 : T
+      T = T >= 60 ? 60 : T
+      el.style.top = T + 'px'
+      this.volumeBarH = (1 - T / 60) * 70
+      this.$refs.audio.volume = 1 - T / 60
+    },
     // 请求当前播放音乐播放地址
     getSong (id, cb) {
       this.$axios.get('song/url', {id: id})
@@ -177,6 +194,7 @@ export default {
   mounted () {
     // console.log(this.$refs.audio.duration)
     // this.getSong(400162138)
+    this.$refs.audio.volume = 0.5
   }
 }
 </script>
@@ -281,6 +299,43 @@ export default {
         font-size: px2vw(25);
         margin-right: px2vw(15);
         cursor: pointer;
+        .volume-main{
+          width: 16px;
+          height: 80px;
+          background: rgba(0,0,0,.7);
+          border-radius: 8px;
+          position: absolute;
+          top: -80px;
+          left: 50%;
+          transform: translateX(-50%);
+          .volume-wrap{
+            width: 6px;
+            height: 75px;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            padding-bottom: 5px;
+            .volume-inner{
+              position: absolute;
+              bottom: 5px;
+              left: 0;
+              width: 100%;
+              height: 35px;
+              background: #0096E6;
+            }
+            .volume-dot{
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              background: #fff;
+              position: absolute;
+              left: 50%;
+              top: 30px;
+              transform: translateX(-50%);
+            }
+          }
+        }
         &:hover{
           color: #fff;
         }
