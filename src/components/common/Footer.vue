@@ -4,6 +4,7 @@
            :src="url"
            @timeupdate="onTimeupdate"
            @loadedmetadata="onLoadedmetadata"
+           @ended="playEnd"
     ></audio>
     <div class="music-btn">
       <span class="icon cp" @click="playLastMusic">
@@ -20,7 +21,7 @@
     <div class="progress-bar-wrap">
       <div class="bar-top">
         <span class="btn quality cp">标准<i class="el-icon-caret-top"></i></span>
-        <span class="music-name">{{atPresentPlayMusic.name}}</span>
+        <marquee :loop="-1" class="music-name">{{atPresentPlayMusic.name}}</marquee>
         <span class="btn speed cp">倍速<i class="el-icon-caret-top"></i></span>
       </div>
       <div class="bar-bottom">
@@ -152,6 +153,12 @@ export default {
           }
         })
     },
+    // 当前音乐资源播放完后触发的事件
+    playEnd () {
+      // 播放下一曲
+      this.playNextMusic()
+      console.log('音乐播放完了')
+    },
     // 点击上一首
     playLastMusic () {
       // if (this.defaultList.length > 1) {
@@ -255,6 +262,9 @@ export default {
         .music-name{
           padding: 0 px2vw(15);
           flex: 1;
+          overflow: hidden;
+          white-space: nowrap;
+          /*text-overflow: ellipsis;*/
         }
       }
       .bar-bottom{
@@ -300,6 +310,7 @@ export default {
         margin-right: px2vw(15);
         cursor: pointer;
         .volume-main{
+          display: none;
           width: 16px;
           height: 80px;
           background: rgba(0,0,0,.7);
@@ -338,6 +349,9 @@ export default {
         }
         &:hover{
           color: #fff;
+          .volume-main{
+            display: block;
+          }
         }
         &.last{
           margin-left: px2vw(15);
