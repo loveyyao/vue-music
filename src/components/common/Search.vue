@@ -9,6 +9,7 @@
             tooltip-effect="dark"
             style="width: 100%"
             :header-cell-style="tableHeaderColor"
+            @cell-click="playCellMusic"
             @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="30"></el-table-column>
             <el-table-column prop="name" label="歌曲名" align="left" show-overflow-tooltip width="300">
@@ -46,7 +47,8 @@ export default {
   name: 'Search',
   data () {
     return {
-      activeName: '0'
+      activeName: '0',
+      id: null
     }
   },
   computed: {
@@ -54,9 +56,10 @@ export default {
       const data = this.$store.state.searchList
       const result = data.map((item) => {
         return {
+          id: item.id,
           name: item.name,
           album: item.artists[0].name,
-          time: item.duration,
+          time: item.duration / 1000,
           host: ''
         }
       })
@@ -65,6 +68,13 @@ export default {
   },
   methods: {
     handleClick () {},
+    playCellMusic (row, column, cell, event) {
+      this.$store.commit('setAtPresentPlayMusic', row)
+      if (this.id !== row.id) {
+        this.$store.commit('addDefaultList', [row])
+        this.id = row.id
+      }
+    },
     handleSelectionChange () {},
     // 修改table header的背景色
     tableHeaderColor ({ row, column, rowIndex, columnIndex }) {

@@ -20,7 +20,7 @@
     <div class="progress-bar-wrap">
       <div class="bar-top">
         <span class="btn quality cp">标准<i class="el-icon-caret-top"></i></span>
-        <span class="music-name">黄家驹-海阔天空</span>
+        <span class="music-name">{{atPresentPlayMusic.name}}</span>
         <span class="btn speed cp">倍速<i class="el-icon-caret-top"></i></span>
       </div>
       <div class="bar-bottom">
@@ -85,26 +85,41 @@ export default {
     dotStyle () {
       const {currentTime, maxTime} = this
       return currentTime / maxTime * 282
+    },
+    atPresentPlayMusic () {
+      return this.$store.state.atPresent
+    }
+  },
+  watch: {
+    isPlay (e) {
+      if (e) {
+        this.$refs.audio.play()
+      } else {
+        this.$refs.audio.pause()
+      }
+    },
+    atPresentPlayMusic (e) {
+      const that = this
+      this.isPlay = false
+      this.getSong(e.id, function () {
+        that.isPlay = true
+      })
     }
   },
   methods: {
-    getSong (id) {
+    getSong (id, cb) {
       this.$axios.get('song/url', {id: id})
         .then((res) => {
           // console.log(res)
           if (res.data.code === 200) {
-            console.log(res)
             this.url = res.data.data[0].url
+            setTimeout(() => {
+              cb && cb()
+            }, 0)
           }
         })
     },
     playMusic () {
-      const that = this
-      if (that.isPlay) {
-        that.$refs.audio.pause()
-      } else {
-        that.$refs.audio.play()
-      }
       this.isPlay = !this.isPlay
     },
     // 当timeupdate事件大概每秒一次，用来更新音频流的当前播放时间
@@ -123,7 +138,7 @@ export default {
   },
   mounted () {
     // console.log(this.$refs.audio.duration)
-    this.getSong(400162138)
+    // this.getSong(400162138)
   }
 }
 </script>

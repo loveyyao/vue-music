@@ -17,11 +17,44 @@
       <div class="search cursor" @keydown.enter="searchSong">
         <el-input
           size="small"
+          ref="searchInput"
           :placeholder="hostSearch.showKeyword"
           suffix-icon="el-icon-search"
           v-model="search"
+          @focus="showSuggest=true"
+          @blur="showSuggest=false"
+          @change="suggest"
           >
         </el-input>
+        <div class="search-suggest" v-show="showSuggest">
+          <div class="songs suggest-list" v-if="searchSuggest.songs">
+            <span class="title">单曲</span>
+            <ul class="list">
+              <li class="item" v-for="(item,index) in searchSuggest.songs" :key="index">
+                <span class="name">{{item.name}}</span>
+                <span class="artist" v-if="item.artists">{{item.artists[0].name}}</span>
+              </li>
+            </ul>
+          </div>
+          <div class="albums suggest-list" v-if="searchSuggest.albums">
+            <span class="title">专辑</span>
+            <ul class="list">
+              <li class="item" v-for="(item,index) in searchSuggest.albums" :key="index">
+                <span class="name">{{item.name}}</span>
+                <span class="artist" v-if="item.artist">{{item.artist.name}}</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mvs suggest-list" v-if="searchSuggest.mvs">
+            <span class="title">MV</span>
+            <ul class="list">
+              <li class="item" v-for="(item,index) in searchSuggest.mvs" :key="index">
+                <span class="name">{{item.name}}</span>
+                <span class="artist">{{item.artistName}}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
       <span class="icon cursor">
         <i class="el-icon-microphone"></i>
@@ -70,7 +103,9 @@ export default {
   data () {
     return {
       search: '',
-      hostSearch: ''
+      hostSearch: '',
+      searchSuggest: {},
+      showSuggest: false
     }
   },
   methods: {
@@ -83,6 +118,7 @@ export default {
     },
     searchSong () {
       const keywords = this.search
+      this.$refs.searchInput.blur()
       if (keywords.trim()) {
         this.$bus.$emit('showSearch')
         this.$axios.get('search', {keywords})
@@ -93,6 +129,17 @@ export default {
             }
           })
       }
+    },
+    suggest () {
+      const keywords = this.search
+      this.$axios.get('search/suggest', {keywords})
+        .then((res) => {
+          if (res.data.code === 200) {
+            // this.$store.commit('addData', res.data.result.songs)
+            console.log(res.data.result)
+            this.searchSuggest = res.data.result
+          }
+        })
     }
   },
   mounted () {
@@ -175,6 +222,56 @@ export default {
       }
       .search{
         margin-right: px2vw(10);
+        position: relative;
+        .search-suggest{
+          width: 100%;
+          max-height: 300px;
+          background: #fff;
+          position: absolute;
+          border-radius: 5px;
+          border: 1px solid #eee;
+          top: 100%;
+          left: 0;
+          z-index: 9;
+          .suggest-list{
+            padding: 5px 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            .title{
+              width: 50px;
+              padding: 0 10px;
+            }
+            .list{
+              flex: 1;
+              .item{
+                width: 100%;
+                height: 30px;
+                line-height: 30px;
+                overflow: hidden;
+                display: flex;
+                padding-right: 5px;
+                .name{
+                  height: 100%;
+                  width: 100px;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                }
+                .artist{
+                  flex: 1;
+                  height: 100%;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                }
+                &:hover{
+                  background: #eee;
+                }
+              }
+            }
+          }
+        }
       }
       .line{
         width: px2vw(2);

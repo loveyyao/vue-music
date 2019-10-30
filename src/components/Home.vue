@@ -6,11 +6,11 @@
           <span slot="label" class="tabs-icon"><i class="el-icon-headset"></i></span>
             <el-collapse v-model="collapseActive" accordion>
               <div class="list-container">
-                <el-collapse-item title="默认列表" name="1">
-                    <div class="music-item pr" v-for="(item, index) in musicList" :key="index">
+                <el-collapse-item :title="'默认列表 '+'[ '+defaultList.length+' ]'" name="1">
+                    <div class="music-item pr" v-for="(item, index) in defaultList" :key="index">
                       <span class="icon"><i class="el-icon-plus"></i></span>
                       <span class="music-mame">{{item.name}}</span>
-                      <span class="music-time">{{item.time}}</span>
+                      <span class="music-time">{{item.time|realFormatSecond}}</span>
                       <span class="options pa">
                         <i class="el-icon-star-off"></i>
                         <i class="el-icon-delete"></i>
@@ -18,36 +18,24 @@
                       </span>
                     </div>
                 </el-collapse-item>
-                <el-collapse-item title="默认列表" name="2">
-                  <div class="music-item pr" v-for="(item, index) in musicList" :key="index">
-                    <span class="icon"><i class="el-icon-plus"></i></span>
-                    <span class="music-mame">{{item.name}}</span>
-                    <span class="music-time">{{item.time}}</span>
-                    <span class="options pa">
-                        <i class="el-icon-star-off"></i>
-                        <i class="el-icon-delete"></i>
-                        <i class="el-icon-more"></i>
-                      </span>
-                  </div>
-                </el-collapse-item>
               </div>
             </el-collapse>
         </el-tab-pane>
         <el-tab-pane name="1">
           <span slot="label" class="tabs-icon"><i class="el-icon-cloudy"></i></span>
-          我的行程
+          待开发
         </el-tab-pane>
         <el-tab-pane name="2">
           <span slot="label" class="tabs-icon"><i class="el-icon-connection"></i></span>
-          我的行程
+          待开发
         </el-tab-pane>
         <el-tab-pane name="3">
           <span slot="label" class="tabs-icon"><i class="el-icon-mobile"></i></span>
-          我的行程
+          待开发
         </el-tab-pane>
         <el-tab-pane name="4">
           <span slot="label" class="tabs-icon"><i class="el-icon-download"></i></span>
-          我的行程
+          待开发
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -61,8 +49,8 @@
         <el-tab-pane label="KTV" name="5"></el-tab-pane>
         <el-tab-pane label="歌词" name="6"></el-tab-pane>
       </el-tabs>
-<!--      <Search v-if="!rightActiveName"></Search>-->
-      <Search/>
+      <Search v-if="!rightActiveName"></Search>
+<!--      <Search/>-->
     </div>
   </div>
 </template>
@@ -77,100 +65,6 @@ export default {
   data () {
     return {
       rightActiveName: '0',
-      musicList: [
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        },
-        {
-          name: '海阔天空',
-          time: '03:34'
-        }
-      ],
       activeName: '0',
       collapseActive: '',
       msg: 'hello world'
@@ -178,6 +72,9 @@ export default {
   },
 
   computed: {
+    defaultList () {
+      return this.$store.state.defaultList
+    }
   },
 
   methods: {
@@ -224,7 +121,10 @@ export default {
           .music-mame{
             line-height: px2vw(40);
             display: inline-block;
-            width: 200px;
+            width: 185px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
           .music-time{
             /*display: none;*/
