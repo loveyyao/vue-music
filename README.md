@@ -1,5 +1,5 @@
 # vue-music
-
+下载nw压缩包，桌面应用，体验更加+++
 ## Build Setup
 
 ``` bash
