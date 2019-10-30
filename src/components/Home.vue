@@ -7,7 +7,10 @@
             <el-collapse v-model="collapseActive" accordion>
               <div class="list-container">
                 <el-collapse-item :title="'默认列表 '+'[ '+defaultList.length+' ]'" name="1">
-                    <div class="music-item pr" v-for="(item, index) in defaultList" :key="index">
+                    <div class="music-item pr"
+                         v-for="(item, index) in defaultList"
+                         @click="playMusic(item,index)"
+                         :key="index">
                       <span class="icon"><i class="el-icon-plus"></i></span>
                       <span class="music-mame">{{item.name}}</span>
                       <span class="music-time">{{item.time|realFormatSecond}}</span>
@@ -41,13 +44,15 @@
     </div>
     <div class="main-right h">
       <el-tabs v-model="rightActiveName" :stretch="true" @tab-click="handleClick">
-        <el-tab-pane label="乐库" name="0"></el-tab-pane>
-        <el-tab-pane label="电台" name="1"></el-tab-pane>
-        <el-tab-pane label="歌单" name="2"></el-tab-pane>
-        <el-tab-pane label="MV" name="3"></el-tab-pane>
-        <el-tab-pane label="直播" name="4"></el-tab-pane>
-        <el-tab-pane label="KTV" name="5"></el-tab-pane>
-        <el-tab-pane label="歌词" name="6"></el-tab-pane>
+        <el-tab-pane label="乐库" name="0">
+          待开发（目前只有搜索功能）
+        </el-tab-pane>
+        <el-tab-pane label="电台" name="1">待开发</el-tab-pane>
+        <el-tab-pane label="歌单" name="2">待开发</el-tab-pane>
+        <el-tab-pane label="MV" name="3">待开发</el-tab-pane>
+        <el-tab-pane label="直播" name="4">待开发</el-tab-pane>
+        <el-tab-pane label="KTV" name="5">待开发</el-tab-pane>
+        <el-tab-pane label="歌词" name="6">待开发</el-tab-pane>
       </el-tabs>
       <Search v-if="!rightActiveName"></Search>
 <!--      <Search/>-->
@@ -66,7 +71,8 @@ export default {
     return {
       rightActiveName: '0',
       activeName: '0',
-      collapseActive: ''
+      collapseActive: '',
+      playIndex: null // 当前播放下标
     }
   },
 
@@ -76,11 +82,23 @@ export default {
       return this.$store.state.defaultList
     }
   },
-
-  methods: {
-    handleClick () {}
+  watch: {
+    defaultList (e) {
+      this.$utils.setItem('defaultList', e)
+    },
+    playIndex (e) {
+      this.$store.commit('setAtPresentPlayMusic', this.defaultList[e])
+    }
   },
-
+  methods: {
+    handleClick () {},
+    playMusic (data, index) {
+      if (this.playIndex !== index) {
+        this.playIndex = index
+        this.$store.commit('setAtPresentPlayMusic', data)
+      }
+    }
+  },
   created () {
     console.log('')
   },
@@ -115,9 +133,12 @@ export default {
           width: 100%;
           height: px2vw(40);
           padding-left: px2vw(5);
+          display: flex;
+          align-items: center;
           .icon{
             opacity: 0;
             transition: opacity .1s;
+            margin-right: 5px;
           }
           .music-mame{
             line-height: px2vw(40);
@@ -128,9 +149,6 @@ export default {
             text-overflow: ellipsis;
           }
           .music-time{
-            /*display: none;*/
-            float: right;
-            margin: px2vw(10) px2vw(10) 0 0;
             opacity: 1;
             transition: opacity .1s;
           }

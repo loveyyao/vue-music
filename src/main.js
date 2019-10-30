@@ -18,9 +18,9 @@ Vue.use(ElementUI, {
   size: 'small'
 })
 Vue.filter('realFormatSecond', realFormatSecond)
-Vue.use(Utils)
 Vue.prototype.$axios = axios
 Vue.prototype.$bus = new Vue()
+Vue.prototype.$utils = Utils
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

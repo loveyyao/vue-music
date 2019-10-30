@@ -29,11 +29,9 @@ export default {
   },
 
   mounted () {
-    this.$axios.get('/search', {
-      keywords: '海宽天空'
-    }).then((res) => {
-      console.log(res)
-    })
+    // console.log(this.$utils)
+    const defaultList = this.$utils.getItem('defaultList')
+    this.$store.commit('addDefaultList', defaultList)
   },
 
   methods: {

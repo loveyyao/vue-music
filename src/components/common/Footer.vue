@@ -6,14 +6,14 @@
            @loadedmetadata="onLoadedmetadata"
     ></audio>
     <div class="music-btn">
-      <span class="icon cp">
+      <span class="icon cp" @click="playLastMusic">
         <i class="el-icon-arrow-left"></i>
       </span>
       <span class="play cp" @click="playMusic">
         <i class="el-icon-video-play" v-if="!isPlay"></i>
         <i class="el-icon-video-pause" v-else></i>
       </span>
-      <span class="icon cp">
+      <span class="icon cp" @click="playNextMusic">
        <i class="el-icon-arrow-right"></i>
       </span>
     </div>
@@ -91,6 +91,9 @@ export default {
     // 从vuex中获取当前需要播放的音乐
     atPresentPlayMusic () {
       return this.$store.state.atPresent
+    },
+    defaultList () {
+      return this.$store.state.defaultList
     }
   },
   watch: {
@@ -123,6 +126,7 @@ export default {
           // console.log(res)
           if (res.data.code === 200) {
             // 请求回来后设置音乐播放地址
+            // console.log(res.data)
             this.url = res.data.data[0].url
             setTimeout(() => {
               // 调用音乐播放函数
@@ -130,6 +134,27 @@ export default {
             }, 0)
           }
         })
+    },
+    // 点击上一首
+    playLastMusic () {
+      // if (this.defaultList.length > 1) {
+      //   this.$emit('last')
+      // }
+      const {atPresentPlayMusic, defaultList} = this
+      let index = defaultList.indexOf(atPresentPlayMusic) - 1
+      if (index < 0) {
+        index = this.defaultList.length - 1
+      }
+      this.$store.commit('setAtPresentPlayMusic', defaultList[index])
+    },
+    // 点击下一首
+    playNextMusic () {
+      const {atPresentPlayMusic, defaultList} = this
+      let index = defaultList.indexOf(atPresentPlayMusic) + 1
+      if (index >= this.defaultList.length) {
+        index = 0
+      }
+      this.$store.commit('setAtPresentPlayMusic', defaultList[index])
     },
     // 点击暂停和播放按钮
     playMusic () {

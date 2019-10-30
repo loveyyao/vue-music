@@ -76,64 +76,20 @@ function getCookies (cName) {
   return ''
 }
 
-function eldateFormat (row, column, cellValue, index) {
-  const daterc = row.creatDate.toString()
-  if (daterc != null) {
-    let dateMat = new Date(parseInt(daterc.replace('/Date(', '').replace(')/', ''), 10))
-    let year = dateMat.getFullYear()
-    let month = dateMat.getMonth() + 1
-    month = (month < 10 ? '0' + month : month + '')
-    let day = dateMat.getDate()
-    day = (day < 10 ? '0' + day : day + '')
-    let hh = dateMat.getHours()
-    hh = (hh < 10 ? '0' + hh : hh + '')
-    let mm = dateMat.getMinutes()
-    mm = (mm < 10 ? '0' + mm : mm + '')
-    let ss = dateMat.getSeconds()
-    ss = (ss < 10 ? '0' + ss : ss + '')
-    const timeFormat = year + '.' + month + '.' + day + ' ' + hh + ':' + mm + ':' + ss
-    return timeFormat
-  }
+// localStorage
+function setItem (key, data) {
+  localStorage.setItem(key, JSON.stringify(data))
+}
+function getItem (key) {
+  return JSON.parse(localStorage.getItem(key))
+}
+function removeItem (key) {
+  localStorage.removeItem(key)
+}
+function clear () {
+  localStorage.clear()
 }
 
-function fileSizeFormat (fileByte) {
-  var fileSizeByte = fileByte
-  var fileSizeMsg = ''
-  if (fileSizeByte < 1048576) {
-    fileSizeMsg = (fileSizeByte / 1024).toFixed(2) + 'KB'
-  } else if (fileSizeByte === 1048576) {
-    fileSizeMsg = '1MB'
-  } else if (fileSizeByte > 1048576 && fileSizeByte < 1073741824) {
-    fileSizeMsg = (fileSizeByte / (1024 * 1024)).toFixed(2) + 'MB'
-  } else if (fileSizeByte > 1048576 && fileSizeByte === 1073741824) {
-    fileSizeMsg = '1GB'
-  } else if (fileSizeByte > 1073741824 && fileSizeByte < 1099511627776) {
-    fileSizeMsg = (fileSizeByte / (1024 * 1024 * 1024)).toFixed(2) + 'GB'
-  } else {
-    fileSizeMsg = '文件超过1TB'
-  }
-  return fileSizeMsg
-}
-
-function dateFormat (stamp_, dateSplit, timeSplit) {
-  dateSplit = dateSplit || '.'
-  timeSplit = timeSplit || ':'
-  if (stamp_ != null) {
-    let dateMat = new Date(parseInt(stamp_))
-    let year = dateMat.getFullYear()
-    let month = dateMat.getMonth() + 1
-    month = (month < 10 ? '0' + month : month + '')
-    let day = dateMat.getDate()
-    day = (day < 10 ? '0' + day : day + '')
-    let hh = dateMat.getHours()
-    hh = (hh < 10 ? '0' + hh : hh + '')
-    let mm = dateMat.getMinutes()
-    mm = (mm < 10 ? '0' + mm : mm + '')
-    let ss = dateMat.getSeconds()
-    ss = (ss < 10 ? '0' + ss : ss + '')
-    return year + dateSplit + month + dateSplit + day + ' ' + hh + timeSplit + mm + timeSplit + ss
-  }
-}
 window.Date.prototype.format = function (fmt) {
   var o = {
     'M+': this.getMonth() + 1, // 月份
@@ -152,4 +108,15 @@ window.Date.prototype.format = function (fmt) {
 }
 const vInfo = new Date().format('yyyyMMddhhmm')
 
-export {session, vInfo, getUUID, setCookies, getCookies, getQueryString, eldateFormat, dateFormat, fileSizeFormat}
+export {
+  session,
+  vInfo,
+  getUUID,
+  setCookies,
+  getCookies,
+  getQueryString,
+  setItem,
+  getItem,
+  removeItem,
+  clear
+}
