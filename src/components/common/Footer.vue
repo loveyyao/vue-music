@@ -1,5 +1,5 @@
 <template>
-  <div class="footer w">
+  <div class="footer w" :style="{background: bgColor}">
     <audio ref="audio"
            :src="url"
            @timeupdate="onTimeupdate"
@@ -82,7 +82,8 @@ export default {
       currentTime: 0,
       // 音频最大播放时长
       maxTime: 0,
-      volumeBarH: 35
+      volumeBarH: 35,
+      bgColor: '#0096E6'
     }
   },
   computed: {
@@ -201,7 +202,18 @@ export default {
   mounted () {
     // console.log(this.$refs.audio.duration)
     // this.getSong(400162138)
-    this.$refs.audio.volume = 0.5
+    const that = this
+    that.$refs.audio.volume = 0.5
+    // 参数e为true时表示在歌词页面
+    that.$bus.$on('setBg', function (e) {
+      if (e) {
+        // 当在歌词页的时候去除背景颜色
+        that.bgColor = 'none'
+      } else {
+        // 当不在歌词页的时候设置背景颜色
+        that.bgColor = '#0096E6'
+      }
+    })
   }
 }
 </script>
@@ -210,7 +222,6 @@ export default {
 @import "../../assets/styles/common/functions";
   .footer{
     height: 70px;
-    background: #0096E6;
     display: flex;
     color: rgba(255,255,255,.8);
     .music-btn{
@@ -321,19 +332,22 @@ export default {
           transform: translateX(-50%);
           .volume-wrap{
             width: 6px;
-            height: 75px;
+            height: 70px;
             position: absolute;
-            bottom: 0;
+            bottom: 5px;
             left: 50%;
             transform: translateX(-50%);
-            padding-bottom: 5px;
+            /*padding-bottom: 5px;*/
+            background: #fff;
+            border-radius: 3px;
             .volume-inner{
               position: absolute;
-              bottom: 5px;
+              bottom: 0;
               left: 0;
               width: 100%;
               height: 35px;
               background: #0096E6;
+              border-radius: 3px;
             }
             .volume-dot{
               width: 10px;

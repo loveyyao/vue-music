@@ -8,6 +8,11 @@ git clone https://github.com/loveyyao/vue-music.git
 
 # install dependencies
 npm install
+# node-sass可能下载报错，解决方法如下
+
+npm set sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
+
+npm install node-sass
 
 # serve with hot reload at localhost:8080
 npm run dev

@@ -88,6 +88,16 @@ export default {
     },
     playIndex (e) {
       this.$store.commit('setAtPresentPlayMusic', this.defaultList[e])
+    },
+    // 监视rightActiveName的值
+    rightActiveName (e) {
+      // 当值为六的时候触发更换页面背景
+      if (e === '6') {
+        this.$bus.$emit('setBg', true)
+      } else {
+        // 不为6的时候背景切换回来
+        this.$bus.$emit('setBg', false)
+      }
     }
   },
   methods: {
@@ -120,7 +130,7 @@ export default {
   @import "../assets/styles/common/functions";
   .main{
     display: flex;
-    background-color:#fff;
+    /*background-color:#fff;*/
     .main-left{
       width: 30%;
       border-right: 2px solid #eee;

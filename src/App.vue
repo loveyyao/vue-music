@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :style="{background:bgColor}">
     <Header></Header>
     <div class="route-container w">
       <router-view></router-view>
@@ -15,6 +15,7 @@ export default {
   name: 'App',
   data () {
     return {
+      bgColor: '#fff'
     }
   },
   components: {
@@ -23,6 +24,10 @@ export default {
   },
 
   computed: {
+    // 从vuex中获取当前需要播放的音乐
+    atPresentPlayMusic () {
+      return this.$store.state.atPresent
+    }
   },
 
   watch: {
@@ -30,8 +35,24 @@ export default {
 
   mounted () {
     // console.log(this.$utils)
+    const that = this
     const defaultList = this.$utils.getItem('defaultList')
-    this.$store.commit('addDefaultList', defaultList)
+    that.$store.commit('addDefaultList', defaultList)
+    // 切换背景为歌手照片（歌手照片好像请求不到）
+    that.$bus.$on('setBg', function (e) {
+      if (e) {
+        // 判断是否存在歌手写真路劲
+        if (that.atPresentPlayMusic.imgUrl) {
+          // 存在设置为写真背景
+          that.bgColor = `url(${that.atPresentPlayMusic.imgUrl})`
+        } else {
+          // 不存在设置蓝色为全局背景
+          that.bgColor = '#0096E6'
+        }
+      } else {
+        that.bgColor = '#fff'
+      }
+    })
   },
 
   methods: {
@@ -43,14 +64,16 @@ export default {
   @import "./assets/styles/common/functions";
 #app {
   width: 100%;
-  height: 100%;
+  /*height: 100%;*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   overflow: hidden;
+  /*background-size: cover;*/
+  /*background-size: 100% 100%;*/
   /*border: 1px solid #eee;*/
-  border-top-color:#0096E6;
-  border-bottom-color:#0096E6;
+  /*border-top-color:#0096E6;*/
+  /*border-bottom-color:#0096E6;*/
   /*box-shadow: 0 0 1px #eee inset;*/
 }
 .route-container {

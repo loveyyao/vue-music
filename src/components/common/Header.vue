@@ -1,5 +1,5 @@
 <template>
-  <div class="header ward">
+  <div class="header ward" :style="{background:bgColor}">
     <div class="header-left fl">
       <div class="user">
       </div>
@@ -105,7 +105,8 @@ export default {
       search: '', // 搜索
       hostSearch: '', // 热门搜索
       searchSuggest: {}, // 关联搜索
-      showSuggest: false // 控制关联搜索显示
+      showSuggest: false, // 控制关联搜索显示
+      bgColor: '#0096E6'
     }
   },
   methods: {
@@ -151,14 +152,25 @@ export default {
     }
   },
   mounted () {
+    const that = this
     // 组件一加载开始请求默认搜索内容（热门搜索）
-    this.$axios.get('search/default')
+    that.$axios.get('search/default')
       .then((res) => {
         if (res.data.code === 200) {
-          this.hostSearch = res.data.data
+          that.hostSearch = res.data.data
         }
         console.log(res)
       })
+    // 参数e为true时表示在歌词页面
+    that.$bus.$on('setBg', function (e) {
+      if (e) {
+        // 当在歌词页的时候去除背景颜色
+        that.bgColor = 'none'
+      } else {
+        // 当不在歌词页的时候设置背景颜色
+        that.bgColor = '#0096E6'
+      }
+    })
   }
 }
 </script>
@@ -168,7 +180,6 @@ export default {
   .header{
     width: 100%;
     height: 50px;
-    background: #0096E6;
     .header-left{
       width: 30%;
       height: 100%;

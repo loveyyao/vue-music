@@ -3,6 +3,11 @@
   .el-tabs__header{
     margin: 0;
   }
+  .el-collapse-item__header,
+  .el-collapse-item__content,
+  .el-collapse-item__wrap{
+    background: none;
+  }
   .main-left{
     .el-tabs__nav-wrap{
       padding-left: px2vw(10);
