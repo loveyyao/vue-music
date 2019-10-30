@@ -14,9 +14,9 @@
                       <span class="icon"><i class="el-icon-plus"></i></span>
                       <span class="music-mame">{{item.name}}</span>
                       <span class="music-time">{{item.time|realFormatSecond}}</span>
-                      <span class="options pa">
+                      <span class="options pa pc">
                         <i class="el-icon-star-off"></i>
-                        <i class="el-icon-delete"></i>
+                        <i class="el-icon-delete" @click="deleteMusic(index)"></i>
                         <i class="el-icon-more"></i>
                       </span>
                     </div>
@@ -97,6 +97,10 @@ export default {
         this.playIndex = index
         this.$store.commit('setAtPresentPlayMusic', data)
       }
+    },
+    // 点击删除图标
+    deleteMusic (index) {
+      this.$store.commit('delMusic', index)
     }
   },
   created () {

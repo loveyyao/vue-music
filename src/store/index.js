@@ -22,6 +22,9 @@ const mutations = {
   // 添加到默认播放列表
   addDefaultList: function (state, data) {
     state.defaultList = [...state.defaultList, ...data]
+  },
+  delMusic: function (state, index) {
+    state.defaultList.splice(index, 1)
   }
 }
 
