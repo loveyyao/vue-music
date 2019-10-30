@@ -16,6 +16,13 @@ npm run dev
 npm run build
 ```
 ``` bash
+# 网易云API安装
+$ git clone git@github.com:Binaryify/NeteaseCloudMusicApi.git
+$ npm install
+# 运行
+$ node app.js
+```
+``` bash
 # 下载nw.zip(nw.js用npm实在下不下来，有稳定的翻墙应该能，只有在官网下载压缩包使用)
 https://nwjs.org.cn/
 解压到本地，然后在根目录下新建package.json，点击nw.exe
