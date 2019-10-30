@@ -52,6 +52,7 @@ export default {
     }
   },
   computed: {
+    // 搜索列表
     tableData () {
       const data = this.$store.state.searchList
       const result = data.map((item) => {
@@ -68,9 +69,12 @@ export default {
   },
   methods: {
     handleClick () {},
+    // 点击列表播放该音乐
     playCellMusic (row, column, cell, event) {
+      // 把当前点击的存储到vuex中，表示当前正在播放
       this.$store.commit('setAtPresentPlayMusic', row)
       if (this.id !== row.id) {
+        // 把点击播放的列表添加到默认列表中
         this.$store.commit('addDefaultList', [row])
         this.id = row.id
       }

@@ -69,7 +69,7 @@ export default {
   name: 'Footer',
   data () {
     return {
-      url: '',
+      url: '', // 音乐地址
       isPlay: false,
       // 音频当前播放时长
       currentTime: 0,
@@ -78,47 +78,60 @@ export default {
     }
   },
   computed: {
+    // 计算播放进度条宽度
     progressBarStyle () {
       const {currentTime, maxTime} = this
       return currentTime / maxTime * 290
     },
+    // 计算小圆点的位置
     dotStyle () {
       const {currentTime, maxTime} = this
       return currentTime / maxTime * 282
     },
+    // 从vuex中获取当前需要播放的音乐
     atPresentPlayMusic () {
       return this.$store.state.atPresent
     }
   },
   watch: {
+    // 监视isPlay属性
     isPlay (e) {
       if (e) {
+        // 为true时播放音乐
         this.$refs.audio.play()
       } else {
+        // 暂停
         this.$refs.audio.pause()
       }
     },
+    // 监视vuex中当前播放音乐属性
     atPresentPlayMusic (e) {
       const that = this
+      // 当当前播放的音乐发生变化时，播放暂停
       this.isPlay = false
+      // 请求变化后的音乐资源
       this.getSong(e.id, function () {
         that.isPlay = true
       })
     }
   },
   methods: {
+    // 请求当前播放音乐播放地址
     getSong (id, cb) {
       this.$axios.get('song/url', {id: id})
         .then((res) => {
           // console.log(res)
           if (res.data.code === 200) {
+            // 请求回来后设置音乐播放地址
             this.url = res.data.data[0].url
             setTimeout(() => {
+              // 调用音乐播放函数
               cb && cb()
             }, 0)
           }
         })
     },
+    // 点击暂停和播放按钮
     playMusic () {
       this.isPlay = !this.isPlay
     },
@@ -129,7 +142,7 @@ export default {
       this.currentTime = res.target.currentTime
     },
     // 当加载语音流元数据完成后，会触发该事件的回调函数
-    // 语音元数据主要是语音的长度之类的数据
+    // 语音元数据主要是语音的长度之类的数据（获取音乐总时长）
     onLoadedmetadata (res) {
       // console.log('loadedmetadata')
       // console.log(res)

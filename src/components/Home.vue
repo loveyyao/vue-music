@@ -66,12 +66,12 @@ export default {
     return {
       rightActiveName: '0',
       activeName: '0',
-      collapseActive: '',
-      msg: 'hello world'
+      collapseActive: ''
     }
   },
 
   computed: {
+    // 获取默认播放列表
     defaultList () {
       return this.$store.state.defaultList
     }
@@ -86,6 +86,7 @@ export default {
   },
   mounted () {
     const that = this
+    // 绑定一个触发搜索列表组件显示的方法
     that.$bus.$on('showSearch', function () {
       that.rightActiveName = ''
     })

@@ -102,34 +102,42 @@ export default {
   name: 'Header',
   data () {
     return {
-      search: '',
-      hostSearch: '',
-      searchSuggest: {},
-      showSuggest: false
+      search: '', // 搜索
+      hostSearch: '', // 热门搜索
+      searchSuggest: {}, // 关联搜索
+      showSuggest: false // 控制关联搜索显示
     }
   },
   methods: {
+    // 点击最小化（在网页模式下会报错，点击没有效果）
     minWindow () {
       const win = nw.Window.get()
       win.minimize()
     },
+    // 点击关闭窗口（网页模式下点击包错，没有效果）
     closeWindow () {
       nw.App.quit()
     },
+    // 回车搜索
     searchSong () {
       const keywords = this.search
+      // 触发输入框的失焦事件让关联搜索隐藏
       this.$refs.searchInput.blur()
       if (keywords.trim()) {
+        // 触发事件显示搜索组件
         this.$bus.$emit('showSearch')
+        // 发送请求
         this.$axios.get('search', {keywords})
           .then((res) => {
             if (res.data.code === 200) {
+              // 把返回数据存储到vuex
               this.$store.commit('addData', res.data.result.songs)
               console.log(res.data.result.songs)
             }
           })
       }
     },
+    // 关联搜索请求，当输入框内发生变化时触发
     suggest () {
       const keywords = this.search
       this.$axios.get('search/suggest', {keywords})
@@ -143,6 +151,7 @@ export default {
     }
   },
   mounted () {
+    // 组件一加载开始请求默认搜索内容（热门搜索）
     this.$axios.get('search/default')
       .then((res) => {
         if (res.data.code === 200) {
