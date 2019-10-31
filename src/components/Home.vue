@@ -9,15 +9,17 @@
                 <el-collapse-item :title="'默认列表 '+'[ '+defaultList.length+' ]'" name="1">
                     <div class="music-item pr"
                          v-for="(item, index) in defaultList"
-                         @click="playMusic(item,index)"
-                         :key="index">
-                      <span class="icon"><i class="el-icon-plus"></i></span>
+                         @dblclick="playMusic(item,index)"
+                         :key="index"
+                         :class="{active:playIndex===index}"
+                    >
+                      <span class="icon cursor"><i class="el-icon-plus"></i></span>
                       <span class="music-mame">{{item.name}}</span>
                       <span class="music-time">{{item.time|realFormatSecond}}</span>
                       <span class="options pa pc">
-                        <i class="el-icon-star-off"></i>
-                        <i class="el-icon-delete" @click="deleteMusic(index)"></i>
-                        <i class="el-icon-more"></i>
+                        <i class="el-icon-star-off cursor"></i>
+                        <i class="el-icon-delete cursor" @click="deleteMusic(index)"></i>
+                        <i class="el-icon-more cursor"></i>
                       </span>
                     </div>
                 </el-collapse-item>
@@ -122,6 +124,9 @@ export default {
     that.$bus.$on('showSearch', function () {
       that.rightActiveName = ''
     })
+    that.$bus.$on('setPlayIndex', function (index) {
+      that.playIndex = index
+    })
   }
 }
 </script>
@@ -149,6 +154,9 @@ export default {
           padding-left: px2vw(5);
           display: flex;
           align-items: center;
+          &.active{
+            background: #eee;
+          }
           .icon{
             opacity: 0;
             transition: opacity .1s;

@@ -9,7 +9,6 @@
             tooltip-effect="dark"
             style="width: 100%"
             :header-cell-style="tableHeaderColor"
-            @cell-click="playCellMusic"
             @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="30"></el-table-column>
             <el-table-column prop="name" label="歌曲名" align="left" show-overflow-tooltip width="300">
@@ -25,9 +24,9 @@
             <el-table-column label="操作" align="left" width="100">
               <template slot-scope="scope">
                 <div class="option">
-                  <i class="el-icon-caret-right"></i>
-                  <i class="el-icon-plus"></i>
-                  <i class="el-icon-download"></i>
+                  <i class="el-icon-caret-right cursor" @click="playCellMusic(scope.row)"></i>
+                  <i class="el-icon-plus cursor" @click="addDefaultList(scope.row)"></i>
+                  <i class="el-icon-download cursor"></i>
                 </div>
               </template>
             </el-table-column>
@@ -70,8 +69,16 @@ export default {
   },
   methods: {
     handleClick () {},
+    // 点击加号添加到默认列表
+    addDefaultList (row) {
+      if (this.id !== row.id) {
+        // 把点击播放的列表添加到默认列表中
+        this.$store.commit('addDefaultList', [row])
+        this.id = row.id
+      }
+    },
     // 点击列表播放该音乐
-    playCellMusic (row, column, cell, event) {
+    playCellMusic (row) {
       // 把当前点击的存储到vuex中，表示当前正在播放
       this.$store.commit('setAtPresentPlayMusic', row)
       if (this.id !== row.id) {

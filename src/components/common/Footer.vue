@@ -49,7 +49,7 @@
         <div class="volume-main">
           <div class="volume-wrap">
             <div class="volume-inner" :style="{height: volumeBarH + 'px'}"></div>
-            <div class="volume-dot" v-drag="setVolume"></div>
+            <div class="volume-dot" v-drag="setVolume" :style="{top:dotTop+'px'}"></div>
           </div>
         </div>
       </span>
@@ -83,7 +83,8 @@ export default {
       // 音频最大播放时长
       maxTime: 0,
       volumeBarH: 35,
-      bgColor: '#0096E6'
+      bgColor: '#0096E6',
+      dotTop: 0
     }
   },
   computed: {
@@ -134,9 +135,12 @@ export default {
       var T = t
       T = T <= 0 ? 0 : T
       T = T >= 60 ? 60 : T
-      el.style.top = T + 'px'
+      this.dotTop = T
+      // el.style.top = T + 'px'
       this.volumeBarH = (1 - T / 60) * 70
-      this.$refs.audio.volume = 1 - T / 60
+      var volumeVal = 1 - T / 60
+      this.$refs.audio.volume = volumeVal
+      this.$utils.setItem('volume', volumeVal)
     },
     // 请求当前播放音乐播放地址
     getSong (id, cb) {
@@ -170,6 +174,7 @@ export default {
       if (index < 0) {
         index = this.defaultList.length - 1
       }
+      this.$bus.$emit('setPlayIndex', index)
       this.$store.commit('setAtPresentPlayMusic', defaultList[index])
     },
     // 点击下一首
@@ -179,6 +184,7 @@ export default {
       if (index >= this.defaultList.length) {
         index = 0
       }
+      this.$bus.$emit('setPlayIndex', index)
       this.$store.commit('setAtPresentPlayMusic', defaultList[index])
     },
     // 点击暂停和播放按钮
@@ -203,7 +209,10 @@ export default {
     // console.log(this.$refs.audio.duration)
     // this.getSong(400162138)
     const that = this
-    that.$refs.audio.volume = 0.5
+    const volumeVal = this.$utils.getItem('volume')
+    that.volumeBarH = volumeVal * 70
+    that.dotTop = (1 - volumeVal) * 60
+    that.$refs.audio.volume = volumeVal
     // 参数e为true时表示在歌词页面
     that.$bus.$on('setBg', function (e) {
       if (e) {
@@ -284,12 +293,12 @@ export default {
         align-items: center;
         .progress-bar-main{
           width: px2vw(305);
-          height: px2vw(2);
+          height: px2vw(3);
           position: relative;
           .progress-bar{
             width: px2vw(290);
             height: 100%;
-            background: #fff;
+            background: rgba(255,255,255,.7);
             .progress-bar-inner{
               width: px2vw(0);
               background: #00BCFF;
