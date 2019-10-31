@@ -6,92 +6,96 @@
       <div class="user-name">哈哈</div>
     </div>
     <div class="header-right fr">
-      <span class="icon cursor">
-        <i class="el-icon-arrow-left"></i>
-        <span class="tooltip pa">返回</span>
-      </span>
-      <span class="icon cursor">
-        <i class="el-icon-refresh"></i>
-        <span class="tooltip pa">刷新</span>
-      </span>
-      <div class="search cursor" @keydown.enter="searchSong">
-        <el-input
-          size="small"
-          ref="searchInput"
-          :placeholder="hostSearch.showKeyword"
-          suffix-icon="el-icon-search"
-          v-model="search"
-          @focus="showSuggest=true"
-          @blur="showSuggest=false"
-          @change="suggest"
+      <div class="section-left cursor">
+        <span class="icon cursor">
+          <i class="el-icon-arrow-left"></i>
+          <span class="tooltip pa">返回</span>
+        </span>
+        <span class="icon cursor">
+            <i class="el-icon-refresh"></i>
+            <span class="tooltip pa">刷新</span>
+        </span>
+        <div class="search cursor" @keydown.enter="searchSong">
+          <el-input
+            size="small"
+            ref="searchInput"
+            :placeholder="hostSearch.showKeyword"
+            suffix-icon="el-icon-search"
+            v-model="search"
+            @focus="showSuggest=true"
+            @blur="showSuggest=false"
+            @change="suggest"
           >
-        </el-input>
-        <div class="search-suggest" v-show="showSuggest">
-          <div class="songs suggest-list" v-if="searchSuggest.songs">
-            <span class="title">单曲</span>
-            <ul class="list">
-              <li class="item" v-for="(item,index) in searchSuggest.songs" :key="index">
-                <span class="name">{{item.name}}</span>
-                <span class="artist" v-if="item.artists">{{item.artists[0].name}}</span>
-              </li>
-            </ul>
-          </div>
-          <div class="albums suggest-list" v-if="searchSuggest.albums">
-            <span class="title">专辑</span>
-            <ul class="list">
-              <li class="item" v-for="(item,index) in searchSuggest.albums" :key="index">
-                <span class="name">{{item.name}}</span>
-                <span class="artist" v-if="item.artist">{{item.artist.name}}</span>
-              </li>
-            </ul>
-          </div>
-          <div class="mvs suggest-list" v-if="searchSuggest.mvs">
-            <span class="title">MV</span>
-            <ul class="list">
-              <li class="item" v-for="(item,index) in searchSuggest.mvs" :key="index">
-                <span class="name">{{item.name}}</span>
-                <span class="artist">{{item.artistName}}</span>
-              </li>
-            </ul>
+          </el-input>
+          <div class="search-suggest" v-show="showSuggest">
+            <div class="songs suggest-list" v-if="searchSuggest.songs">
+              <span class="title">单曲</span>
+              <ul class="list">
+                <li class="item" v-for="(item,index) in searchSuggest.songs" :key="index">
+                  <span class="name">{{item.name}}</span>
+                  <span class="artist" v-if="item.artists">{{item.artists[0].name}}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="albums suggest-list" v-if="searchSuggest.albums">
+              <span class="title">专辑</span>
+              <ul class="list">
+                <li class="item" v-for="(item,index) in searchSuggest.albums" :key="index">
+                  <span class="name">{{item.name}}</span>
+                  <span class="artist" v-if="item.artist">{{item.artist.name}}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="mvs suggest-list" v-if="searchSuggest.mvs">
+              <span class="title">MV</span>
+              <ul class="list">
+                <li class="item" v-for="(item,index) in searchSuggest.mvs" :key="index">
+                  <span class="name">{{item.name}}</span>
+                  <span class="artist">{{item.artistName}}</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
+        <span class="icon cursor">
+          <i class="el-icon-microphone"></i>
+          <span class="tooltip pa">听歌识曲</span>
+        </span>
       </div>
-      <span class="icon cursor">
-        <i class="el-icon-microphone"></i>
-         <span class="tooltip pa">听歌识曲</span>
-      </span>
-      <span class="icon cursor ml">
-        <i class="el-icon-aim"></i>
-        <span class="tooltip pa">CD抓轨</span>
-      </span>
-      <span class="icon cursor">
-        <i class="el-icon-menu"></i>
-        <span class="tooltip pa">工具</span>
-      </span>
-      <span class="icon cursor">
-        <i class="el-icon-message"></i>
-        <span class="tooltip pa">消息中心</span>
-      </span>
-      <span class="icon cursor">
-        <i class="el-icon-microphone"></i>
-        <span class="tooltip pa">更换皮肤</span>
-      </span>
-      <span class="icon cursor">
-        <i class="el-icon-setting"></i>
-        <span class="tooltip pa">主菜单</span>
-      </span>
-      <span class="line"></span>
-      <span class="icon cursor">
-        <i class="el-icon-download rotate"></i>
-        <span class="tooltip pa">隐藏音乐库</span>
-      </span>
-      <div class="icon cursor" @click="minWindow">
-        <i class="el-icon-minus"></i>
-        <span class="tooltip pa">最小化</span>
-      </div>
-      <div class="icon cursor" @click="closeWindow">
-        <i class="el-icon-close"></i>
-        <span class="tooltip pa">关闭</span>
+      <div class="section-right cursor">
+        <span class="icon cursor">
+          <i class="el-icon-aim"></i>
+          <span class="tooltip pa">CD抓轨</span>
+        </span>
+        <span class="icon cursor">
+          <i class="el-icon-menu"></i>
+          <span class="tooltip pa">工具</span>
+        </span>
+        <span class="icon cursor">
+          <i class="el-icon-message"></i>
+          <span class="tooltip pa">消息中心</span>
+        </span>
+        <span class="icon cursor">
+          <i class="el-icon-microphone"></i>
+          <span class="tooltip pa">更换皮肤</span>
+        </span>
+        <span class="icon cursor">
+          <i class="el-icon-setting"></i>
+          <span class="tooltip pa">主菜单</span>
+        </span>
+        <span class="line"></span>
+        <span class="icon cursor">
+          <i class="el-icon-download rotate"></i>
+          <span class="tooltip pa">隐藏音乐库</span>
+        </span>
+        <div class="icon cursor" @click="minWindow">
+          <i class="el-icon-minus"></i>
+          <span class="tooltip pa">最小化</span>
+        </div>
+        <div class="icon cursor" @click="closeWindow">
+          <i class="el-icon-close"></i>
+          <span class="tooltip pa">关闭</span>
+        </div>
       </div>
     </div>
   </div>
@@ -203,6 +207,25 @@ export default {
       height: 100%;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      .section-left{
+        width: 390px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        .icon{
+          margin: 0 5px;
+        }
+      }
+      .section-right{
+        width: 302px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        .icon{
+          margin-left:px2vw(7);
+        }
+      }
       .icon{
         width: px2vw(30);
         height: px2vw(30);
@@ -210,7 +233,6 @@ export default {
         line-height: px2vw(30);
         text-align: center;
         color: rgba(255,255,255,.8);
-        margin: 0 px2vw(5);
         /*position: relative;*/
         .tooltip{
           display: none;
@@ -221,9 +243,6 @@ export default {
           color: #7E7D76;
           border: 1px solid #7E7D76;
           padding: 0 px2vw(5);
-        }
-        &.ml{
-          margin-left: px2vw(30);
         }
         .rotate{
           transform: rotate(90deg);

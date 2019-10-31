@@ -26,7 +26,7 @@
       </div>
       <div class="bar-bottom">
         <div class="progress-bar-main cp">
-          <div class="progress-bar">
+          <div class="progress-bar" ref="progressBar">
             <div class="progress-bar-inner" :style="{width:progressBarStyle + 'px'}"></div>
           </div>
           <div class="dot" :style="{left:dotStyle + 'px'}"></div>
@@ -84,19 +84,20 @@ export default {
       maxTime: 0,
       volumeBarH: 35,
       bgColor: '#0096E6',
-      dotTop: 0
+      dotTop: 0,
+      progressBarW: 290
     }
   },
   computed: {
     // 计算播放进度条宽度
     progressBarStyle () {
       const {currentTime, maxTime} = this
-      return currentTime / maxTime * 290
+      return currentTime / maxTime * this.progressBarW
     },
     // 计算小圆点的位置
     dotStyle () {
       const {currentTime, maxTime} = this
-      return currentTime / maxTime * 282
+      return currentTime / maxTime * (this.progressBarW - 8)
     },
     // 从vuex中获取当前需要播放的音乐
     atPresentPlayMusic () {
@@ -132,6 +133,10 @@ export default {
     }
   },
   methods: {
+    getProgressBarW () {
+      const that = this
+      that.progressBarW = that.$refs.progressBar.clientWidth
+    },
     // 拖拽事件触发是调用的函数
     // el：当前元素 t：top的值 l：left的值
     setVolume (el, t, l) {
@@ -233,6 +238,8 @@ export default {
         that.bgColor = '#0096E6'
       }
     })
+    that.getProgressBarW()
+    window.onresize = that.getProgressBarW
   }
 }
 </script>
@@ -269,7 +276,7 @@ export default {
       }
     }
     .progress-bar-wrap{
-      width: px2vw(415);
+      flex: 1;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -302,11 +309,12 @@ export default {
         display: flex;
         align-items: center;
         .progress-bar-main{
-          width: px2vw(305);
+          flex: 1;
           height: px2vw(3);
+          /*padding-right: px2vw(10);*/
           position: relative;
           .progress-bar{
-            width: px2vw(290);
+            width: 100%;
             height: 100%;
             background: rgba(255,255,255,.7);
             .progress-bar-inner{
@@ -327,11 +335,13 @@ export default {
           }
         }
         .time{
-          flex: 1;
+          text-align: right;
+          width: px2vw(90);
         }
       }
     }
     .option-btn{
+      width: px2vw(377);
       padding-left: px2vw(30);
       display: flex;
       align-items: center;

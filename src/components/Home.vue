@@ -1,7 +1,7 @@
 <template>
   <div class="main wh">
     <div class="main-left h">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">
         <el-tab-pane name="0">
           <span slot="label" class="tabs-icon"><i class="el-icon-headset"></i></span>
             <el-collapse v-model="collapseActive" accordion>
