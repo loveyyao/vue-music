@@ -184,8 +184,9 @@ export default {
   .header{
     width: 100%;
     height: 50px;
+    display: flex;
     .header-left{
-      width: 30%;
+      width: 300px;
       height: 100%;
       display: flex;
       /*justify-content: center;*/
@@ -203,7 +204,7 @@ export default {
       }
     }
     .header-right{
-      width: 70%;
+      flex: 1;
       height: 100%;
       display: flex;
       align-items: center;

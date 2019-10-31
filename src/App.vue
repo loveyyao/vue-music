@@ -64,11 +64,13 @@ export default {
   @import "./assets/styles/common/functions";
 #app {
   width: 100%;
-  /*height: 100%;*/
+  height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   /*background-size: cover;*/
   /*background-size: 100% 100%;*/
   /*border: 1px solid #eee;*/
@@ -77,7 +79,8 @@ export default {
   /*box-shadow: 0 0 1px #eee inset;*/
 }
 .route-container {
-  height: px2vw(550);
+  flex: 1;
+  /*height: px2vw(550);*/
   border-right: 1px solid #eee;
   border-left: 1px solid #eee;
 }

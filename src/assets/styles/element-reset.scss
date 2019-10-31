@@ -8,6 +8,11 @@
   .el-collapse-item__wrap{
     background: none;
   }
+  .search-container{
+    .el-tabs.el-tabs--top{
+      height: 40px;
+    }
+  }
   .main-left{
     .el-tabs__nav-wrap{
       padding-left: px2vw(10);

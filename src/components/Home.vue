@@ -137,7 +137,7 @@ export default {
     display: flex;
     /*background-color:#fff;*/
     .main-left{
-      width: 30%;
+      width: 300px;
       border-right: 2px solid #eee;
       overflow: hidden;
       /*padding-left: px2vw(10);*/
@@ -146,7 +146,8 @@ export default {
       }
       .list-container{
         width: 100%;
-        height: px2vw(463);
+        /*height: px2vw(463);*/
+        height: 100%;
         overflow-y: auto;
         .music-item{
           width: 100%;
@@ -202,8 +203,11 @@ export default {
       }
     }
     .main-right{
-      width: 70%;
+      flex: 1;
+      height: 100%;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
   }
 </style>
