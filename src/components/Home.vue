@@ -149,8 +149,8 @@ export default {
       }
       .list-container{
         width: 100%;
-        /*height: px2vw(463);*/
-        height: 100%;
+        height: px2vw(510);
+        /*height: 100%;*/
         overflow-y: auto;
         .music-item{
           width: 100%;

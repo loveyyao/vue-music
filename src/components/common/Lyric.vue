@@ -52,7 +52,7 @@ export default {
   @import "../../assets/styles/common/functions";
   .lyric-wrap{
     width: 100%;
-    height: px2vw(511);
+    height: px2vw(512);
     overflow: hidden;
     position: relative;
     padding-top: 5px;
