@@ -7,7 +7,9 @@ const state = {
   atPresent: {}, // 存放当前播放歌曲
   defaultList: [], // 默认播放列表
   comment: {}, // 存储歌曲评论
-  lyric: {} // 歌词
+  lyric: {}, // 歌词
+  index: 0,
+  top: 0
 }
 const getters = {
 }
@@ -33,6 +35,10 @@ const mutations = {
   },
   setLyric: function (state, data) {
     state.lyric = data
+  },
+  setLyricIndex: function (state, data) {
+    state.index = data.index
+    state.top = data.top
   }
 }
 

@@ -2,9 +2,9 @@
   <div class="lyric-wrap">
     <ul class="lyric-list" :style="'transform: translateY(-'+top+'px);'">
       <li class="lyric-item"
-          v-for="(item, index) in lyricList"
-          :key="index"
-          :class="{active:index===lyricIndex}"
+          v-for="(item, i) in lyricList"
+          :key="i"
+          :class="{active:i===index}"
       >{{item}}</li>
     </ul>
     <div class="mask"></div>
@@ -16,19 +16,17 @@ export default {
   name: 'Lyric',
   data () {
     return {
-      lyricIndex: 0,
-      top: 0,
-      nowLyric: ''
     }
   },
   watch: {
-    nowLyric (e) {
-      const index = this.lyricList.indexOf(e)
-      this.lyricIndex = index
-      this.top = index * 30
-    }
   },
   computed: {
+    index () {
+      return this.$store.state.index
+    },
+    top () {
+      return this.$store.state.top
+    },
     lyric () {
       return this.$store.state.lyric
     },
@@ -44,21 +42,8 @@ export default {
     }
   },
   methods: {
-    setLyric (currentTime) {
-      const lyric = this.lyric
-      for (var t in lyric) {
-        if (currentTime >= t && lyric[t].trim()) {
-          // console.log(lyric[t])
-          // this.lyricIndex = this.lyricIndex + 1
-          // this.top = (this.lyricIndex + 1) * 30
-          this.nowLyric = lyric[t]
-          continue
-        }
-      }
-    }
   },
   mounted () {
-    this.$bus.$on('setLyric', this.setLyric)
   }
 }
 </script>

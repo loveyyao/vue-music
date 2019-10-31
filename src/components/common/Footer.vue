@@ -87,6 +87,8 @@ export default {
       dotTop: 0,
       progressBarW: 290, // 进度条能移动的最大宽度，默认290
       lyric: {}, // 存放歌词
+      lyricIndex: 0,
+      top: 0,
       nowLyric: ''
     }
   },
@@ -110,6 +112,16 @@ export default {
     },
     commentNum () {
       return this.$store.state.comment
+    },
+    lyricList () {
+      const result = []
+      const lyric = this.lyric
+      for (var k in lyric) {
+        if (lyric[k].trim()) {
+          result.push(k)
+        }
+      }
+      return result
     }
   },
   watch: {
@@ -132,6 +144,13 @@ export default {
       this.getSong(e.id, function () {
         that.isPlay = true
       })
+    },
+    nowLyric (e) {
+      const lyric = this.lyricList
+      let index = lyric.indexOf(e)
+      this.lyricIndex = index
+      this.top = (this.lyricIndex - 1) * 30
+      this.$store.commit('setLyricIndex', {index: this.lyricIndex, top: this.top})
     }
   },
   methods: {
@@ -156,6 +175,9 @@ export default {
     // 请求当前播放音乐播放地址
     getSong (id, cb) {
       // 获取音乐播放路劲
+      this.lyricIndex = 0
+      this.top = 0
+      this.$store.commit('setLyricIndex', {index: this.lyricIndex, top: this.top})
       this.$axios.get('song/url', {id: id})
         .then((res) => {
           // console.log(res)
@@ -185,6 +207,7 @@ export default {
             const result = res.data.lrc.lyric
             console.log(result)
             const lyric = this.parseLyric(result)
+            this.lyric = lyric
             this.$store.commit('setLyric', lyric)
             // console.log(lyric)
             // this.lyric = lyric
@@ -250,7 +273,15 @@ export default {
       // console.log(res)
       let currentTime = res.target.currentTime
       this.currentTime = currentTime
-      this.$bus.$emit('setLyric', currentTime)
+      const lyric = this.lyric
+      for (var t in lyric) {
+        if (currentTime >= t && lyric[t].trim()) {
+          // this.lyricIndex = this.lyricIndex + 1
+          // this.$store.commit('setLyricIndex', this.lyricIndex)
+          this.nowLyric = t
+          continue
+        }
+      }
     },
     // 当加载语音流元数据完成后，会触发该事件的回调函数
     // 语音元数据主要是语音的长度之类的数据（获取音乐总时长）
