@@ -65,6 +65,9 @@ export default {
         }
       })
       return result
+    },
+    defaultList () {
+      return this.$store.state.defaultList
     }
   },
   methods: {
@@ -80,12 +83,26 @@ export default {
     // 点击列表播放该音乐
     playCellMusic (row) {
       // 把当前点击的存储到vuex中，表示当前正在播放
-      this.$store.commit('setAtPresentPlayMusic', row)
-      if (this.id !== row.id) {
-        // 把点击播放的列表添加到默认列表中
-        this.$store.commit('addDefaultList', [row])
-        this.id = row.id
-      }
+      // 擅长捉弄同学的高木同学片尾曲
+      // 检查当前音乐是否可用
+      this.$axios.get('check/music', {
+        id: row.id
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            this.$store.commit('setAtPresentPlayMusic', row)
+            if (this.id !== row.id) {
+              // 把点击播放的列表添加到默认列表中
+              this.$store.commit('addDefaultList', [row])
+              this.$bus.$emit('setPlayIndex', this.defaultList.length - 1)
+              this.id = row.id
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          this.$message('亲爱的,暂无版权')
+        })
     },
     handleSelectionChange () {},
     // 修改table header的背景色

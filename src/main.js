@@ -11,13 +11,14 @@ import axios from './api/index.js'
 import Utils from './utils/VueUtils'
 import './assets/styles/common/common.scss'
 import './assets/styles/element-reset.scss'
-import { realFormatSecond } from './filter'
+import { realFormatSecond, FormattedNumber } from './filter'
 require('./assets/main.css')
 Vue.config.productionTip = false
 Vue.use(ElementUI, {
   size: 'small'
 })
 Vue.filter('realFormatSecond', realFormatSecond)
+Vue.filter('FormattedNumber', FormattedNumber)
 Vue.prototype.$axios = axios
 Vue.prototype.$bus = new Vue()
 Vue.prototype.$utils = Utils

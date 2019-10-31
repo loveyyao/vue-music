@@ -58,7 +58,7 @@
         丽音
       </span>
       <span class="ci">词</span>
-      <el-badge :value="1" class="item" type="primary">
+      <el-badge :value="commentNum.total|FormattedNumber" class="item" type="primary">
         <span class="comment">
           <i class="el-icon-chat-dot-square"></i>
         </span>
@@ -104,6 +104,9 @@ export default {
     },
     defaultList () {
       return this.$store.state.defaultList
+    },
+    commentNum () {
+      return this.$store.state.comment
     }
   },
   watch: {
@@ -155,6 +158,13 @@ export default {
               // 调用音乐播放函数
               cb && cb()
             }, 0)
+          }
+        })
+      this.$axios.get('comment/music', {id: id})
+        .then((res) => {
+          console.log(res)
+          if (res.data.code === 200) {
+            this.$store.commit('addSongComment', res.data)
           }
         })
     },

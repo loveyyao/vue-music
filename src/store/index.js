@@ -5,7 +5,8 @@ Vue.use(Vuex)
 const state = {
   searchList: [],
   atPresent: {}, // 存放当前播放歌曲
-  defaultList: [] // 默认播放列表
+  defaultList: [], // 默认播放列表
+  comment: {} // 存储歌曲评论
 }
 const getters = {
 }
@@ -25,6 +26,9 @@ const mutations = {
   },
   delMusic: function (state, index) {
     state.defaultList.splice(index, 1)
+  },
+  addSongComment: function (state, data) {
+    state.comment = data
   }
 }
 

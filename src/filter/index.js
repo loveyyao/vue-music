@@ -14,3 +14,15 @@ export const realFormatSecond = function (second) {
     return '00:00'
   }
 }
+export const FormattedNumber = function (num) {
+  var numType = typeof num
+  if (numType === 'number' || numType === 'string') {
+    if (num < 1000) {
+      return num
+    } else if (num < 10000) {
+      return parseInt(num / 1000) + 'k+'
+    } else {
+      return parseInt(num / 10000) + 'w+'
+    }
+  }
+}
