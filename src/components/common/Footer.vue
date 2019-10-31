@@ -85,7 +85,7 @@ export default {
       volumeBarH: 35,
       bgColor: '#0096E6',
       dotTop: 0,
-      progressBarW: 290
+      progressBarW: 290 // 进度条能移动的最大宽度，默认290
     }
   },
   computed: {
@@ -133,6 +133,7 @@ export default {
     }
   },
   methods: {
+    // 获取进度条的宽度
     getProgressBarW () {
       const that = this
       that.progressBarW = that.$refs.progressBar.clientWidth
@@ -167,7 +168,7 @@ export default {
         })
       this.$axios.get('comment/music', {id: id})
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           if (res.data.code === 200) {
             this.$store.commit('addSongComment', res.data)
           }
@@ -239,6 +240,7 @@ export default {
       }
     })
     that.getProgressBarW()
+    // 当窗口发生变化时时时获取计算进度条最大宽度
     window.onresize = that.getProgressBarW
   }
 }
