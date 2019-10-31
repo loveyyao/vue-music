@@ -85,7 +85,9 @@ export default {
       volumeBarH: 35,
       bgColor: '#0096E6',
       dotTop: 0,
-      progressBarW: 290 // 进度条能移动的最大宽度，默认290
+      progressBarW: 290, // 进度条能移动的最大宽度，默认290
+      lyric: {}, // 存放歌词
+      nowLyric: ''
     }
   },
   computed: {
@@ -153,6 +155,7 @@ export default {
     },
     // 请求当前播放音乐播放地址
     getSong (id, cb) {
+      // 获取音乐播放路劲
       this.$axios.get('song/url', {id: id})
         .then((res) => {
           // console.log(res)
@@ -166,6 +169,7 @@ export default {
             }, 0)
           }
         })
+      // 获取歌曲评论
       this.$axios.get('comment/music', {id: id})
         .then((res) => {
           // console.log(res)
@@ -173,6 +177,39 @@ export default {
             this.$store.commit('addSongComment', res.data)
           }
         })
+      // 获取歌曲歌词
+      this.$axios.get('lyric', {id: id})
+        .then((res) => {
+          if (res.data.code === 200) {
+            // console.log(res.data.lrc.lyric.split(']'))
+            const result = res.data.lrc.lyric
+            console.log(result)
+            const lyric = this.parseLyric(result)
+            this.$store.commit('setLyric', lyric)
+            // console.log(lyric)
+            // this.lyric = lyric
+          }
+        })
+    },
+    // 歌词解析
+    parseLyric (lrc) {
+      var lyrics = lrc.split('\n')
+      var lrcObj = {}
+      for (var i = 0; i < lyrics.length; i++) {
+        var lyric = decodeURIComponent(lyrics[i])
+        var timeReg = /\[\d*:\d*((\.|\:)\d*)*\]/g
+        var timeRegExpArr = lyric.match(timeReg)
+        if (!timeRegExpArr) continue
+        var clause = lyric.replace(timeReg, '')
+        for (var k = 0, h = timeRegExpArr.length; k < h; k++) {
+          var t = timeRegExpArr[k]
+          var min = Number(String(t.match(/\[\d*/i)).slice(1)),
+            sec = Number(String(t.match(/\:\d*/i)).slice(1))
+          var time = min * 60 + sec
+          lrcObj[time] = clause
+        }
+      }
+      return lrcObj
     },
     // 当前音乐资源播放完后触发的事件
     playEnd () {
@@ -211,7 +248,9 @@ export default {
     onTimeupdate (res) {
       // console.log('timeupdate')
       // console.log(res)
-      this.currentTime = res.target.currentTime
+      let currentTime = res.target.currentTime
+      this.currentTime = currentTime
+      this.$bus.$emit('setLyric', currentTime)
     },
     // 当加载语音流元数据完成后，会触发该事件的回调函数
     // 语音元数据主要是语音的长度之类的数据（获取音乐总时长）

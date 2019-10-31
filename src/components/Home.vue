@@ -54,19 +54,22 @@
         <el-tab-pane label="MV" name="3">待开发</el-tab-pane>
         <el-tab-pane label="直播" name="4">待开发</el-tab-pane>
         <el-tab-pane label="KTV" name="5">待开发</el-tab-pane>
-        <el-tab-pane label="歌词" name="6">待开发</el-tab-pane>
+        <el-tab-pane label="歌词" name="6"></el-tab-pane>
       </el-tabs>
       <Search v-if="!rightActiveName"></Search>
 <!--      <Search/>-->
+      <Lyric v-if="rightActiveName==='6'"></Lyric>
     </div>
   </div>
 </template>
 <script>
+import Lyric from './common/Lyric'
 import Search from './common/Search'
 export default {
   props: [],
   components: {
-    Search
+    Search,
+    Lyric
   },
 
   data () {
@@ -95,10 +98,10 @@ export default {
     rightActiveName (e) {
       // 当值为六的时候触发更换页面背景
       if (e === '6') {
-        this.$bus.$emit('setBg', true)
+        // this.$bus.$emit('setBg', true)
       } else {
         // 不为6的时候背景切换回来
-        this.$bus.$emit('setBg', false)
+        // this.$bus.$emit('setBg', false)
       }
     }
   },

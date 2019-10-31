@@ -145,14 +145,16 @@ export default {
     // 关联搜索请求，当输入框内发生变化时触发
     suggest () {
       const keywords = this.search
-      this.$axios.get('search/suggest', {keywords})
-        .then((res) => {
-          if (res.data.code === 200) {
-            // this.$store.commit('addData', res.data.result.songs)
-            console.log(res.data.result)
-            this.searchSuggest = res.data.result
-          }
-        })
+      if (keywords.trim()) {
+        this.$axios.get('search/suggest', {keywords})
+          .then((res) => {
+            if (res.data.code === 200) {
+              // this.$store.commit('addData', res.data.result.songs)
+              console.log(res.data.result)
+              this.searchSuggest = res.data.result
+            }
+          })
+      }
     }
   },
   mounted () {
