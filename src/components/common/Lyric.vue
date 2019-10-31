@@ -71,6 +71,7 @@ export default {
         text-align: center;
         font-size: 18px;
         font-weight: bolder;
+        transition: all .5s;
         color: #fff;
         /*margin: 5px 0;*/
         &.active{
