@@ -90,7 +90,8 @@ export default {
       lyric: {}, // 存放歌词
       lyricIndex: 0,
       top: 0,
-      nowLyric: ''
+      nowLyric: '',
+      windowUrl: ''
     }
   },
   computed: {
@@ -224,7 +225,7 @@ export default {
       //   fullscreen: false,
       //   frame: true,
       //   transparent: true
-      nw.Window.open('http://192.168.40.204:8080/#/lyric', {
+      nw.Window.open(this.windowUrl + 'lyric', {
         width: 1004,
         height: 70,
         min_width: 1004,
@@ -324,6 +325,9 @@ export default {
     }
   },
   mounted () {
+    this.windowUrl = window.location.href
+    console.log(1)
+    console.log(window.location.href)
     // console.log(this.$refs.audio.duration)
     // this.getSong(400162138)
     const that = this
