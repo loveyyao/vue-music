@@ -93,6 +93,7 @@ export default {
     },
     playIndex (e) {
       this.$store.commit('setAtPresentPlayMusic', this.defaultList[e])
+      this.$utils.setItem('nowLyric', '')
     },
     // 监视rightActiveName的值
     rightActiveName (e) {
@@ -115,6 +116,9 @@ export default {
     },
     // 点击删除图标
     deleteMusic (index) {
+      if (index < this.playIndex) {
+        this.playIndex = this.playIndex - 1
+      }
       this.$store.commit('delMusic', index)
     }
   },

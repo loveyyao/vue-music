@@ -36,10 +36,8 @@ export default {
       this.closeCb()
     },
     getLyric (e) {
-      console.log(e.newValue)
-      if (e.newValue.indexOf('[') === -1) {
-        this.lyric = e.newValue.replace(/"/g, '')
-      }
+      console.log(e.storageArea.nowLyric)
+      this.lyric = e.storageArea.nowLyric.replace(/"/g, '')
     }
   },
   mounted () {
