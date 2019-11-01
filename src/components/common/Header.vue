@@ -110,7 +110,8 @@ export default {
       hostSearch: '', // 热门搜索
       searchSuggest: {}, // 关联搜索
       showSuggest: false, // 控制关联搜索显示
-      bgColor: '#0096E6'
+      bgColor: '#0096E6',
+      timer: null
     }
   },
   methods: {
@@ -159,14 +160,17 @@ export default {
   },
   mounted () {
     const that = this
-    // 组件一加载开始请求默认搜索内容（热门搜索）
-    that.$axios.get('search/default')
-      .then((res) => {
-        if (res.data.code === 200) {
-          that.hostSearch = res.data.data
-        }
-        console.log(res)
-      })
+    // 每隔一分钟请求一次搜索热词
+    that.timer = setInterval(() => {
+      // 组件一加载开始请求默认搜索内容（热门搜索）
+      that.$axios.get('search/default')
+        .then((res) => {
+          if (res.data.code === 200) {
+            that.hostSearch = res.data.data
+          }
+          console.log(res)
+        })
+    }, 60000)
     // 参数e为true时表示在歌词页面
     that.$bus.$on('setBg', function (e) {
       if (e) {
@@ -177,6 +181,9 @@ export default {
         that.bgColor = '#0096E6'
       }
     })
+  },
+  destroyed () {
+    clearInterval(this.timer)
   }
 }
 </script>
