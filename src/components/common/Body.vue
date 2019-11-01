@@ -18,7 +18,7 @@
                   <span class="music-time">{{item.time|realFormatSecond}}</span>
                   <span class="options pa pc">
                         <i class="el-icon-star-off cursor"></i>
-                        <i class="el-icon-delete cursor" @click="deleteMusic(index)"></i>
+                        <i class="el-icon-delete cursor" @click.stop="deleteMusic(index)"></i>
                         <i class="el-icon-more cursor"></i>
                       </span>
                 </div>
