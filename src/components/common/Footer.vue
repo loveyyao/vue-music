@@ -137,6 +137,7 @@ export default {
         // 暂停
         this.$refs.audio.pause()
       }
+      this.$utils.setItem('playStatus', e)
     },
     // 监视vuex中当前播放音乐属性
     atPresentPlayMusic (e) {
@@ -242,10 +243,13 @@ export default {
           frame: false,
           kiosk: false,
           transparent: true
-        }, function (new_win) {
+        }, function (newWin) {
           // 监听新窗口焦点事件
-          console.log(new_win)
-          new_win.closeWin = that.childWindowClose
+          console.log(newWin)
+          newWin.closeWin = that.childWindowClose
+          newWin.playLastMusic = that.playLastMusic
+          newWin.playMusic = that.playMusic
+          newWin.playNextMusic = that.playNextMusic
         })
         that.isShowLyric = true
       }
