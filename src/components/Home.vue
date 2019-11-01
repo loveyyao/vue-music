@@ -1,216 +1,90 @@
 <template>
-  <div class="main wh">
-    <div class="main-left h">
-      <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">
-        <el-tab-pane name="0">
-          <span slot="label" class="tabs-icon"><i class="el-icon-headset"></i></span>
-            <el-collapse v-model="collapseActive" accordion>
-              <div class="list-container">
-                <el-collapse-item :title="'默认列表 '+'[ '+defaultList.length+' ]'" name="1">
-                    <div class="music-item pr"
-                         v-for="(item, index) in defaultList"
-                         @dblclick="playMusic(item,index)"
-                         :key="index"
-                         :class="{active:playIndex===index}"
-                    >
-                      <span class="icon cursor"><i class="el-icon-plus"></i></span>
-                      <span class="music-mame">{{item.name}}</span>
-                      <span class="music-time">{{item.time|realFormatSecond}}</span>
-                      <span class="options pa pc">
-                        <i class="el-icon-star-off cursor"></i>
-                        <i class="el-icon-delete cursor" @click="deleteMusic(index)"></i>
-                        <i class="el-icon-more cursor"></i>
-                      </span>
-                    </div>
-                </el-collapse-item>
-              </div>
-            </el-collapse>
-        </el-tab-pane>
-        <el-tab-pane name="1">
-          <span slot="label" class="tabs-icon"><i class="el-icon-cloudy"></i></span>
-          待开发
-        </el-tab-pane>
-        <el-tab-pane name="2">
-          <span slot="label" class="tabs-icon"><i class="el-icon-connection"></i></span>
-          待开发
-        </el-tab-pane>
-        <el-tab-pane name="3">
-          <span slot="label" class="tabs-icon"><i class="el-icon-mobile"></i></span>
-          待开发
-        </el-tab-pane>
-        <el-tab-pane name="4">
-          <span slot="label" class="tabs-icon"><i class="el-icon-download"></i></span>
-          待开发
-        </el-tab-pane>
-      </el-tabs>
-    </div>
-    <div class="main-right h">
-      <el-tabs v-model="rightActiveName" :stretch="true" @tab-click="handleClick">
-        <el-tab-pane label="乐库" name="0">
-          待开发（目前只有搜索功能）
-        </el-tab-pane>
-        <el-tab-pane label="电台" name="1">待开发</el-tab-pane>
-        <el-tab-pane label="歌单" name="2">待开发</el-tab-pane>
-        <el-tab-pane label="MV" name="3">待开发</el-tab-pane>
-        <el-tab-pane label="直播" name="4">待开发</el-tab-pane>
-        <el-tab-pane label="KTV" name="5">待开发</el-tab-pane>
-        <el-tab-pane label="歌词" name="6"></el-tab-pane>
-      </el-tabs>
-      <Search v-if="!rightActiveName"></Search>
-<!--      <Search/>-->
-      <Lyric v-if="rightActiveName==='6'"></Lyric>
-    </div>
+  <div id="app" :style="{background:bgColor}">
+    <Header></Header>
+    <Home/>
+    <Footer></Footer>
   </div>
 </template>
-<script>
-import Lyric from './common/Lyric'
-import Search from './common/Search'
-export default {
-  props: [],
-  components: {
-    Search,
-    Lyric
-  },
 
+<script>
+import Header from './common/Header'
+import Footer from './common/Footer'
+import Home from './common/Body'
+export default {
+  name: 'App',
   data () {
     return {
-      rightActiveName: '0',
-      activeName: '0',
-      collapseActive: '',
-      playIndex: null // 当前播放下标
+      bgColor: '#fff'
     }
+  },
+  components: {
+    Header,
+    Footer,
+    Home
   },
 
   computed: {
-    // 获取默认播放列表
-    defaultList () {
-      return this.$store.state.defaultList
+    // 从vuex中获取当前需要播放的音乐
+    atPresentPlayMusic () {
+      return this.$store.state.atPresent
     }
   },
+
   watch: {
-    defaultList (e) {
-      this.$utils.setItem('defaultList', e)
-    },
-    playIndex (e) {
-      this.$store.commit('setAtPresentPlayMusic', this.defaultList[e])
-    },
-    // 监视rightActiveName的值
-    rightActiveName (e) {
-      // 当值为六的时候触发更换页面背景
-      if (e === '6') {
-        // this.$bus.$emit('setBg', true)
-      } else {
-        // 不为6的时候背景切换回来
-        // this.$bus.$emit('setBg', false)
-      }
-    }
   },
-  methods: {
-    handleClick () {},
-    playMusic (data, index) {
-      if (this.playIndex !== index) {
-        this.playIndex = index
-        this.$store.commit('setAtPresentPlayMusic', data)
-      }
-    },
-    // 点击删除图标
-    deleteMusic (index) {
-      this.$store.commit('delMusic', index)
-    }
-  },
-  created () {
-    console.log('')
-  },
+
   mounted () {
+    // console.log(this.$utils)
     const that = this
-    // 绑定一个触发搜索列表组件显示的方法
-    that.$bus.$on('showSearch', function () {
-      that.rightActiveName = ''
+    const defaultList = this.$utils.getItem('defaultList')
+    that.$store.commit('addDefaultList', defaultList)
+    // 切换背景为歌手照片（歌手照片好像请求不到）
+    that.$bus.$on('setBg', function (e) {
+      if (e) {
+        // 判断是否存在歌手写真路劲
+        if (that.atPresentPlayMusic.imgUrl) {
+          // 存在设置为写真背景
+          that.bgColor = `url(${that.atPresentPlayMusic.imgUrl})`
+        } else {
+          // 不存在设置蓝色为全局背景
+          that.bgColor = '#0096E6'
+        }
+      } else {
+        that.bgColor = '#fff'
+      }
     })
-    that.$bus.$on('setPlayIndex', function (index) {
-      that.playIndex = index
-    })
+  },
+
+  methods: {
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
   @import "../assets/styles/common/functions";
-  .main{
+  #app {
+    /*width: 100%;*/
+    /*height: 100%;*/
+    margin: 0 auto;
+    width: 1004px;
+    height: 670px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+    overflow: hidden;
     display: flex;
-    /*background-color:#fff;*/
-    .main-left{
-      width: 300px;
-      border-right: 2px solid #eee;
-      overflow: hidden;
-      /*padding-left: px2vw(10);*/
-      .tabs-icon{
-        font-size: 20px;
-      }
-      .list-container{
-        width: 100%;
-        height: px2vw(510);
-        /*height: 100%;*/
-        overflow-y: auto;
-        .music-item{
-          width: 100%;
-          height: px2vw(40);
-          padding-left: px2vw(5);
-          display: flex;
-          align-items: center;
-          &.active{
-            background: #eee;
-          }
-          .icon{
-            opacity: 0;
-            transition: opacity .1s;
-            margin-right: 5px;
-          }
-          .music-mame{
-            line-height: px2vw(40);
-            display: inline-block;
-            width: 185px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
-          .music-time{
-            opacity: 1;
-            transition: opacity .1s;
-          }
-          .options{
-            top: 50%;
-            right: px2vw(30);
-            transform: translateY(-50%);
-            /*display: none;*/
-            opacity: 0;
-            transition: opacity .1s;
-            i{
-              margin-left: px2vw(5);
-            }
-          }
-          &:hover{
-            background: #eee;
-            .icon{
-              opacity: 1;
-            }
-            .music-time{
-              /*display: none;*/
-              opacity: 0;
-            }
-            .options{
-              opacity: 1;
-            }
-          }
-        }
-      }
-    }
-    .main-right{
-      flex: 1;
-      height: 100%;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
+    flex-direction: column;
+    /*background-size: cover;*/
+    /*background-size: 100% 100%;*/
+    /*border: 1px solid #eee;*/
+    /*border-top-color:#0096E6;*/
+    /*border-bottom-color:#0096E6;*/
+    box-shadow: 0 0 1px #000 inset;
+  }
+  .route-container {
+    flex: 1;
+    /*height: px2vw(550);*/
+    border-right: 1px solid #eee;
+    border-left: 1px solid #eee;
   }
 </style>

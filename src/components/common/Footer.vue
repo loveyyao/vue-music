@@ -57,7 +57,7 @@
         <i class="green-dot"></i>
         丽音
       </span>
-      <span class="ci">词</span>
+      <span class="ci cursor" @click="openChildWindow">词</span>
       <el-badge :value="commentNum.total|FormattedNumber" class="item" type="primary">
         <span class="comment">
           <i class="el-icon-chat-dot-square"></i>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+// import nw from '@types/nw.gui'
 export default {
   name: 'Footer',
   data () {
@@ -151,6 +152,7 @@ export default {
       this.lyricIndex = index
       this.top = (this.lyricIndex - 1) * 30
       this.$store.commit('setLyricIndex', {index: this.lyricIndex, top: this.top})
+      this.$utils.setItem('nowLyric', this.lyric[e])
     }
   },
   methods: {
@@ -213,6 +215,36 @@ export default {
             // this.lyric = lyric
           }
         })
+    },
+    openChildWindow () {
+      // var win = nw.Window.get()
+      // 创建窗口并获取它的窗口对象
+      // show_in_taskbar: false,
+      //   always_on_top: true,
+      //   fullscreen: false,
+      //   frame: true,
+      //   transparent: true
+      nw.Window.open('http://192.168.40.204:8080/#/lyric', {
+        width: 1004,
+        height: 70,
+        min_width: 1004,
+        min_height: 70,
+        max_width: 1004,
+        max_height: 70,
+        resizable: false,
+        show_in_taskbar: false,
+        always_on_top: true,
+        fullscreen: false,
+        frame: false,
+        kiosk: false,
+        transparent: true
+      }, function (new_win) {
+        // 监听新窗口焦点事件
+        console.log(new_win)
+        // new_win.on('focus', function () {
+        //   console.log('New window is focused')
+        // })
+      })
     },
     // 歌词解析
     parseLyric (lrc) {
@@ -431,6 +463,7 @@ export default {
           top: -80px;
           left: 50%;
           transform: translateX(-50%);
+          z-index: 10;
           .volume-wrap{
             width: 6px;
             height: 70px;

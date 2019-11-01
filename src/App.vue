@@ -1,26 +1,20 @@
 <template>
   <div id="app" :style="{background:bgColor}">
-    <Header></Header>
-    <div class="route-container w">
+    <div class="route-container wh">
       <router-view></router-view>
     </div>
-    <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Header from './components/common/Header'
-import Footer from './components/common/Footer'
 export default {
   name: 'App',
   data () {
     return {
-      bgColor: '#fff'
+      bgColor: 'transparent'
     }
   },
   components: {
-    Header,
-    Footer
   },
 
   computed: {
@@ -50,7 +44,7 @@ export default {
           that.bgColor = '#0096E6'
         }
       } else {
-        that.bgColor = '#fff'
+        that.bgColor = 'transparent'
       }
     })
   },
@@ -63,28 +57,19 @@ export default {
 <style lang="scss" scoped>
   @import "./assets/styles/common/functions";
 #app {
-  /*width: 100%;*/
-  /*height: 100%;*/
   margin: 0 auto;
   width: 1004px;
-  height: 670px;
+  /*height: 670px;*/
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   overflow: hidden;
   display: flex;
+  background: transparent;
   flex-direction: column;
-  /*background-size: cover;*/
-  /*background-size: 100% 100%;*/
-  /*border: 1px solid #eee;*/
-  /*border-top-color:#0096E6;*/
-  /*border-bottom-color:#0096E6;*/
-  /*box-shadow: 0 0 1px #eee inset;*/
+  /*border-right: 1px solid #eee;*/
+  /*border-left: 1px solid #eee;*/
 }
 .route-container {
-  flex: 1;
-  /*height: px2vw(550);*/
-  border-right: 1px solid #eee;
-  border-left: 1px solid #eee;
 }
 </style>
