@@ -14,7 +14,8 @@ export default {
   name: 'LyricWindow',
   data () {
     return {
-      lyric: ''
+      lyric: '',
+      closeCb: null
     }
   },
   watch: {
@@ -32,6 +33,7 @@ export default {
       // nw.App.close()
       // win.on('close')
       win.close()
+      this.closeCb()
     },
     getLyric (e) {
       console.log(e.newValue)
@@ -40,11 +42,11 @@ export default {
   },
   mounted () {
     window.onstorage = this.getLyric
-    // var win = nw.Window.get()
+    var win = nw.Window.get()
     // win.on('focus', function (e) {
     //   console.log(e)
     // })
-    // this.win = win
+    this.closeCb = win.closeWin
     // console.log(win.nowLyric)
     // console.log(window.global)
     // console.log(win)

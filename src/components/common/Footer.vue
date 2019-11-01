@@ -91,7 +91,8 @@ export default {
       lyricIndex: 0,
       top: 0,
       nowLyric: '',
-      windowUrl: ''
+      windowUrl: '',
+      isShowLyric: false
     }
   },
   computed: {
@@ -225,27 +226,34 @@ export default {
       //   fullscreen: false,
       //   frame: true,
       //   transparent: true
-      nw.Window.open(this.windowUrl + 'lyric', {
-        width: 1004,
-        height: 70,
-        min_width: 1004,
-        min_height: 70,
-        max_width: 1004,
-        max_height: 70,
-        resizable: false,
-        show_in_taskbar: false,
-        always_on_top: true,
-        fullscreen: false,
-        frame: false,
-        kiosk: false,
-        transparent: true
-      }, function (new_win) {
-        // 监听新窗口焦点事件
-        console.log(new_win)
-        // new_win.on('focus', function () {
-        //   console.log('New window is focused')
-        // })
-      })
+      const that = this
+      if (!that.isShowLyric) {
+        nw.Window.open(this.windowUrl + 'lyric', {
+          width: 1004,
+          height: 70,
+          min_width: 1004,
+          min_height: 70,
+          max_width: 1004,
+          max_height: 70,
+          resizable: false,
+          show_in_taskbar: false,
+          always_on_top: true,
+          fullscreen: false,
+          frame: false,
+          kiosk: false,
+          transparent: true
+        }, function (new_win) {
+          // 监听新窗口焦点事件
+          console.log(new_win)
+          new_win.closeWin = that.childWindowClose
+        })
+        that.isShowLyric = true
+      }
+    },
+    childWindowClose () {
+      this.isShowLyric = false
+      console.log('歌词关闭了')
+      // console.log(e)
     },
     // 歌词解析
     parseLyric (lrc) {
