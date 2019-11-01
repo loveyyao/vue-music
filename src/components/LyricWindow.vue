@@ -37,7 +37,9 @@ export default {
     },
     getLyric (e) {
       console.log(e.newValue)
-      this.lyric = e.newValue.replace(/"/g, '')
+      if (e.newValue.indexOf('[') === -1) {
+        this.lyric = e.newValue.replace(/"/g, '')
+      }
     }
   },
   mounted () {
