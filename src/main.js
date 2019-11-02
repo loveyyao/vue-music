@@ -47,7 +47,7 @@ Vue.directive('drag', {
 Vue.directive('click', {
   inserted: function (el, cb) {
     el.onclick = function (ev) {
-      var disX = ev.clientX - el.getBoundingClientRect().left
+      var disX = ev.clientX - el.getBoundingClientRect().left - 4
       var disY = ev.clientY - el.getBoundingClientRect().top - 5
       // console.log(ev.clientY, el.getBoundingClientRect().top)
       cb && cb.value(el, disX, disY)
