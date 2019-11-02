@@ -64,15 +64,19 @@ export default {
   mounted () {
     window.onstorage = this.getLyric
     var win = nw.Window.get()
-    // win.on('focus', function (e) {
-    //   console.log(e)
-    // })
     this.closeCb = win.closeWin
     this.playLastMusic = win.playLastMusic
     this.playMusic = win.playMusic
     this.playNextMusic = win.playNextMusic
     // console.log(win.nowLyric)
     // console.log(window.global)
+    const flag = this.$utils.getItem('playStatus')
+    this.lyric = this.$utils.getItem('nowLyric')
+    if (flag === 'false') {
+      this.isPlay = false
+    } else {
+      this.isPlay = true
+    }
     console.log(win)
     // win.on()
   }

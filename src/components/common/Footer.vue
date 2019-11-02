@@ -26,10 +26,10 @@
       </div>
       <div class="bar-bottom">
         <div class="progress-bar-main cp">
-          <div class="progress-bar" ref="progressBar">
+          <div class="progress-bar" ref="progressBar" v-click="progressBarClick">
             <div class="progress-bar-inner" :style="{width:progressBarStyle + 'px'}"></div>
           </div>
-          <div class="dot" :style="{left:dotStyle + 'px'}"></div>
+          <div class="dot" v-drag="setMusicCurrentTime" :style="{left:dotStyle + 'px'}"></div>
         </div>
         <span class="time"><span>{{currentTime|realFormatSecond}}</span>/<span>{{maxTime|realFormatSecond}}</span></span>
       </div>
@@ -47,7 +47,7 @@
       <span class="icon pr">
         <i class="el-icon-headset"></i>
         <div class="volume-main">
-          <div class="volume-wrap">
+          <div class="volume-wrap" v-click="volumeClick">
             <div class="volume-inner" :style="{height: volumeBarH + 'px'}"></div>
             <div class="volume-dot" v-drag="setVolume" :style="{top:dotTop+'px'}"></div>
           </div>
@@ -159,6 +159,31 @@ export default {
     }
   },
   methods: {
+    progressBarClick (el, x, y) {
+      const maxTime = this.maxTime
+      let L = x
+      L = L <= 0 ? 0 : L
+      L = L >= 300 ? 300 : L
+      this.$refs.audio.currentTime = L / 300 * maxTime
+    },
+    // audio.currentTime
+    setMusicCurrentTime (el, t, l) {
+      const maxTime = this.maxTime
+      let L = l
+      L = L <= 0 ? 0 : L
+      L = L >= 300 ? 300 : L
+      this.$refs.audio.currentTime = L / 300 * maxTime
+      // el.style.left = L + 'px'
+    },
+    // 点击调整声音大小
+    volumeClick (el, x, y) {
+      // console.log(el, x, y)
+      this.dotTop = y
+      this.volumeBarH = (1 - y / 60) * 70
+      var volumeVal = 1 - y / 60
+      this.$refs.audio.volume = volumeVal
+      this.$utils.setItem('volume', volumeVal)
+    },
     // 获取进度条的宽度
     getProgressBarW () {
       const that = this
@@ -210,7 +235,7 @@ export default {
           if (res.data.code === 200) {
             // console.log(res.data.lrc.lyric.split(']'))
             const result = res.data.lrc.lyric
-            console.log(result)
+            // console.log(result)
             const lyric = this.parseLyric(result)
             this.lyric = lyric
             this.$store.commit('setLyric', lyric)
@@ -310,7 +335,9 @@ export default {
     },
     // 点击暂停和播放按钮
     playMusic () {
-      this.isPlay = !this.isPlay
+      if (this.url) {
+        this.isPlay = !this.isPlay
+      }
     },
     // 当timeupdate事件大概每秒一次，用来更新音频流的当前播放时间
     onTimeupdate (res) {
@@ -338,12 +365,16 @@ export default {
   },
   mounted () {
     this.windowUrl = window.location.href
-    console.log(1)
-    console.log(window.location.href)
+    // console.log(1)
+    // console.log(window.location.href)
     // console.log(this.$refs.audio.duration)
     // this.getSong(400162138)
     const that = this
-    const volumeVal = this.$utils.getItem('volume')
+    let volumeVal = this.$utils.getItem('volume')
+    // console.log(volumeVal)
+    if (volumeVal === null) {
+      volumeVal = 0.5
+    }
     that.volumeBarH = volumeVal * 70
     that.dotTop = (1 - volumeVal) * 60
     that.$refs.audio.volume = volumeVal

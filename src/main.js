@@ -25,6 +25,9 @@ Vue.prototype.$utils = Utils
 // 注册一个全局的拖拽指令
 Vue.directive('drag', {
   inserted: function (el, cb) {
+    el.onclick = function (ev) {
+      ev.stopPropagation()
+    }
     el.onmousedown = function (ev) {
       var disX = ev.clientX - el.offsetLeft
       var disY = ev.clientY - el.offsetTop
@@ -37,6 +40,17 @@ Vue.directive('drag', {
         document.onmousemove = null
         document.onmouseup = null
       }
+    }
+  }
+})
+// 注册全局获取点击相对元素位置
+Vue.directive('click', {
+  inserted: function (el, cb) {
+    el.onclick = function (ev) {
+      var disX = ev.clientX - el.getBoundingClientRect().left
+      var disY = ev.clientY - el.getBoundingClientRect().top - 5
+      // console.log(ev.clientY, el.getBoundingClientRect().top)
+      cb && cb.value(el, disX, disY)
     }
   }
 })

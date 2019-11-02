@@ -15,7 +15,7 @@
             <i class="el-icon-refresh"></i>
             <span class="tooltip pa">刷新</span>
         </span>
-        <div class="search cursor" @keydown.enter="searchSong">
+        <div class="search cursor" @keydown.enter="searchSong" @click="searchClick">
           <el-input
             size="small"
             ref="searchInput"
@@ -107,14 +107,25 @@ export default {
   data () {
     return {
       search: '', // 搜索
-      hostSearch: '', // 热门搜索
+      hostSearch: {}, // 热门搜索
       searchSuggest: {}, // 关联搜索
       showSuggest: false, // 控制关联搜索显示
       bgColor: '#0096E6',
       timer: null
     }
   },
+  // action: 0
+  // alg: "alg_query_hot"
+  // gap: 1
+  // realkeyword: "你笑起来真好看"
+  // searchType: 1018
+  // showKeyword: "你笑起来真好看 最近很火哦"
   methods: {
+    searchClick (e) {
+      if (e.target.className === 'el-input__icon el-icon-search') {
+        this.searchSong()
+      }
+    },
     // 点击最小化（在网页模式下会报错，点击没有效果）
     minWindow () {
       const win = nw.Window.get()
@@ -126,9 +137,12 @@ export default {
     },
     // 回车搜索
     searchSong () {
-      const keywords = this.search
+      let keywords = this.search
       // 触发输入框的失焦事件让关联搜索隐藏
       this.$refs.searchInput.blur()
+      if (keywords === '') {
+        keywords = this.hostSearch.realkeyword
+      }
       if (keywords.trim()) {
         // 触发事件显示搜索组件
         this.$bus.$emit('showSearch')
