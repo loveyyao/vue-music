@@ -68,9 +68,9 @@ https://nwjs.org.cn/
 <p align="center">
   <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/1.png" alt="首页"/>
   
-  <img src=""/>
+  <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/2.jpg" alt="歌词"/>
   
-  <img src=""/>
-  <img src="" />
+  <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/3.jpg" alt="搜索页"/>
+  <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/4.jpg" alt="桌面歌词" />
 </p>
 
