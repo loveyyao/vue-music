@@ -47,7 +47,7 @@ export default {
           that.bgColor = `url(${that.atPresentPlayMusic.imgUrl})`
         } else {
           // 不存在设置蓝色为全局背景
-          that.bgColor = '#0096E6'
+          that.bgColor = '#D79F00'
         }
       } else {
         that.bgColor = '#fff'

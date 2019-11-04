@@ -99,10 +99,10 @@ export default {
     rightActiveName (e) {
       // 当值为六的时候触发更换页面背景
       if (e === '6') {
-        // this.$bus.$emit('setBg', true)
+        this.$bus.$emit('setBg', true)
       } else {
         // 不为6的时候背景切换回来
-        // this.$bus.$emit('setBg', false)
+        this.$bus.$emit('setBg', false)
       }
     }
   },

@@ -41,8 +41,9 @@
       <span class="icon">
         <i class="el-icon-download"></i>
       </span>
-      <span class="icon">
-        <i class="el-icon-sort"></i>
+      <span class="icon" @click="triggerMode">
+        <i class="el-icon-sort rotate" v-if="!isRandom"></i>
+        <i class="random" v-else></i>
       </span>
       <span class="icon pr">
         <i class="el-icon-headset"></i>
@@ -89,7 +90,8 @@ export default {
       top: 0,
       nowLyric: '',
       windowUrl: '',
-      isShowLyric: false
+      isShowLyric: false,
+      isRandom: false
     }
   },
   computed: {
@@ -152,6 +154,9 @@ export default {
     }
   },
   methods: {
+    triggerMode () {
+      this.isRandom = !this.isRandom
+    },
     progressBarClick (el, x, y) {
       const maxTime = this.maxTime
       let L = x
@@ -291,9 +296,14 @@ export default {
     // 点击上一首
     playLastMusic () {
       const {atPresentPlayMusic, defaultList} = this
-      let index = defaultList.indexOf(atPresentPlayMusic) - 1
-      if (index < 0) {
-        index = this.defaultList.length - 1
+      let index = 0
+      if (this.isRandom) {
+        index = Math.floor(Math.random() * (this.defaultList.length - 1))
+      } else {
+        index = defaultList.indexOf(atPresentPlayMusic) - 1
+        if (index < 0) {
+          index = this.defaultList.length - 1
+        }
       }
       this.$bus.$emit('setPlayIndex', index)
       this.$store.commit('setAtPresentPlayMusic', defaultList[index])
@@ -301,10 +311,16 @@ export default {
     // 点击下一首
     playNextMusic () {
       const {atPresentPlayMusic, defaultList} = this
-      let index = defaultList.indexOf(atPresentPlayMusic) + 1
-      if (index >= this.defaultList.length) {
-        index = 0
+      let index = 0
+      if (this.isRandom) {
+        index = Math.floor(Math.random() * (this.defaultList.length - 1))
+      } else {
+        index = defaultList.indexOf(atPresentPlayMusic) + 1
+        if (index >= this.defaultList.length) {
+          index = 0
+        }
       }
+      console.log(index)
       this.$bus.$emit('setPlayIndex', index)
       this.$store.commit('setAtPresentPlayMusic', defaultList[index])
     },
@@ -364,6 +380,9 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/styles/common/functions";
+  .rotate{
+    transform: rotate(90deg);
+  }
   .footer{
     height: 70px;
     display: flex;
@@ -467,6 +486,14 @@ export default {
         font-size: px2vw(25);
         margin-right: px2vw(15);
         cursor: pointer;
+        .random{
+          margin-top: 6px;
+          display: inline-block;
+          width: 25px;
+          height: 25px;
+          background: url("../../../static/random-loop.svg");
+          background-size: 100% 100%;
+        }
         .volume-main{
           display: none;
           width: 16px;

@@ -57,7 +57,7 @@ export default {
     position: relative;
     padding-top: 5px;
     /*padding: 10px 0;*/
-    background: linear-gradient(#29bdd9, #276ace);
+    /*background: linear-gradient(#29bdd9, #276ace);*/
     .lyric-list{
       width: 100%;
       position: absolute;
