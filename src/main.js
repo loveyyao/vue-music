@@ -12,6 +12,9 @@ import Utils from './utils/VueUtils'
 import './assets/styles/common/common.scss'
 import './assets/styles/element-reset.scss'
 import { realFormatSecond, FormattedNumber } from './filter'
+import elTableInfiniteScroll from 'el-table-infinite-scroll'
+
+Vue.use(elTableInfiniteScroll)
 require('./assets/main.css')
 Vue.config.productionTip = false
 Vue.use(ElementUI, {

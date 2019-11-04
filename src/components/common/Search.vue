@@ -15,6 +15,8 @@
           tooltip-effect="dark"
           class="searchTable"
           style="width: 100%"
+          height="472px"
+          v-el-table-infinite-scroll="loadSong"
           :header-cell-style="tableHeaderColor"
           @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="30"></el-table-column>
@@ -70,9 +72,33 @@ export default {
     },
     defaultList () {
       return this.$store.state.defaultList
+    },
+    keywords () {
+      return this.$store.state.keywords
+    },
+    offset () {
+      return this.$store.state.offset
     }
   },
   methods: {
+    loadSong () {
+      const that = this
+      const {keywords, offset} = that
+      that.$axios.get('search', {
+        keywords: keywords,
+        offset: offset + 1
+      })
+        .then((res) => {
+          if (res.data.code === 200) {
+            that.$store.commit('addData', res.data.result.songs)
+            console.log(res.data.result.songs)
+          }
+        })
+      that.$store.commit('setSearchInfo', {
+        keywords: keywords,
+        offset: offset + 1
+      })
+    },
     handleClick () {},
     // 点击加号添加到默认列表
     addDefaultList (row) {

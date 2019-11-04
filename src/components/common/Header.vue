@@ -111,7 +111,8 @@ export default {
       searchSuggest: {},
       showSuggest: false,
       bgColor: '#0096E6',
-      timer: null
+      timer: null,
+      offset: 0
     }
   },
   methods: {
@@ -136,16 +137,25 @@ export default {
     // 回车搜索
     searchSong () {
       let keywords = this.search
+      const offset = this.offset
       // 触发输入框的失焦事件让关联搜索隐藏
       this.$refs.searchInput.blur()
       if (keywords === '') {
         keywords = this.hostSearch.realkeyword
       }
       if (keywords.trim()) {
+        this.$store.commit('setSearchInfo', {
+          keywords: keywords,
+          offset: offset
+        })
         // 触发事件显示搜索组件
         this.$bus.$emit('showSearch')
+        this.$store.commit('delData', [])
         // 发送请求
-        this.$axios.get('search', {keywords})
+        this.$axios.get('search', {
+          keywords: keywords,
+          offset: offset
+        })
           .then((res) => {
             if (res.data.code === 200) {
               this.$store.commit('addData', res.data.result.songs)

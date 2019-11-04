@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
 const state = {
+  keywords: '',
+  offset: 0,
   searchList: [],
   atPresent: {}, // 存放当前播放歌曲
   defaultList: [], // 默认播放列表
@@ -15,9 +17,16 @@ const getters = {
 }
 
 const mutations = {
+  setSearchInfo: function (state, data) {
+    state.keywords = data.keywords
+    state.offset = data.offset
+  },
   // 添加搜索列表数据
   addData: function (state, data) {
-    state.searchList = [...data]
+    state.searchList = [...state.searchList, ...data]
+  },
+  delData: function (state, data) {
+    state.searchList = data
   },
   // 设置当前播放
   setAtPresentPlayMusic: function (state, data) {
