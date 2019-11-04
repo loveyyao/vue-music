@@ -66,7 +66,8 @@ https://nwjs.org.cn/
 提取码：shez
 # 预览 
 <p align="center">
-  <img src=""/>
+  <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/1.png" alt="首页"/>
+  
   <img src=""/>
   
   <img src=""/>
