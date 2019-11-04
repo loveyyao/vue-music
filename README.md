@@ -61,4 +61,7 @@ https://nwjs.org.cn/
   "node-remote": "<all_urls>"
 }
 ```
+# 安装包下载体验
+链接：https://pan.baidu.com/s/1JfM83BhW3Hvpv8NUxknnLA 
+提取码：shez
 
