@@ -24,9 +24,8 @@ export default {
   },
 
   computed: {
-    // 从vuex中获取当前需要播放的音乐
-    atPresentPlayMusic () {
-      return this.$store.state.atPresent
+    picUrl () {
+      return this.$store.state.picUrl
     }
   },
 
@@ -42,12 +41,13 @@ export default {
     that.$bus.$on('setBg', function (e) {
       if (e) {
         // 判断是否存在歌手写真路劲
-        if (that.atPresentPlayMusic.imgUrl) {
+        if (that.picUrl) {
           // 存在设置为写真背景
-          that.bgColor = `url(${that.atPresentPlayMusic.imgUrl})`
+          // that.bgColor = `url(${that.picUrl}) center center`
         } else {
           // 不存在设置蓝色为全局背景
           that.bgColor = '#D79F00'
+          // that.bgColor = `url(${that.picUrl}) center center`
         }
       } else {
         that.bgColor = '#fff'

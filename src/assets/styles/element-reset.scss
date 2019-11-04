@@ -1,5 +1,9 @@
 @import "./common/functions";
 .main {
+  .el-tabs__nav-wrap::after{
+    content: '';
+    width: 0;
+  }
   .el-tabs__header{
     margin: 0;
   }

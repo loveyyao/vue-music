@@ -1,6 +1,6 @@
 <template>
   <div class="main wh">
-    <div class="main-left h">
+    <div class="main-left pr h" :class="{border: showBorder}">
       <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">
         <el-tab-pane name="0">
           <span slot="label" class="tabs-icon"><i class="el-icon-headset"></i></span>
@@ -43,8 +43,9 @@
           待开发
         </el-tab-pane>
       </el-tabs>
+      <div class="line"></div>
     </div>
-    <div class="main-right h">
+    <div class="main-right pr h">
       <el-tabs v-model="rightActiveName" :stretch="true" @tab-click="handleClick">
         <el-tab-pane label="乐库" name="0">
           待开发（目前只有搜索功能）
@@ -59,6 +60,7 @@
       <Search v-if="!rightActiveName"></Search>
       <!--      <Search/>-->
       <Lyric v-if="rightActiveName==='6'"></Lyric>
+      <div class="line" v-show="showLine"></div>
     </div>
   </div>
 </template>
@@ -77,7 +79,9 @@ export default {
       rightActiveName: '0',
       activeName: '0',
       collapseActive: '',
-      playIndex: null
+      playIndex: null,
+      showBorder: true,
+      showLine: true
     }
   },
 
@@ -85,6 +89,9 @@ export default {
     // 获取默认播放列表
     defaultList () {
       return this.$store.state.defaultList
+    },
+    atPresentPlayMusic () {
+      return this.$store.state.atPresent
     }
   },
   watch: {
@@ -100,9 +107,23 @@ export default {
       // 当值为六的时候触发更换页面背景
       if (e === '6') {
         this.$bus.$emit('setBg', true)
+        this.showBorder = false
+        this.showLine = false
+        this.$axios.get('song/detail', {
+          ids: this.atPresentPlayMusic.id
+        })
+          .then((res) => {
+            console.log(res.data)
+            if (res.data.code === 200) {
+              console.log(res.data.songs[0].al.picUrl)
+              this.$store.commit('addPicUrl', res.data.songs[0].al.picUrl)
+            }
+          })
       } else {
         // 不为6的时候背景切换回来
         this.$bus.$emit('setBg', false)
+        this.showBorder = true
+        this.showLine = true
       }
     }
   },
@@ -145,9 +166,13 @@ export default {
     /*background-color:#fff;*/
     .main-left{
       width: 300px;
-      border-right: 2px solid #eee;
+      border-right: 2px solid transparent;
+      background: rgba(255,255,255,.3);
       overflow: hidden;
       /*padding-left: px2vw(10);*/
+      &.border{
+        border-color: #eee;
+      }
       .tabs-icon{
         font-size: 20px;
       }
@@ -215,6 +240,14 @@ export default {
       overflow: hidden;
       display: flex;
       flex-direction: column;
+    }
+    .line{
+      width: 100%;
+      height: 2px;
+      background: #eee;
+      position: absolute;
+      top: 38px;
+      left: 0;
     }
   }
 </style>

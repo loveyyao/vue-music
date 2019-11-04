@@ -65,7 +65,7 @@ export default {
           album: item.artists[0].name,
           time: item.duration / 1000,
           host: '',
-          imgUrl: item.artists[0].img1v1Url
+          // imgUrl: item.artists[0].img1v1Url
         }
       })
       return result

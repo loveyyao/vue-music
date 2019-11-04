@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
 const state = {
+  picUrl: '',
   keywords: '',
   offset: 0,
   searchList: [],
@@ -17,6 +18,9 @@ const getters = {
 }
 
 const mutations = {
+  addPicUrl: function (state, data) {
+    state.picUrl = data
+  },
   setSearchInfo: function (state, data) {
     state.keywords = data.keywords
     state.offset = data.offset
