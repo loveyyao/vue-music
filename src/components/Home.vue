@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :style="{background:bgColor}">
+  <div class="app" :style="{background:bgColor}">
     <Header></Header>
     <Home/>
     <Footer></Footer>
@@ -43,7 +43,7 @@ export default {
         // 判断是否存在歌手写真路劲
         if (that.picUrl) {
           // 存在设置为写真背景
-          // that.bgColor = `url(${that.picUrl}) center center`
+          that.bgColor = `url(${that.picUrl}) center center`
         } else {
           // 不存在设置蓝色为全局背景
           that.bgColor = '#D79F00'
@@ -62,9 +62,7 @@ export default {
 
 <style lang="scss" scoped>
   @import "../assets/styles/common/functions";
-  #app {
-    /*width: 100%;*/
-    /*height: 100%;*/
+  .app {
     margin: 0 auto;
     width: 1004px;
     height: 670px;
@@ -74,16 +72,14 @@ export default {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    /*background-size: cover;*/
-    /*background-size: 100% 100%;*/
-    /*border: 1px solid #eee;*/
-    /*border-top-color:#0096E6;*/
-    /*border-bottom-color:#0096E6;*/
     box-shadow: 0 0 1px #000 inset;
+    &.bg{
+      background: url("../assets/img/bg.jpg") center center no-repeat;
+      background-size: 100% 100%;
+    }
   }
   .route-container {
     flex: 1;
-    /*height: px2vw(550);*/
     border-right: 1px solid #eee;
     border-left: 1px solid #eee;
   }
