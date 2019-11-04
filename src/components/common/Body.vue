@@ -109,18 +109,6 @@ export default {
         this.$bus.$emit('setBg', true)
         this.showBorder = false
         this.showLine = false
-        if (this.atPresentPlayMusic.id) {
-          this.$axios.get('song/detail', {
-            ids: this.atPresentPlayMusic.id
-          })
-            .then((res) => {
-              console.log(res.data)
-              if (res.data.code === 200) {
-                console.log(res.data.songs[0].al.picUrl)
-                this.$store.commit('addPicUrl', res.data.songs[0].al.picUrl)
-              }
-            })
-        }
       } else {
         // 不为6的时候背景切换回来
         this.$bus.$emit('setBg', false)
@@ -130,7 +118,9 @@ export default {
     }
   },
   methods: {
-    handleClick () {},
+    handleClick () {
+      this.$store.commit('setShowBg', this.rightActiveName)
+    },
     playMusic (data, index) {
       if (this.playIndex !== index) {
         this.playIndex = index
@@ -190,7 +180,7 @@ export default {
           display: flex;
           align-items: center;
           &.active{
-            background: #eee;
+            background: rgba(238,238,238,.5);
           }
           .icon{
             opacity: 0;
@@ -221,7 +211,7 @@ export default {
             }
           }
           &:hover{
-            background: #eee;
+            background: rgba(238,238,238,.5);
             .icon{
               opacity: 1;
             }

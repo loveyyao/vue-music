@@ -1,5 +1,5 @@
 <template>
-  <div class="app" :style="{background:bgColor}">
+  <div class="app" :style="{backgroundImage:bgImage,backgroundSize:'100% 100%',backgroundColor:bgColor}">
     <Header></Header>
     <Home/>
     <Footer></Footer>
@@ -14,7 +14,8 @@ export default {
   name: 'App',
   data () {
     return {
-      bgColor: '#fff'
+      bgImage: '',
+      bgColor: ''
     }
   },
   components: {
@@ -26,12 +27,29 @@ export default {
   computed: {
     picUrl () {
       return this.$store.state.picUrl
+    },
+    isShowBg () {
+      return this.$store.state.isShowBg
     }
   },
 
   watch: {
+    picUrl (e) {
+      const that = this
+      if (e) {
+        // 判断是否存在歌手写真路劲
+        that.triggerBg()
+      }
+    }
   },
-
+  methods: {
+    triggerBg () {
+      const that = this
+      if (this.isShowBg === '6') {
+        that.$bus.$emit('setBg', true)
+      }
+    }
+  },
   mounted () {
     // console.log(this.$utils)
     const that = this
@@ -43,20 +61,19 @@ export default {
         // 判断是否存在歌手写真路劲
         if (that.picUrl) {
           // 存在设置为写真背景
-          that.bgColor = `url(${that.picUrl}) center center`
+          that.bgImage = `url(${that.picUrl})`
         } else {
           // 不存在设置蓝色为全局背景
+          that.bgImage = 'none'
           that.bgColor = '#D79F00'
           // that.bgColor = `url(${that.picUrl}) center center`
         }
       } else {
+        that.bgImage = 'none'
         that.bgColor = '#fff'
       }
     })
   },
-
-  methods: {
-  }
 }
 </script>
 
@@ -73,10 +90,9 @@ export default {
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 1px #000 inset;
-    &.bg{
-      background: url("../assets/img/bg.jpg") center center no-repeat;
-      background-size: 100% 100%;
-    }
+    background-color: #fff;
+    /*filter: brightness(0.8);*/
+    /*background-color: #D79F00;*/
   }
   .route-container {
     flex: 1;

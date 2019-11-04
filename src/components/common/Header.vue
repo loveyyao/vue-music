@@ -195,7 +195,7 @@ export default {
     // 参数e为true时表示在歌词页面
     that.$bus.$on('setBg', function (e) {
       if (e) {
-        that.bgColor = 'none'
+        that.bgColor = 'rgba(0,0,0,.1)'
       } else {
         that.bgColor = '#0096E6'
       }

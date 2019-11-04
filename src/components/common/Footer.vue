@@ -234,6 +234,17 @@ export default {
             this.$store.commit('setLyric', lyric)
           }
         })
+      // 获取歌手封面
+      this.$axios.get('song/detail', {
+        ids: id
+      })
+        .then((res) => {
+          console.log(res.data)
+          if (res.data.code === 200) {
+            console.log(res.data.songs[0].al.picUrl)
+            this.$store.commit('addPicUrl', res.data.songs[0].al.picUrl)
+          }
+        })
     },
     openChildWindow () {
       const that = this
@@ -366,7 +377,7 @@ export default {
     // 参数e为true时表示在歌词页面
     that.$bus.$on('setBg', function (e) {
       if (e) {
-        that.bgColor = 'none'
+        that.bgColor = 'rgba(0,0,0,.1)'
       } else {
         that.bgColor = '#0096E6'
       }
