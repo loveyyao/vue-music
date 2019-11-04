@@ -64,4 +64,12 @@ https://nwjs.org.cn/
 # 安装包下载体验
 链接：https://pan.baidu.com/s/1JfM83BhW3Hvpv8NUxknnLA 
 提取码：shez
+# 预览 
+<p align="center">
+  <img src=""/>
+  <img src=""/>
+  
+  <img src=""/>
+  <img src="" />
+</p>
 
