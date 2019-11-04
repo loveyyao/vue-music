@@ -106,20 +106,14 @@ export default {
   name: 'Header',
   data () {
     return {
-      search: '', // 搜索
-      hostSearch: {}, // 热门搜索
-      searchSuggest: {}, // 关联搜索
-      showSuggest: false, // 控制关联搜索显示
+      search: '',
+      hostSearch: {},
+      searchSuggest: {},
+      showSuggest: false,
       bgColor: '#0096E6',
       timer: null
     }
   },
-  // action: 0
-  // alg: "alg_query_hot"
-  // gap: 1
-  // realkeyword: "你笑起来真好看"
-  // searchType: 1018
-  // showKeyword: "你笑起来真好看 最近很火哦"
   methods: {
     searchClick (e) {
       if (e.target.className === 'el-input__icon el-icon-search') {
@@ -129,11 +123,15 @@ export default {
     // 点击最小化（在网页模式下会报错，点击没有效果）
     minWindow () {
       const win = nw.Window.get()
-      win.minimize()
+      if (win) {
+        win.minimize()
+      }
     },
     // 点击关闭窗口（网页模式下点击包错，没有效果）
     closeWindow () {
-      nw.App.quit()
+      if (nw) {
+        nw.App.quit()
+      }
     },
     // 回车搜索
     searchSong () {
@@ -150,7 +148,6 @@ export default {
         this.$axios.get('search', {keywords})
           .then((res) => {
             if (res.data.code === 200) {
-              // 把返回数据存储到vuex
               this.$store.commit('addData', res.data.result.songs)
               console.log(res.data.result.songs)
             }
@@ -188,10 +185,8 @@ export default {
     // 参数e为true时表示在歌词页面
     that.$bus.$on('setBg', function (e) {
       if (e) {
-        // 当在歌词页的时候去除背景颜色
         that.bgColor = 'none'
       } else {
-        // 当不在歌词页的时候设置背景颜色
         that.bgColor = '#0096E6'
       }
     })

@@ -46,10 +46,12 @@ export default {
     // 点击关闭窗口（网页模式下点击包错，没有效果）
     closeWindow () {
       const win = nw.Window.get()
+      if (win) {
+        win.close()
+        this.closeCb()
+      }
       // nw.App.close()
       // win.on('close')
-      win.close()
-      this.closeCb()
     },
     getLyric (e) {
       console.log(e.storageArea.playStatus) // 字符串的 false 和true

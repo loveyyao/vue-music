@@ -72,22 +72,19 @@
 </template>
 
 <script>
-// import nw from '@types/nw.gui'
 export default {
   name: 'Footer',
   data () {
     return {
-      url: '', // 音乐地址
+      url: '',
       isPlay: false,
-      // 音频当前播放时长
       currentTime: 0,
-      // 音频最大播放时长
       maxTime: 0,
       volumeBarH: 35,
       bgColor: '#0096E6',
       dotTop: 0,
-      progressBarW: 290, // 进度条能移动的最大宽度，默认290
-      lyric: {}, // 存放歌词
+      progressBarW: 290,
+      lyric: {},
       lyricIndex: 0,
       top: 0,
       nowLyric: '',
@@ -131,10 +128,8 @@ export default {
     // 监视isPlay属性
     isPlay (e) {
       if (e) {
-        // 为true时播放音乐
         this.$refs.audio.play()
       } else {
-        // 暂停
         this.$refs.audio.pause()
       }
       this.$utils.setItem('playStatus', e)
@@ -142,9 +137,7 @@ export default {
     // 监视vuex中当前播放音乐属性
     atPresentPlayMusic (e) {
       const that = this
-      // 当当前播放的音乐发生变化时，播放暂停
       this.isPlay = false
-      // 请求变化后的音乐资源
       this.getSong(e.id, function () {
         that.isPlay = true
       })
@@ -204,7 +197,6 @@ export default {
     },
     // 请求当前播放音乐播放地址
     getSong (id, cb) {
-      // 获取音乐播放路劲
       this.lyricIndex = 0
       this.top = 0
       this.$store.commit('setLyricIndex', {index: this.lyricIndex, top: this.top})
@@ -212,11 +204,9 @@ export default {
         .then((res) => {
           // console.log(res)
           if (res.data.code === 200) {
-            // 请求回来后设置音乐播放地址
             // console.log(res.data)
             this.url = res.data.data[0].url
             setTimeout(() => {
-              // 调用音乐播放函数
               cb && cb()
             }, 0)
           }
@@ -233,27 +223,16 @@ export default {
       this.$axios.get('lyric', {id: id})
         .then((res) => {
           if (res.data.code === 200) {
-            // console.log(res.data.lrc.lyric.split(']'))
             const result = res.data.lrc.lyric
-            // console.log(result)
             const lyric = this.parseLyric(result)
             this.lyric = lyric
             this.$store.commit('setLyric', lyric)
-            // console.log(lyric)
-            // this.lyric = lyric
           }
         })
     },
     openChildWindow () {
-      // var win = nw.Window.get()
-      // 创建窗口并获取它的窗口对象
-      // show_in_taskbar: false,
-      //   always_on_top: true,
-      //   fullscreen: false,
-      //   frame: true,
-      //   transparent: true
       const that = this
-      if (!that.isShowLyric) {
+      if (nw && !that.isShowLyric) {
         nw.Window.open(this.windowUrl + 'lyric', {
           width: 1004,
           height: 70,
@@ -304,7 +283,6 @@ export default {
       }
       return lrcObj
     },
-    // 当前音乐资源播放完后触发的事件
     playEnd () {
       // 播放下一曲
       this.playNextMusic()
@@ -312,9 +290,6 @@ export default {
     },
     // 点击上一首
     playLastMusic () {
-      // if (this.defaultList.length > 1) {
-      //   this.$emit('last')
-      // }
       const {atPresentPlayMusic, defaultList} = this
       let index = defaultList.indexOf(atPresentPlayMusic) - 1
       if (index < 0) {
@@ -348,8 +323,6 @@ export default {
       const lyric = this.lyric
       for (var t in lyric) {
         if (currentTime >= t && lyric[t].trim()) {
-          // this.lyricIndex = this.lyricIndex + 1
-          // this.$store.commit('setLyricIndex', this.lyricIndex)
           this.nowLyric = t
           continue
         }
@@ -365,10 +338,6 @@ export default {
   },
   mounted () {
     this.windowUrl = window.location.href
-    // console.log(1)
-    // console.log(window.location.href)
-    // console.log(this.$refs.audio.duration)
-    // this.getSong(400162138)
     const that = this
     let volumeVal = this.$utils.getItem('volume')
     // console.log(volumeVal)
@@ -381,10 +350,8 @@ export default {
     // 参数e为true时表示在歌词页面
     that.$bus.$on('setBg', function (e) {
       if (e) {
-        // 当在歌词页的时候去除背景颜色
         that.bgColor = 'none'
       } else {
-        // 当不在歌词页的时候设置背景颜色
         that.bgColor = '#0096E6'
       }
     })

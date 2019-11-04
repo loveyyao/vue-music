@@ -94,7 +94,6 @@ export default {
           if (res.status === 200) {
             this.$store.commit('setAtPresentPlayMusic', row)
             if (this.id !== row.id) {
-              // 把点击播放的列表添加到默认列表中
               this.$store.commit('addDefaultList', [row])
               this.$bus.$emit('setPlayIndex', this.defaultList.length - 1)
               this.id = row.id

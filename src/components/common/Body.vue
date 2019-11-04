@@ -77,7 +77,7 @@ export default {
       rightActiveName: '0',
       activeName: '0',
       collapseActive: '',
-      playIndex: null // 当前播放下标
+      playIndex: null
     }
   },
 
