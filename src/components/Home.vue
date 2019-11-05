@@ -65,7 +65,7 @@ export default {
         } else {
           // 不存在设置蓝色为全局背景
           that.bgImage = 'none'
-          that.bgColor = '#D79F00'
+          that.bgColor = '#41B883'
           // that.bgColor = `url(${that.picUrl}) center center`
         }
       } else {

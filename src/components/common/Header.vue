@@ -110,7 +110,7 @@ export default {
       hostSearch: {},
       searchSuggest: {},
       showSuggest: false,
-      bgColor: '#0096E6',
+      bgColor: '#41B883',
       timer: null,
       offset: 0
     }
@@ -197,7 +197,7 @@ export default {
       if (e) {
         that.bgColor = 'rgba(0,0,0,.1)'
       } else {
-        that.bgColor = '#0096E6'
+        that.bgColor = '#41B883'
       }
     })
   },

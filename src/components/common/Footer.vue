@@ -82,7 +82,7 @@ export default {
       currentTime: 0,
       maxTime: 0,
       volumeBarH: 35,
-      bgColor: '#0096E6',
+      bgColor: '#41B883',
       dotTop: 0,
       progressBarW: 290,
       lyric: {},
@@ -396,7 +396,7 @@ export default {
       if (e) {
         that.bgColor = 'rgba(0,0,0,.1)'
       } else {
-        that.bgColor = '#0096E6'
+        that.bgColor = '#41B883'
       }
     })
     that.getProgressBarW()
