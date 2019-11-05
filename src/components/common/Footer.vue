@@ -188,7 +188,7 @@ export default {
     getProgressBarW () {
       const that = this
       that.progressBarW = that.$refs.progressBar.clientWidth
-      // console.log('窗口变化了')
+      console.log('窗口变化了')
     },
     // 拖拽事件触发是调用的函数
     // el：当前元素 t：top的值 l：left的值
@@ -399,7 +399,12 @@ export default {
     })
     that.getProgressBarW()
     // 当窗口发生变化时时时获取计算进度条最大宽度
-    window.onresize = that.getProgressBarW
+    window.addEventListener('resize', that.getProgressBarW)
+    // window.onresize = that.getProgressBarW
+    // if (nw) {
+    //   const win = nw.Window.get()
+    //   // win.on('resize', that.getProgressBarW)
+    // }
   }
 }
 </script>
