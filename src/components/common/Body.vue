@@ -5,22 +5,24 @@
         <el-tab-pane name="0">
           <span slot="label" class="tabs-icon"><i class="el-icon-headset"></i></span>
           <el-collapse v-model="collapseActive" accordion>
-            <div class="list-container">
+            <div class="list-container" :style="{height:listH+'px'}">
               <el-collapse-item :title="'默认列表 '+'[ '+defaultList.length+' ]'" name="1">
-                <div class="music-item pr"
-                     v-for="(item, index) in defaultList"
-                     @dblclick="playMusic(item,index)"
-                     :key="index"
-                     :class="{active:playIndex===index}"
-                >
-                  <span class="icon cursor"><i class="el-icon-plus"></i></span>
-                  <span class="music-mame">{{item.name}}</span>
-                  <span class="music-time">{{item.time|realFormatSecond}}</span>
-                  <span class="options pa pc">
+                <div class="music-list-wrap" :style="{height:listH -50 +'px'}">
+                  <div class="music-item pr"
+                       v-for="(item, index) in defaultList"
+                       @dblclick="playMusic(item,index)"
+                       :key="index"
+                       :class="{active:playIndex===index}"
+                  >
+                    <span class="icon cursor"><i class="el-icon-plus"></i></span>
+                    <span class="music-mame">{{item.name}}</span>
+                    <span class="music-time">{{item.time|realFormatSecond}}</span>
+                    <span class="options pa pc">
                         <i class="el-icon-star-off cursor"></i>
                         <i class="el-icon-delete cursor" @click.stop="deleteMusic(index)"></i>
                         <i class="el-icon-more cursor"></i>
                       </span>
+                  </div>
                 </div>
               </el-collapse-item>
             </div>
@@ -81,7 +83,8 @@ export default {
       collapseActive: '',
       playIndex: null,
       showBorder: true,
-      showLine: true
+      showLine: true,
+      listH: 0
     }
   },
 
@@ -133,6 +136,11 @@ export default {
         this.playIndex = this.playIndex - 1
       }
       this.$store.commit('delMusic', index)
+    },
+    getWindowWH () {
+      const H = document.documentElement.clientHeight
+      this.listH = H - 160
+      this.$store.commit('setWindowH', this.listH)
     }
   },
   created () {
@@ -140,6 +148,7 @@ export default {
   },
   mounted () {
     const that = this
+    that.getWindowWH()
     // 绑定一个触发搜索列表组件显示的方法
     that.$bus.$on('showSearch', function () {
       that.rightActiveName = ''
@@ -149,6 +158,7 @@ export default {
     that.$bus.$on('setPlayIndex', function (index) {
       that.playIndex = index
     })
+    window.onresize = that.getWindowWH()
   }
 }
 </script>
@@ -172,57 +182,61 @@ export default {
       }
       .list-container{
         width: 100%;
-        height: px2vw(529);
+        /*height: px2vw(529);*/
         /*height: 100%;*/
         overflow-y: auto;
-        .music-item{
+        .music-list-wrap{
           width: 100%;
-          height: px2vw(40);
-          padding-left: px2vw(5);
-          display: flex;
-          align-items: center;
-          &.active{
-            background: rgba(238,238,238,.5);
-          }
-          .icon{
-            opacity: 0;
-            transition: opacity .1s;
-            margin-right: 5px;
-          }
-          .music-mame{
-            line-height: px2vw(40);
-            display: inline-block;
-            width: 185px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
-          .music-time{
-            opacity: 1;
-            transition: opacity .1s;
-          }
-          .options{
-            top: 50%;
-            right: px2vw(30);
-            transform: translateY(-50%);
-            /*display: none;*/
-            opacity: 0;
-            transition: opacity .1s;
-            i{
-              margin-left: px2vw(5);
+          overflow-y: auto;
+          .music-item{
+            width: 100%;
+            height: px2vw(40);
+            padding-left: px2vw(5);
+            display: flex;
+            align-items: center;
+            &.active{
+              background: rgba(238,238,238,.5);
             }
-          }
-          &:hover{
-            background: rgba(238,238,238,.5);
             .icon{
-              opacity: 1;
+              opacity: 0;
+              transition: opacity .1s;
+              margin-right: 5px;
+            }
+            .music-mame{
+              line-height: px2vw(40);
+              display: inline-block;
+              width: 185px;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
             }
             .music-time{
-              /*display: none;*/
-              opacity: 0;
+              opacity: 1;
+              transition: opacity .1s;
             }
             .options{
-              opacity: 1;
+              top: 50%;
+              right: px2vw(30);
+              transform: translateY(-50%);
+              /*display: none;*/
+              opacity: 0;
+              transition: opacity .1s;
+              i{
+                margin-left: px2vw(5);
+              }
+            }
+            &:hover{
+              background: rgba(238,238,238,.5);
+              .icon{
+                opacity: 1;
+              }
+              .music-time{
+                /*display: none;*/
+                opacity: 0;
+              }
+              .options{
+                opacity: 1;
+              }
             }
           }
         }

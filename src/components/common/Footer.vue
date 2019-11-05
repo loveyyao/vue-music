@@ -159,18 +159,20 @@ export default {
     },
     progressBarClick (el, x, y) {
       const maxTime = this.maxTime
+      const progressBarW = this.progressBarW
       let L = x
       L = L <= 0 ? 0 : L
-      L = L >= 300 ? 300 : L
-      this.$refs.audio.currentTime = L / 300 * maxTime
+      L = L >= progressBarW ? progressBarW : L
+      this.$refs.audio.currentTime = L / progressBarW * maxTime
     },
     // audio.currentTime
     setMusicCurrentTime (el, t, l) {
       const maxTime = this.maxTime
+      const progressBarW = this.progressBarW
       let L = l
       L = L <= 0 ? 0 : L
-      L = L >= 300 ? 300 : L
-      this.$refs.audio.currentTime = L / 300 * maxTime
+      L = L >= progressBarW ? progressBarW : L
+      this.$refs.audio.currentTime = L / progressBarW * maxTime
       // el.style.left = L + 'px'
     },
     // 点击调整声音大小
@@ -311,7 +313,10 @@ export default {
       if (this.isRandom) {
         index = Math.floor(Math.random() * (this.defaultList.length - 1))
         if (index === defaultList.indexOf(atPresentPlayMusic)) {
-          this.playLastMusic()
+          index = defaultList.indexOf(atPresentPlayMusic) - 1
+          if (index < 0) {
+            index = this.defaultList.length - 1
+          }
         }
       } else {
         index = defaultList.indexOf(atPresentPlayMusic) - 1
@@ -329,7 +334,10 @@ export default {
       if (this.isRandom) {
         index = Math.floor(Math.random() * (this.defaultList.length - 1))
         if (index === defaultList.indexOf(atPresentPlayMusic)) {
-          this.playNextMusic()
+          index = defaultList.indexOf(atPresentPlayMusic) + 1
+          if (index >= this.defaultList.length) {
+            index = 0
+          }
         }
       } else {
         index = defaultList.indexOf(atPresentPlayMusic) + 1

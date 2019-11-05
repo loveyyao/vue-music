@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
 const state = {
+  windowH: 0,
   isShowBg: '',
   picUrl: '',
   keywords: '',
@@ -19,6 +20,9 @@ const getters = {
 }
 
 const mutations = {
+  setWindowH: function (state, data) {
+    state.windowH = data
+  },
   setShowBg: function (state, data) {
     state.isShowBg = data
   },

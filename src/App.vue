@@ -62,8 +62,10 @@ export default {
   @import "./assets/styles/common/functions";
 #app {
   margin: 0 auto;
-  width: 1004px;
+  /*width: 1004px;*/
+  width: 100%;
   /*height: 670px;*/
+  height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;

@@ -80,9 +80,11 @@ export default {
 <style lang="scss" scoped>
   @import "../assets/styles/common/functions";
   .app {
-    margin: 0 auto;
-    width: 1004px;
-    height: 670px;
+    /*margin: 0 auto;*/
+    /*width: 1004px;*/
+    width: 100%;
+    height: 100%;
+    /*height: 670px;*/
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;

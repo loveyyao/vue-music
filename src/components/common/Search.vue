@@ -11,16 +11,17 @@
       <div v-show="activeName==='0'">
         <el-table
           ref="multipleTable"
+          v-loading="loading"
           :data="tableData"
           tooltip-effect="dark"
           class="searchTable"
           style="width: 100%"
-          height="472px"
+          :height="windowH - 50 +'px'"
           v-el-table-infinite-scroll="loadSong"
           :header-cell-style="tableHeaderColor"
           @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="30"></el-table-column>
-          <el-table-column prop="name" label="歌曲名" align="left" show-overflow-tooltip width="300">
+          <el-table-column prop="name" label="歌曲名" align="left" show-overflow-tooltip>
           </el-table-column>
           <el-table-column prop="album" show-overflow-tooltip align="left" label="专辑" width="120">
           </el-table-column>
@@ -51,10 +52,14 @@ export default {
   data () {
     return {
       activeName: '0',
-      id: null
+      id: null,
+      loading: true
     }
   },
   computed: {
+    windowH () {
+      return this.$store.state.windowH
+    },
     // 搜索列表
     tableData () {
       const data = this.$store.state.searchList
@@ -78,6 +83,13 @@ export default {
     },
     offset () {
       return this.$store.state.offset
+    }
+  },
+  watch: {
+    tableData (e) {
+      if (e) {
+        this.loading = false
+      }
     }
   },
   methods: {
@@ -156,7 +168,7 @@ export default {
       padding-left: px2vw(20);
       padding-right: px2vw(10);
       width: 100%;
-      height: px2vw(472);
+      /*height: px2vw(472);*/
       /*height: 100%;*/
       /*max-height: 852px;*/
       overflow-y: auto;
