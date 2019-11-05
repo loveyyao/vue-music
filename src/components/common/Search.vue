@@ -115,9 +115,20 @@ export default {
     // 点击加号添加到默认列表
     addDefaultList (row) {
       if (this.id !== row.id) {
+        this.$axios.get('check/music', {
+          id: row.id
+        })
+          .then((res) => {
+            if (res.status === 200) {
+              this.$store.commit('addDefaultList', [row])
+              this.id = row.id
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+            this.$message('亲爱的,暂无版权')
+          })
         // 把点击播放的列表添加到默认列表中
-        this.$store.commit('addDefaultList', [row])
-        this.id = row.id
       }
     },
     // 点击列表播放该音乐

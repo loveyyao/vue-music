@@ -141,6 +141,7 @@ export default {
       const H = document.documentElement.clientHeight
       this.listH = H - 160
       this.$store.commit('setWindowH', this.listH)
+      // console.log(H)
     }
   },
   created () {
@@ -158,7 +159,7 @@ export default {
     that.$bus.$on('setPlayIndex', function (index) {
       that.playIndex = index
     })
-    window.onresize = that.getWindowWH()
+    window.onresize = that.getWindowWH
   }
 }
 </script>
