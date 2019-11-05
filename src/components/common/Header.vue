@@ -4,8 +4,22 @@
       <div class="user">
       </div>
       <div class="user-name">哈哈</div>
+      <div class="btn" v-if="isMin">
+        <span class="icon cursor" @click="max">
+          <i class="el-icon-download rotate"></i>
+          <span class="tooltip pa">显示音乐库</span>
+        </span>
+        <div class="icon cursor" @click="minWindow">
+          <i class="el-icon-minus"></i>
+          <span class="tooltip pa">最小化</span>
+        </div>
+        <div class="icon cursor" @click="closeWindow">
+          <i class="el-icon-close"></i>
+          <span class="tooltip pa">关闭</span>
+        </div>
+      </div>
     </div>
-    <div class="header-right fr">
+    <div class="header-right fr" :class="{min:isMin}">
       <div class="section-left cursor">
         <span class="icon cursor">
           <i class="el-icon-arrow-left"></i>
@@ -84,7 +98,7 @@
           <span class="tooltip pa">主菜单</span>
         </span>
         <span class="line"></span>
-        <span class="icon cursor">
+        <span class="icon cursor" @click="min">
           <i class="el-icon-download rotate"></i>
           <span class="tooltip pa">隐藏音乐库</span>
         </span>
@@ -112,7 +126,8 @@ export default {
       showSuggest: false,
       bgColor: '#41B883',
       timer: null,
-      offset: 0
+      offset: 0,
+      isMin: false
     }
   },
   methods: {
@@ -133,6 +148,26 @@ export default {
       if (nw) {
         nw.App.quit()
       }
+    },
+    max () {
+      const win = nw.Window.get()
+      this.isMin = !this.isMin
+      this.$bus.$emit('min', this.isMin)
+      win.setResizable(true)
+      setTimeout(() => {
+        win.setMinimumSize(790)
+        win.width = 1004
+      }, 0)
+      console.log(this.isMin)
+    },
+    min () {
+      const win = nw.Window.get()
+      this.isMin = !this.isMin
+      this.$bus.$emit('min', this.isMin)
+      win.setMinimumSize(300)
+      win.width = 300
+      win.setResizable(false)
+      console.log(this.isMin)
     },
     // 回车搜索
     searchSong () {
@@ -213,6 +248,9 @@ export default {
     width: 100%;
     height: 50px;
     display: flex;
+    .tooltip{
+      z-index: 9;
+    }
     .header-left{
       width: 300px;
       height: 100%;
@@ -230,13 +268,56 @@ export default {
       .user-name{
         color: #fff;
       }
+      .btn{
+        margin-left: 132px;
+        width: 90px;
+        display: flex;
+        .icon{
+          flex: 1;
+          height: px2vw(30);
+          font-size: px2vw(20);
+          line-height: px2vw(30);
+          text-align: center;
+          color: rgba(255,255,255,.8);
+          .tooltip{
+            display: none;
+            height: px2vw(25);
+            line-height: px2vw(25);
+            font-size: 14px;
+            background: #FFFEEB;
+            color: #7E7D76;
+            border: 1px solid #7E7D76;
+            padding: 0 px2vw(5);
+          }
+          .rotate{
+            transform: rotate(-90deg);
+          }
+          &:hover {
+            color: #fff;
+            .tooltip{
+              display: block;
+            }
+          }
+          &:last-child{
+            .tooltip{
+              padding: 0;
+            }
+          }
+        }
+      }
     }
     .header-right{
-      flex: 1;
       height: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex: 1;
+      opacity: 1;
+      transition: all .5s;
+      &.min{
+        width: 0;
+        opacity: 0;
+      }
       .section-left{
         width: 390px;
         height: 100%;

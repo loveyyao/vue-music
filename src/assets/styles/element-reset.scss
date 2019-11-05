@@ -18,6 +18,9 @@
     }
   }
   .main-left{
+    .el-collapse-item__wrap{
+      border-bottom: none;
+    }
     .el-tabs__nav-wrap{
       padding-left: px2vw(10);
     }
@@ -29,10 +32,18 @@
     }
   }
   .main-right{
+    .el-tabs__nav-scroll{
+      display: flex;
+      justify-content: center;
+    }
     .el-tabs__nav{
-      left: 50%;
-      transform: translateX(-50%) !important;
+      //left: 50%;
+      //transform: translateX(-50%) !important;
+      //width: 100%;
+      //display: flex;
+      //justify-content: center;
       .el-tabs__item{
+        //flex: 1;
         text-align: center;
         width: 100px;
       }

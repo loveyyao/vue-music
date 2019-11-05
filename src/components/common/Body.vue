@@ -47,7 +47,7 @@
       </el-tabs>
       <div class="line"></div>
     </div>
-    <div class="main-right pr h">
+    <div class="main-right pr h" :class="{min:isMin}">
       <el-tabs v-model="rightActiveName" @tab-click="handleClick">
         <el-tab-pane label="乐库" name="0">
           待开发（目前只有搜索功能）
@@ -85,7 +85,8 @@ export default {
       showBorder: true,
       showLine: true,
       listH: 0,
-      hide: false
+      hide: false,
+      isMin: false
     }
   },
 
@@ -144,6 +145,9 @@ export default {
       this.listH = H - 160
       this.$store.commit('setWindowH', this.listH)
       console.log(H)
+    },
+    min (e) {
+      this.isMin = e
     }
   },
   created () {
@@ -155,6 +159,7 @@ export default {
     that.$bus.$on('hide', function (e) {
       that.hide = !e
     })
+    that.$bus.$on('min', that.min)
     // 绑定一个触发搜索列表组件显示的方法
     that.$bus.$on('showSearch', function () {
       that.rightActiveName = ''
@@ -260,11 +265,17 @@ export default {
       }
     }
     .main-right{
-      flex: 1;
       height: 100%;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      flex: 1;
+      opacity: 1;
+      transition: all .5s;
+      &.min{
+        width: 0;
+        opacity: 0;
+      }
     }
     .line{
       width: 100%;

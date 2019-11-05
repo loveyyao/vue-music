@@ -1,51 +1,52 @@
 <template>
-  <div class="footer w" :style="{background: bgColor}">
+  <div class="footer" :style="{background: bgColor,width:isMin?'300px':'100%'}">
     <audio ref="audio"
            :src="url"
            @timeupdate="onTimeupdate"
            @loadedmetadata="onLoadedmetadata"
            @ended="playEnd"
     ></audio>
-    <div class="music-btn">
+    <div class="max" v-if="!isMin">
+      <div class="music-btn">
       <span class="icon cp" @click="playLastMusic">
         <i class="el-icon-arrow-left"></i>
       </span>
-      <span class="play cp" @click="playMusic">
+        <span class="play cp" @click="playMusic">
         <i class="el-icon-video-play" v-if="!isPlay"></i>
         <i class="el-icon-video-pause" v-else></i>
       </span>
-      <span class="icon cp" @click="playNextMusic">
+        <span class="icon cp" @click="playNextMusic">
        <i class="el-icon-arrow-right"></i>
       </span>
-    </div>
-    <div class="progress-bar-wrap">
-      <div class="bar-top">
-        <span class="btn quality cp">标准<i class="el-icon-caret-top"></i></span>
-        <marquee :loop="-1" class="music-name">{{atPresentPlayMusic.name}}</marquee>
-        <span class="btn speed cp">倍速<i class="el-icon-caret-top"></i></span>
       </div>
-      <div class="bar-bottom">
-        <div class="progress-bar-main cp">
-          <div class="progress-bar" ref="progressBar" v-click="progressBarClick">
-            <div class="progress-bar-inner" :style="{width:progressBarStyle + 'px'}"></div>
-          </div>
-          <div class="dot" v-drag="setMusicCurrentTime" :style="{left:dotStyle + 'px'}"></div>
+      <div class="progress-bar-wrap">
+        <div class="bar-top">
+          <span class="btn quality cp">标准<i class="el-icon-caret-top"></i></span>
+          <marquee :loop="-1" class="music-name">{{atPresentPlayMusic.name}}</marquee>
+          <span class="btn speed cp">倍速<i class="el-icon-caret-top"></i></span>
         </div>
-        <span class="time"><span>{{currentTime|realFormatSecond}}</span>/<span>{{maxTime|realFormatSecond}}</span></span>
+        <div class="bar-bottom">
+          <div class="progress-bar-main cp">
+            <div class="progress-bar" ref="progressBar" v-click="progressBarClick">
+              <div class="progress-bar-inner" :style="{width:progressBarStyle + 'px'}"></div>
+            </div>
+            <div class="dot" v-drag="setMusicCurrentTime" :style="{left:dotStyle + 'px'}"></div>
+          </div>
+          <span class="time"><span>{{currentTime|realFormatSecond}}</span>/<span>{{maxTime|realFormatSecond}}</span></span>
+        </div>
       </div>
-    </div>
-    <div class="option-btn">
+      <div class="option-btn">
       <span class="icon">
         <i class="el-icon-star-off"></i>
       </span>
-      <span class="icon">
+        <span class="icon">
         <i class="el-icon-download"></i>
       </span>
-      <span class="icon" @click="triggerMode">
+        <span class="icon" @click="triggerMode">
         <i class="el-icon-sort rotate" v-if="!isRandom"></i>
         <i class="random" v-else></i>
       </span>
-      <span class="icon pr">
+        <span class="icon pr">
         <i class="el-icon-headset"></i>
         <div class="volume-main">
           <div class="volume-wrap" v-click="volumeClick">
@@ -54,20 +55,71 @@
           </div>
         </div>
       </span>
-      <span class="btn">
+        <span class="btn">
         <i class="green-dot"></i>
         丽音
       </span>
-      <span class="ci cursor" @click="openChildWindow">词</span>
-      <el-badge :value="commentNum.total|FormattedNumber" class="item" type="primary">
+        <span class="ci cursor" @click="openChildWindow">词</span>
+        <el-badge :value="commentNum.total|FormattedNumber" class="item" type="primary">
         <span class="comment">
           <i class="el-icon-chat-dot-square"></i>
         </span>
-      </el-badge>
-      <span class="icon last">
+        </el-badge>
+        <span class="icon last">
         <i class="el-icon-s-unfold"></i>
       </span>
-      <span class="amount">{{defaultList.length}}</span>
+        <span class="amount">{{defaultList.length}}</span>
+      </div>
+    </div>
+    <div class="min" v-else>
+      <div class="music-info">
+        <marquee :loop="-1" class="music-name">{{atPresentPlayMusic.name}}</marquee>
+        <span class="time"><span>{{currentTime|realFormatSecond}}</span> / <span>{{maxTime|realFormatSecond}}</span></span>
+      </div>
+      <div class="btn">
+        <div class="music-btn">
+      <span class="icon cp" @click="playLastMusic">
+        <i class="el-icon-arrow-left"></i>
+      </span>
+          <span class="play cp" @click="playMusic">
+        <i class="el-icon-video-play" v-if="!isPlay"></i>
+        <i class="el-icon-video-pause" v-else></i>
+      </span>
+          <span class="icon cp" @click="playNextMusic">
+       <i class="el-icon-arrow-right"></i>
+      </span>
+        </div>
+        <div class="option-btn">
+      <span class="icon">
+        <i class="el-icon-star-off"></i>
+      </span>
+          <span class="icon">
+        <i class="el-icon-download"></i>
+      </span>
+          <span class="icon" @click="triggerMode">
+        <i class="el-icon-sort rotate" v-if="!isRandom"></i>
+        <i class="random" v-else></i>
+      </span>
+          <span class="icon pr">
+        <i class="el-icon-headset"></i>
+        <div class="volume-main">
+          <div class="volume-wrap" v-click="volumeClick">
+            <div class="volume-inner" :style="{height: volumeBarH + 'px'}"></div>
+            <div class="volume-dot" v-drag="setVolume" :style="{top:dotTop+'px'}"></div>
+          </div>
+        </div>
+      </span>
+          <span class="ci cursor" @click="openChildWindow">词</span>
+        </div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-main cp">
+          <div class="progress-bar" ref="progressBar" v-click="progressBarClick">
+            <div class="progress-bar-inner" :style="{width:minProgressBarStyle + 'px'}"></div>
+          </div>
+          <div class="dot" v-drag="setMusicCurrentTime" :style="{left:minDotStyle + 'px'}"></div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -77,6 +129,7 @@ export default {
   name: 'Footer',
   data () {
     return {
+      isMin: false,
       url: '',
       isPlay: false,
       currentTime: 0,
@@ -104,6 +157,16 @@ export default {
     dotStyle () {
       const {currentTime, maxTime} = this
       return currentTime / maxTime * (this.progressBarW - 8)
+    },
+    // 计算播放进度条宽度
+    minProgressBarStyle () {
+      const {currentTime, maxTime} = this
+      return currentTime / maxTime * 300
+    },
+    // 计算小圆点的位置
+    minDotStyle () {
+      const {currentTime, maxTime} = this
+      return currentTime / maxTime * (300 - 8)
     },
     // 从vuex中获取当前需要播放的音乐
     atPresentPlayMusic () {
@@ -148,7 +211,7 @@ export default {
       const lyric = this.lyricList
       let index = lyric.indexOf(e)
       this.lyricIndex = index
-      this.top = (this.lyricIndex - 1) * 60
+      this.top = (this.lyricIndex) * 60
       this.$store.commit('setLyricIndex', {index: this.lyricIndex, top: this.top})
       this.$utils.setItem('nowLyric', this.lyric[e])
     }
@@ -378,6 +441,9 @@ export default {
       // console.log('loadedmetadata')
       // console.log(res)
       this.maxTime = parseInt(res.target.duration)
+    },
+    min (e) {
+      this.isMin = e
     }
   },
   mounted () {
@@ -407,6 +473,7 @@ export default {
     const win = nw.Window.get()
     win.on('resize', that.getProgressBarW)
     // }
+    that.$bus.$on('min', that.min)
   }
 }
 </script>
@@ -420,73 +487,335 @@ export default {
     height: 70px;
     display: flex;
     color: rgba(255,255,255,.8);
-    .music-btn{
-      width: px2vw(200);
-      height: 100%;
+    transition: all .5s;
+    .max{
+      /*display: none;*/
+      width: 100%;
       display: flex;
-      align-items: center;
-      padding-left: px2vw(15);
-      font-size: px2vw(30);
-      justify-content: space-between;
-      .icon{
-        width: px2vw(30);
-        height: px2vw(30);
-        text-align: center;
-        line-height: px2vw(30);
-        &:hover{
-          color: #fff;
-        }
-      }
-      .play{
-        border: none;
-        font-size: px2vw(40);
-        &:hover{
-          color: #fff;
-        }
-      }
-    }
-    .progress-bar-wrap{
-      flex: 1;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      padding-left: px2vw(30);
-      .bar-top{
-        flex: 1;
+      .music-btn{
+        width: px2vw(200);
+        height: 100%;
         display: flex;
         align-items: center;
+        padding-left: px2vw(15);
+        font-size: px2vw(30);
+        justify-content: space-between;
+        .icon{
+          width: px2vw(30);
+          height: px2vw(30);
+          text-align: center;
+          line-height: px2vw(30);
+          &:hover{
+            color: #fff;
+          }
+        }
+        .play{
+          border: none;
+          font-size: px2vw(40);
+          &:hover{
+            color: #fff;
+          }
+        }
+      }
+      .progress-bar-wrap{
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding-left: px2vw(30);
+        .bar-top{
+          flex: 1;
+          display: flex;
+          align-items: center;
+          .btn{
+            width: px2vw(52);
+            height: px2vw(22);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,.8);
+            border-radius: px2vw(11);
+            &:hover{
+              color: #fff;
+              border: 1px solid #fff;
+            }
+          }
+          .music-name{
+            padding: 0 px2vw(15);
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            /*text-overflow: ellipsis;*/
+          }
+        }
+        .bar-bottom{
+          flex: 1;
+          display: flex;
+          align-items: center;
+          .progress-bar-main{
+            flex: 1;
+            height: px2vw(3);
+            /*padding-right: px2vw(10);*/
+            position: relative;
+            .progress-bar{
+              width: 100%;
+              height: 100%;
+              background: rgba(255,255,255,.7);
+              .progress-bar-inner{
+                width: px2vw(0);
+                background: #00BCFF;
+                height: 100%;
+              }
+            }
+            .dot{
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              background: #fff;
+              position: absolute;
+              top: 50%;
+              left: 0;
+              transform: translateY(-50%);
+            }
+          }
+          .time{
+            text-align: right;
+            width: px2vw(90);
+          }
+        }
+      }
+      .option-btn{
+        width: px2vw(377);
+        padding-left: px2vw(30);
+        display: flex;
+        align-items: center;
+        .icon{
+          font-size: px2vw(25);
+          margin-right: px2vw(15);
+          cursor: pointer;
+          .random{
+            margin-top: 6px;
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background: url("../../../static/random-loop.svg");
+            background-size: 100% 100%;
+          }
+          .volume-main{
+            display: none;
+            width: 16px;
+            height: 80px;
+            background: rgba(0,0,0,.7);
+            border-radius: 8px;
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            .volume-wrap{
+              width: 6px;
+              height: 70px;
+              position: absolute;
+              bottom: 5px;
+              left: 50%;
+              transform: translateX(-50%);
+              /*padding-bottom: 5px;*/
+              background: #fff;
+              border-radius: 3px;
+              .volume-inner{
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 35px;
+                background: #0096E6;
+                border-radius: 3px;
+              }
+              .volume-dot{
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: #fff;
+                position: absolute;
+                left: 50%;
+                top: 30px;
+                transform: translateX(-50%);
+              }
+            }
+          }
+          &:hover{
+            color: #fff;
+            .volume-main{
+              display: block;
+            }
+          }
+          &.last{
+            margin-left: px2vw(15);
+            margin-right: 0;
+          }
+        }
         .btn{
-          width: px2vw(52);
+          cursor: pointer;
+          width: px2vw(53);
           height: px2vw(22);
           text-align: center;
           border: 1px solid rgba(255,255,255,.8);
           border-radius: px2vw(11);
+          .green-dot{
+            display: inline-block;
+            width: px2vw(10);
+            height: px2vw(10);
+            background: rgba(0,227,44,.8);
+            border-radius: 50%;
+          }
           &:hover{
             color: #fff;
             border: 1px solid #fff;
+            .green-dot{
+              background: #00E32C;
+            }
           }
         }
+        .ci{
+          margin: 0 px2vw(15);
+          font-weight: bold;
+          font-size: px2vw(18);
+          &:hover{
+            color: #fff;
+          }
+        }
+        .comment{
+          font-size: px2vw(25);
+          cursor: pointer;
+          &:hover{
+            color: #fff;
+          }
+        }
+        .amount{}
+      }
+    }
+    .min{
+      /*display: none;*/
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      .music-info{
+        width: 100%;
+        height: 20px;
+        padding: 0 5px;
+        line-height: 20px;
+        display: flex;
+        justify-content: space-around;
         .music-name{
-          padding: 0 px2vw(15);
+          width: 200px;
+          display: block;
+          /*height: 100%;*/
+        }
+        .time{}
+      }
+      .btn{
+        width: 100%;
+        height: 30px;
+        line-height: 25px;
+        display: flex;
+        font-size: 20px;
+        .music-btn{
+          width: 130px;
+          padding-left: 5px;
+          display: flex;
+          .icon{
+            flex: 1;
+            &:hover{
+              color: #fff;
+            }
+          }
+          .play{
+            flex: 1;
+            font-size: 22px;
+            &:hover{
+              color: #fff;
+            }
+          }
+        }
+        .option-btn{
           flex: 1;
-          overflow: hidden;
-          white-space: nowrap;
-          /*text-overflow: ellipsis;*/
+          display: flex;
+          .icon{
+            flex: 1;
+            .random{
+              /*margin-top: 6px;*/
+              display: inline-block;
+              width: 25px;
+              height: 25px;
+              background: url("../../../static/random-loop.svg");
+              background-size: 100% 100%;
+            }
+            .volume-main{
+              display: none;
+              width: 16px;
+              height: 80px;
+              background: rgba(0,0,0,.7);
+              border-radius: 8px;
+              position: absolute;
+              top: -80px;
+              left: 50%;
+              transform: translateX(-50%);
+              z-index: 10;
+              .volume-wrap{
+                width: 6px;
+                height: 70px;
+                position: absolute;
+                bottom: 5px;
+                left: 50%;
+                transform: translateX(-50%);
+                /*padding-bottom: 5px;*/
+                background: #fff;
+                border-radius: 3px;
+                .volume-inner{
+                  position: absolute;
+                  bottom: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 35px;
+                  background: #0096E6;
+                  border-radius: 3px;
+                }
+                .volume-dot{
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 50%;
+                  background: #fff;
+                  position: absolute;
+                  left: 50%;
+                  top: 30px;
+                  transform: translateX(-50%);
+                }
+              }
+            }
+            &:hover{
+              color: #fff;
+              .volume-main{
+                display: block;
+              }
+            }
+          }
+          .ci{
+            flex: 1;
+            font-size: 18px;
+          }
         }
       }
-      .bar-bottom{
-        flex: 1;
-        display: flex;
-        align-items: center;
+      .progress-bar-wrap{
+        width: 100%;
+        height: 2px;
+        /*background: red;*/
+        position: relative;
         .progress-bar-main{
-          flex: 1;
-          height: px2vw(3);
-          /*padding-right: px2vw(10);*/
-          position: relative;
+          width: 100%;
+          height: 100%;
+          background: rgba(255,255,255,.7);
           .progress-bar{
             width: 100%;
             height: 100%;
-            background: rgba(255,255,255,.7);
             .progress-bar-inner{
               width: px2vw(0);
               background: #00BCFF;
@@ -504,120 +833,7 @@ export default {
             transform: translateY(-50%);
           }
         }
-        .time{
-          text-align: right;
-          width: px2vw(90);
-        }
       }
-    }
-    .option-btn{
-      width: px2vw(377);
-      padding-left: px2vw(30);
-      display: flex;
-      align-items: center;
-      .icon{
-        font-size: px2vw(25);
-        margin-right: px2vw(15);
-        cursor: pointer;
-        .random{
-          margin-top: 6px;
-          display: inline-block;
-          width: 25px;
-          height: 25px;
-          background: url("../../../static/random-loop.svg");
-          background-size: 100% 100%;
-        }
-        .volume-main{
-          display: none;
-          width: 16px;
-          height: 80px;
-          background: rgba(0,0,0,.7);
-          border-radius: 8px;
-          position: absolute;
-          top: -80px;
-          left: 50%;
-          transform: translateX(-50%);
-          z-index: 10;
-          .volume-wrap{
-            width: 6px;
-            height: 70px;
-            position: absolute;
-            bottom: 5px;
-            left: 50%;
-            transform: translateX(-50%);
-            /*padding-bottom: 5px;*/
-            background: #fff;
-            border-radius: 3px;
-            .volume-inner{
-              position: absolute;
-              bottom: 0;
-              left: 0;
-              width: 100%;
-              height: 35px;
-              background: #0096E6;
-              border-radius: 3px;
-            }
-            .volume-dot{
-              width: 10px;
-              height: 10px;
-              border-radius: 50%;
-              background: #fff;
-              position: absolute;
-              left: 50%;
-              top: 30px;
-              transform: translateX(-50%);
-            }
-          }
-        }
-        &:hover{
-          color: #fff;
-          .volume-main{
-            display: block;
-          }
-        }
-        &.last{
-          margin-left: px2vw(15);
-          margin-right: 0;
-        }
-      }
-      .btn{
-        cursor: pointer;
-        width: px2vw(53);
-        height: px2vw(22);
-        text-align: center;
-        border: 1px solid rgba(255,255,255,.8);
-        border-radius: px2vw(11);
-        .green-dot{
-          display: inline-block;
-          width: px2vw(10);
-          height: px2vw(10);
-          background: rgba(0,227,44,.8);
-          border-radius: 50%;
-        }
-        &:hover{
-          color: #fff;
-          border: 1px solid #fff;
-          .green-dot{
-            background: #00E32C;
-          }
-        }
-      }
-      .ci{
-        margin: 0 px2vw(15);
-        font-weight: bold;
-        font-size: px2vw(18);
-        &:hover{
-          color: #fff;
-        }
-      }
-      .comment{
-        font-size: px2vw(25);
-        cursor: pointer;
-        &:hover{
-          color: #fff;
-        }
-      }
-      .amount{}
     }
   }
 </style>
