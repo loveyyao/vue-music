@@ -76,8 +76,8 @@ export default {
       transition: all .5s;
       .lyric-item{
         width: 100%;
-        height: 30px;
-        line-height: 30px;
+        height: 60px;
+        line-height: 60px;
         text-align: center;
         font-size: 18px;
         font-weight: bolder;
@@ -86,7 +86,7 @@ export default {
         /*margin: 5px 0;*/
         &.active{
           color: orangered;
-          font-size: 20px;
+          font-size: 24px;
         }
       }
     }

@@ -148,7 +148,7 @@ export default {
       const lyric = this.lyricList
       let index = lyric.indexOf(e)
       this.lyricIndex = index
-      this.top = (this.lyricIndex - 1) * 30
+      this.top = (this.lyricIndex - 1) * 60
       this.$store.commit('setLyricIndex', {index: this.lyricIndex, top: this.top})
       this.$utils.setItem('nowLyric', this.lyric[e])
     }
