@@ -1,17 +1,17 @@
 <template>
   <div class="app" :style="{backgroundImage:bgImage,backgroundSize:'100% 100%',backgroundColor:bgColor}">
-    <Header></Header>
-    <Home/>
-    <Footer></Footer>
+    <Header/>
+    <Body/>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import Header from './common/Header'
 import Footer from './common/Footer'
-import Home from './common/Body'
+import Body from './common/Body'
 export default {
-  name: 'App',
+  name: 'Home',
   data () {
     return {
       bgImage: '',
@@ -21,7 +21,7 @@ export default {
   components: {
     Header,
     Footer,
-    Home
+    Body
   },
 
   computed: {
@@ -73,7 +73,7 @@ export default {
         that.bgColor = '#fff'
       }
     })
-  },
+  }
 }
 </script>
 

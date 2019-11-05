@@ -143,7 +143,8 @@ export default {
     // 绑定一个触发搜索列表组件显示的方法
     that.$bus.$on('showSearch', function () {
       that.rightActiveName = ''
-      this.$store.commit('setShowBg', this.rightActiveName)
+      // that.rightActiveName = '7'
+      // this.$store.commit('setShowBg', that.rightActiveName)
     })
     that.$bus.$on('setPlayIndex', function (index) {
       that.playIndex = index

@@ -50,6 +50,10 @@ export default {
   },
 
   methods: {
+  },
+  destroyed () {
+    this.$utils.removeItem('nowLyric')
+    this.$utils.removeItem('playStatus')
   }
 }
 </script>
