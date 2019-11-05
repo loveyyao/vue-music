@@ -62,8 +62,8 @@ https://nwjs.org.cn/
 }
 ```
 # 安装包下载体验
-链接：https://pan.baidu.com/s/1JfM83BhW3Hvpv8NUxknnLA 
-提取码：shez
+链接：https://pan.baidu.com/s/1gsT8vlDEPWz02rq6CMbXMg 
+提取码：drkp 
 # 预览 
 <p align="center">
   <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/1.png" alt="首页"/>
