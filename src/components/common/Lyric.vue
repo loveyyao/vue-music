@@ -8,6 +8,10 @@
       >{{item}}</li>
     </ul>
     <div class="mask"></div>
+    <div class="btn" @click="hideLeft">
+      <i class="el-icon-arrow-down" v-if="isShowLeft"></i>
+      <i class="el-icon-arrow-up" v-else></i>
+    </div>
   </div>
 </template>
 
@@ -16,6 +20,7 @@ export default {
   name: 'Lyric',
   data () {
     return {
+      isShowLeft: true
     }
   },
   watch: {
@@ -42,6 +47,10 @@ export default {
     }
   },
   methods: {
+    hideLeft () {
+      this.isShowLeft = !this.isShowLeft
+      this.$bus.$emit('hide', this.isShowLeft)
+    }
   },
   mounted () {
   }
@@ -52,7 +61,8 @@ export default {
   @import "../../assets/styles/common/functions";
   .lyric-wrap{
     width: 100%;
-    height: px2vw(530);
+    /*height: px2vw(530);*/
+    height: 100%;
     overflow: hidden;
     position: relative;
     padding-top: 5px;
@@ -88,6 +98,27 @@ export default {
       top: 50%;
       left: 0;
       background: rgba(255,255,255,.5);
+    }
+    .btn{
+      width: 25px;
+      height: 60px;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,.1);
+      line-height: 60px;
+      text-align: center;
+      font-size: 25px;
+      color: rgba(255,255,255,.4);
+      transition: all .2s;
+      i{
+        transform: rotate(90deg);
+      }
+      &:hover{
+        background: rgba(0,0,0,.5);
+        color: #fff;
+      }
     }
   }
 

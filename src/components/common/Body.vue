@@ -1,6 +1,6 @@
 <template>
   <div class="main wh">
-    <div class="main-left pr h" :class="{border: showBorder}">
+    <div class="main-left pr h" :class="{border: showBorder,hidden:hide}">
       <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">
         <el-tab-pane name="0">
           <span slot="label" class="tabs-icon"><i class="el-icon-headset"></i></span>
@@ -48,7 +48,7 @@
       <div class="line"></div>
     </div>
     <div class="main-right pr h">
-      <el-tabs v-model="rightActiveName" :stretch="true" @tab-click="handleClick">
+      <el-tabs v-model="rightActiveName" @tab-click="handleClick">
         <el-tab-pane label="乐库" name="0">
           待开发（目前只有搜索功能）
         </el-tab-pane>
@@ -84,7 +84,8 @@ export default {
       playIndex: null,
       showBorder: true,
       showLine: true,
-      listH: 0
+      listH: 0,
+      hide: false
     }
   },
 
@@ -117,6 +118,7 @@ export default {
         this.$bus.$emit('setBg', false)
         this.showBorder = true
         this.showLine = true
+        this.hide = false
       }
     }
   },
@@ -150,6 +152,9 @@ export default {
   mounted () {
     const that = this
     that.getWindowWH()
+    that.$bus.$on('hide', function (e) {
+      that.hide = !e
+    })
     // 绑定一个触发搜索列表组件显示的方法
     that.$bus.$on('showSearch', function () {
       that.rightActiveName = ''
@@ -179,7 +184,13 @@ export default {
       border-right: 2px solid transparent;
       background: rgba(255,255,255,.3);
       overflow: hidden;
+      transition: all .5s;
+      opacity: 1;
       /*padding-left: px2vw(10);*/
+      &.hidden{
+        opacity: 0;
+        width: 0;
+      }
       &.border{
         border-color: #eee;
       }

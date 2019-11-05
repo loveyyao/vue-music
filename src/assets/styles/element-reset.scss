@@ -28,6 +28,16 @@
       padding-left: px2vw(10);
     }
   }
+  .main-right{
+    .el-tabs__nav{
+      left: 50%;
+      transform: translateX(-50%) !important;
+      .el-tabs__item{
+        text-align: center;
+        width: 100px;
+      }
+    }
+  }
 }
 .search{
   .el-input{
