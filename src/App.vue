@@ -47,6 +47,13 @@ export default {
         that.bgColor = 'transparent'
       }
     })
+    // 创建托盘图标
+    var tray = new nw.Tray({ title: 'vue-music', icon: '/static/logo.png', tooltip: 'vue-music' })
+
+    // 创建托盘菜单
+    var menu = new nw.Menu()
+    menu.append(new nw.MenuItem({ type: 'checkbox', label: 'box1' }))
+    tray.menu = menu
   },
 
   methods: {
