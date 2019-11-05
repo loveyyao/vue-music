@@ -310,6 +310,9 @@ export default {
       let index = 0
       if (this.isRandom) {
         index = Math.floor(Math.random() * (this.defaultList.length - 1))
+        if (index === defaultList.indexOf(atPresentPlayMusic)) {
+          this.playLastMusic()
+        }
       } else {
         index = defaultList.indexOf(atPresentPlayMusic) - 1
         if (index < 0) {
@@ -325,6 +328,9 @@ export default {
       let index = 0
       if (this.isRandom) {
         index = Math.floor(Math.random() * (this.defaultList.length - 1))
+        if (index === defaultList.indexOf(atPresentPlayMusic)) {
+          this.playNextMusic()
+        }
       } else {
         index = defaultList.indexOf(atPresentPlayMusic) + 1
         if (index >= this.defaultList.length) {
