@@ -49,9 +49,7 @@
     </div>
     <div class="main-right pr h" :class="{min:isMin}">
       <el-tabs v-model="rightActiveName" @tab-click="handleClick">
-        <el-tab-pane label="乐库" name="0">
-          待开发（目前只有搜索功能）
-        </el-tab-pane>
+        <el-tab-pane label="乐库" name="0"></el-tab-pane>
         <el-tab-pane label="电台" name="1">待开发</el-tab-pane>
         <el-tab-pane label="歌单" name="2">待开发</el-tab-pane>
         <el-tab-pane label="MV" name="3">待开发</el-tab-pane>
@@ -62,6 +60,7 @@
       <Search v-if="!rightActiveName"></Search>
       <!--      <Search/>-->
       <Lyric v-if="rightActiveName==='6'"></Lyric>
+      <MusicLibrary v-if="rightActiveName==='0'"></MusicLibrary>
       <div class="line" v-show="showLine"></div>
     </div>
   </div>
@@ -69,11 +68,13 @@
 <script>
 import Lyric from './Lyric'
 import Search from './Search'
+import MusicLibrary from './MusicLibrary'
 export default {
   props: [],
   components: {
     Search,
-    Lyric
+    Lyric,
+    MusicLibrary
   },
 
   data () {
@@ -142,7 +143,7 @@ export default {
     },
     getWindowWH () {
       const H = document.documentElement.clientHeight
-      this.listH = H - 160
+      this.listH = H - 143
       this.$store.commit('setWindowH', this.listH)
       console.log(H)
     },

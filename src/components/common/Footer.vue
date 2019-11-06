@@ -719,7 +719,7 @@ export default {
         display: flex;
         font-size: 20px;
         .music-btn{
-          width: 130px;
+          width: 120px;
           padding-left: 5px;
           display: flex;
           .icon{
@@ -741,6 +741,7 @@ export default {
           display: flex;
           .icon{
             flex: 1;
+            text-align: center;
             .random{
               /*margin-top: 6px;*/
               display: inline-block;

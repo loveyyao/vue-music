@@ -78,3 +78,20 @@
     }
   }
 }
+.MusicLibrary{
+  .content{
+    .recommend{
+      .content-left{
+        .el-tabs__item{
+          //flex: 1;
+          text-align: center;
+          width: 40px!important;
+          padding: 0;
+        }
+      }
+    }
+  }
+  .el-tabs__active-bar{
+    display: none;
+  }
+}

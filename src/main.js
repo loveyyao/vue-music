@@ -13,12 +13,16 @@ import './assets/styles/common/common.scss'
 import './assets/styles/element-reset.scss'
 import { realFormatSecond, FormattedNumber } from './filter'
 import elTableInfiniteScroll from 'el-table-infinite-scroll'
+import VueLazyload from 'vue-lazyload'
 
 Vue.use(elTableInfiniteScroll)
 require('./assets/main.css')
 Vue.config.productionTip = false
 Vue.use(ElementUI, {
   size: 'small'
+})
+Vue.use(VueLazyload, {
+  loading: './assets/img/loading.gif'
 })
 Vue.filter('realFormatSecond', realFormatSecond)
 Vue.filter('FormattedNumber', FormattedNumber)
