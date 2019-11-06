@@ -158,7 +158,7 @@ export default {
         win.setMinimumSize(790)
         win.width = 1004
       }, 0)
-      console.log(this.isMin)
+      // console.log(this.isMin)
     },
     min () {
       const win = nw.Window.get()

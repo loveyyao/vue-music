@@ -678,6 +678,9 @@ export default {
               transition: all .2s;
               padding-left: 10px;
               margin: 5px 0;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
               &:hover{
                 background: #eee;
               }

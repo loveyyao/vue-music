@@ -190,6 +190,9 @@ export default {
     }
   },
   watch: {
+    isMin (e) {
+      this.getProgressBarW()
+    },
     // 监视isPlay属性
     isPlay (e) {
       if (e) {
