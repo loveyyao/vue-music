@@ -57,11 +57,11 @@ https://nwjs.org.cn/
 }
 ```
 # 安装包下载体验
-链接：https://pan.baidu.com/s/1usN3m-n904bd-7ldXyLSRQ 
-提取码：z8k8 
+链接：https://pan.baidu.com/s/1xA-98BUYgEVM0g-WX3okFg 
+提取码：ziu4 
 # 预览 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/1.png" alt="首页"/>
+  <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/1.jpg" alt="首页"/>
   
   <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/2.jpg" alt="歌词"/>
   
