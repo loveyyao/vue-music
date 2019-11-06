@@ -93,7 +93,7 @@ export default {
       activeName: '0',
       newSongType: '0',
       currentPage: 1,
-      pageSize: 5,
+      pageSize: 6,
       newAllSongData: [],
       albumData: [],
       singerList: [],
@@ -293,7 +293,7 @@ export default {
             }
             .new-song-list{
               width: 100%;
-              height: 200px;
+              height: 250px;
               overflow: hidden;
               .new-item{
                 width: 100%;
@@ -351,6 +351,7 @@ export default {
             }
             .new-album-list{
               width: 100%;
+              min-height: 50px;
               display: flex;
               flex-wrap: wrap;
               padding-left: 10px;
@@ -417,6 +418,7 @@ export default {
           }
           .singer-list{
             /*margin-top: 10px;*/
+            min-height: 50px;
             display: flex;
             flex-wrap: wrap;
             /*padding: 0 10px;*/
