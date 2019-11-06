@@ -194,7 +194,7 @@ export default {
           .then((res) => {
             if (res.data.code === 200) {
               this.$store.commit('addData', res.data.result.songs)
-              console.log(res.data.result.songs)
+              // console.log(res.data.result.songs)
             }
           })
       }
@@ -207,7 +207,7 @@ export default {
           .then((res) => {
             if (res.data.code === 200) {
               // this.$store.commit('addData', res.data.result.songs)
-              console.log(res.data.result)
+              // console.log(res.data.result)
               this.searchSuggest = res.data.result
             }
           })
@@ -224,7 +224,7 @@ export default {
           if (res.data.code === 200) {
             that.hostSearch = res.data.data
           }
-          console.log(res)
+          // console.log(res)
         })
     }, 60000)
     // 参数e为true时表示在歌词页面
