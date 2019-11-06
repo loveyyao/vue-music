@@ -421,9 +421,10 @@ export default {
             min-height: 50px;
             display: flex;
             flex-wrap: wrap;
+            justify-content: center;
             /*padding: 0 10px;*/
             .singer-item{
-              margin: 10px 10px 15px 10px;
+              margin: 10px 5px 15px 5px;
               width: 150px;
               text-align: center;
               cursor: pointer;
