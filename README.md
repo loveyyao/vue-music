@@ -45,11 +45,6 @@ https://nwjs.org.cn/
     "toolbar": true,
     "width": 1004,
     "height": 670,
-    "min_width": 1004,
-    "min_height": 670,
-    "max_width": 1004,
-    "max_height": 670,
-    "resizable": true,
     "kiosk": false,
     "frame": false,
     "transparent": true,
@@ -62,15 +57,17 @@ https://nwjs.org.cn/
 }
 ```
 # 安装包下载体验
-链接：https://pan.baidu.com/s/1pQktDmg7fIvGR1-hBHmhLA 
-提取码：cfvp 
+链接：https://pan.baidu.com/s/1usN3m-n904bd-7ldXyLSRQ 
+提取码：z8k8 
 # 预览 
 <p align="center">
   <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/1.png" alt="首页"/>
   
   <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/2.jpg" alt="歌词"/>
   
-  <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/3.jpg" alt="搜索页"/>
-  <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/4.jpg" alt="桌面歌词" />
+  <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/3.png" alt="搜索页"/>
+  <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/4.png" alt="桌面歌词" />
+  <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/5.png" alt="搜索页"/>
+    <img src="https://raw.githubusercontent.com/loveyyao/vue-music/master/preview/6.png" alt="桌面歌词" />
 </p>
 
