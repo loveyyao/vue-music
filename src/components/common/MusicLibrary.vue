@@ -82,6 +82,22 @@
             </div>
           </div>
         </div>
+        <div class="recommend-MV">
+          <div class="MV-title w">
+            <span class="text">推荐MV</span>
+          </div>
+          <div class="MV-list w">
+            <div class="MV-item">
+              <div class="MV-img">
+                <img src="../../assets/img/1.jpg" alt="">
+                <div class="play">
+                  <i class="el-icon-video-play"></i>
+                </div>
+              </div>
+              <div class="MV-name">xxxxx</div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="toplist-wrap wh" v-if="activeName==='1'">
         <div class="toplist-title h">
@@ -588,8 +604,11 @@ export default {
                   }
                 }
                 .album-name{
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
                   font-size: 12px;
-                  line-height: 1.5;
+                  line-height: 2;
                 }
                 &.mt{
                   margin-top: 10px;
@@ -645,6 +664,64 @@ export default {
                 }
               }
               .singer-name{
+                /*display: inline-block;*/
+                /*height: 30px;*/
+                /*line-height: 30px;*/
+                &:hover{
+                  color: #13ce66;
+                }
+              }
+            }
+          }
+        }
+        .recommend-MV{
+          .MV-title{
+            background: #eee;
+            height: 50px;
+            .text{
+              height: 100%;
+              display: inline-block;
+              line-height: 50px;
+            }
+          }
+          .MV-list{
+            display: flex;
+            .MV-item{
+              margin: 10px 5px 15px 5px;
+              width: 150px;
+              text-align: center;
+              cursor: pointer;
+              .MV-img{
+                margin: 0 auto;
+                width: 125px;
+                height: 120px;
+                position: relative;
+                img{
+                  width: 100%;
+                  height: 100%;
+                }
+                .play{
+                  width: 100%;
+                  height: 100%;
+                  opacity: 0;
+                  color: #fff;
+                  background: rgba(0,0,0,.5);
+                  position: absolute;
+                  bottom: 0;
+                  right: 0;
+                  font-size: 35px;
+                  transition: opacity .5s;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                }
+                &:hover{
+                  .play{
+                    opacity: 1;
+                  }
+                }
+              }
+              .MV-name{
                 /*display: inline-block;*/
                 /*height: 30px;*/
                 /*line-height: 30px;*/
