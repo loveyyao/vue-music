@@ -55,7 +55,7 @@
                   </div>
                   <div class="playCount">
                     <i class="el-icon-headset"></i>
-                    <span>{{item.playCount}}</span>
+                    <span>{{item.playCount|FormattedNumber}}</span>
                   </div>
                   <div class="play">
                     <i class="el-icon-video-play"></i>
@@ -74,6 +74,9 @@
             <div class="singer-item" v-for="(item,index) in singerList" :key="index">
               <div class="singer-img">
                 <img v-lazy="item.img1v1Url" alt="">
+                <div class="play">
+                  <i class="el-icon-video-play"></i>
+                </div>
               </div>
               <span class="singer-name">{{item.name}}</span>
             </div>
@@ -621,9 +624,24 @@ export default {
                 margin: 0 auto;
                 width: 125px;
                 height: 120px;
+                position: relative;
                 img{
                   width: 100%;
                   height: 100%;
+                }
+                .play{
+                  opacity: 0;
+                  color: #fff;
+                  position: absolute;
+                  bottom: 5px;
+                  right: 5px;
+                  font-size: 22px;
+                  transition: opacity .5s;
+                }
+                &:hover{
+                  .play{
+                    opacity: 1;
+                  }
                 }
               }
               .singer-name{

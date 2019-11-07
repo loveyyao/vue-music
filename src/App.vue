@@ -54,6 +54,8 @@ export default {
     var menu = new nw.Menu()
     menu.append(new nw.MenuItem({ type: 'checkbox', label: 'box1' }))
     tray.menu = menu
+    const win = nw.Window.get()
+    win.setMinimumSize(1043)
   },
 
   methods: {

@@ -155,8 +155,8 @@ export default {
       this.$bus.$emit('min', this.isMin)
       win.setResizable(true)
       setTimeout(() => {
-        win.setMinimumSize(790)
-        win.width = 1004
+        win.setMinimumSize(1043)
+        win.width = 1043
       }, 0)
       // console.log(this.isMin)
     },
