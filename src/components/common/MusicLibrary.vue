@@ -7,7 +7,7 @@
       <el-tab-pane label="分类" name="3">待开发</el-tab-pane>
     </el-tabs>
     <div class="content w" :style="{height:windowH - 40 +'px'}">
-      <div class="recommend wh" v-if="activeName==='0'">
+      <div class="recommend wh" v-show="activeName==='0'">
         <div class="section w">
           <div class="content-left">
             <div class="left-title">
@@ -105,7 +105,7 @@
           </div>
         </div>
       </div>
-      <div class="toplist-wrap wh" v-if="activeName==='1'">
+      <div class="toplist-wrap wh" v-show="activeName==='1'">
         <div class="toplist-title h">
           <div class="title">热门榜单</div>
           <ul class="list wh">
@@ -131,25 +131,34 @@
           </div>
         </div>
       </div>
-      <div class="toplist-wrap wh" v-if="activeName==='2'">
+      <div class="toplist-wrap wh" v-show="activeName==='2'">
         <div class="toplist-title h">
           <div class="title">歌手分类</div>
           <ul class="list wh">
             <li class="item" v-for="(item,index) in singer"
                 :class="{active:singerValue===item.value}"
-                @click="getSingerList(item.value)"
+                @click="searchSingerByCategory(item.value)"
                 :key="index">{{item.label}}</li>
           </ul>
         </div>
         <div class="toplist singerList h" v-loading="loadingSingerList">
-          <div class="singer-item" v-for="(item,index) in singers" :key="index">
-            <div class="singer-img">
-              <img v-lazy="item.img1v1Url" alt="">
-              <div class="play">
-                <i class="el-icon-video-play"></i>
+          <div class="alphabet w">
+            <div class="alphabet-item" v-for="i in alphabet"
+                 :key="i"
+                 :class="{active:i===alphabetActive}"
+                 @click="searchSingerByAlphabet(i)"
+            >{{i}}</div>
+          </div>
+          <div class="singerList-wrap wh">
+            <div class="singer-item" v-for="(item,index) in singers" :key="index">
+              <div class="singer-img">
+                <img v-lazy="item.img1v1Url" alt="">
+                <div class="play">
+                  <i class="el-icon-video-play"></i>
+                </div>
               </div>
+              <span class="singer-name">{{item.name}}</span>
             </div>
-            <span class="singer-name">{{item.name}}</span>
           </div>
         </div>
       </div>
@@ -162,6 +171,8 @@ export default {
   name: 'MusicLibrary',
   data () {
     return {
+      alphabetActive: '全部',
+      alphabet: ['全部', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'],
       id: null,
       activeName: '0',
       newSongType: '0',
@@ -409,10 +420,23 @@ export default {
     }
   },
   methods: {
-    getSingerList (val) {
+    searchSingerByAlphabet (val) {
+      this.alphabetActive = val
+      this.getSingerList()
+    },
+    searchSingerByCategory (val) {
+      this.alphabetActive = '全部'
       this.singerValue = val
+      this.getSingerList()
+    },
+    getSingerList () {
+      const singerValue = this.singerValue
       this.loadingSingerList = true
-      this.$axios.get('/artist/list', {cat: val})
+      let alphabet = this.alphabetActive
+      if (alphabet === '全部') {
+        alphabet = ''
+      }
+      this.$axios.get('/artist/list', {cat: singerValue, initial: alphabet})
         .then((res) => {
           if (res.data.code === 200) {
             // console.log(res.data.artists)
@@ -567,7 +591,7 @@ export default {
     this.getSingerData()
     this.getTopList(0)
     this.getMVData()
-    this.getSingerList(this.singerValue)
+    this.getSingerList()
   }
 }
 </script>
@@ -1020,45 +1044,66 @@ export default {
             }
           }
           &.singerList{
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            overflow-y: auto;
-            .singer-item{
-              margin: 10px 5px 15px 5px;
-              width: 150px;
-              text-align: center;
-              cursor: pointer;
-              .singer-img{
-                margin: 0 auto;
-                width: 125px;
-                height: 120px;
-                position: relative;
-                img{
-                  width: 100%;
-                  height: 100%;
+            .alphabet{
+              display: flex;
+              .alphabet-item{
+                white-space: nowrap;
+                text-align: center;
+                cursor: pointer;
+                &:nth-child(1){
+                  width: 50px;
+                  margin-right: 5px;
                 }
-                .play{
-                  opacity: 0;
-                  color: #fff;
-                  position: absolute;
-                  bottom: 5px;
-                  right: 5px;
-                  font-size: 22px;
-                  transition: opacity .5s;
+                flex: 1;
+                &.active{
+                  color: #13ce66;
                 }
-                &:hover{
-                  .play{
-                    opacity: 1;
-                  }
-                }
-              }
-              .singer-name{
-                /*display: inline-block;*/
-                /*height: 30px;*/
-                /*line-height: 30px;*/
                 &:hover{
                   color: #13ce66;
+                }
+              }
+            }
+            .singerList-wrap{
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+              overflow-y: auto;
+              .singer-item{
+                margin: 10px 5px 15px 5px;
+                width: 150px;
+                text-align: center;
+                cursor: pointer;
+                .singer-img{
+                  margin: 0 auto;
+                  width: 125px;
+                  height: 120px;
+                  position: relative;
+                  img{
+                    width: 100%;
+                    height: 100%;
+                  }
+                  .play{
+                    opacity: 0;
+                    color: #fff;
+                    position: absolute;
+                    bottom: 5px;
+                    right: 5px;
+                    font-size: 22px;
+                    transition: opacity .5s;
+                  }
+                  &:hover{
+                    .play{
+                      opacity: 1;
+                    }
+                  }
+                }
+                .singer-name{
+                  /*display: inline-block;*/
+                  /*height: 30px;*/
+                  /*line-height: 30px;*/
+                  &:hover{
+                    color: #13ce66;
+                  }
                 }
               }
             }
