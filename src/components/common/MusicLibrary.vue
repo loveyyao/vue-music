@@ -3,7 +3,7 @@
     <el-tabs v-model="activeName"  @tab-click="handleClick">
       <el-tab-pane label="推荐" name="0"></el-tab-pane>
       <el-tab-pane label="排行榜" name="1"></el-tab-pane>
-      <el-tab-pane label="歌手" name="2">待开发</el-tab-pane>
+      <el-tab-pane label="歌手" name="2"></el-tab-pane>
       <el-tab-pane label="分类" name="3">待开发</el-tab-pane>
     </el-tabs>
     <div class="content w" :style="{height:windowH - 40 +'px'}">
@@ -87,14 +87,20 @@
             <span class="text">推荐MV</span>
           </div>
           <div class="MV-list w">
-            <div class="MV-item">
+            <div class="MV-item" v-for="(item,index) in MVData" :key="index">
               <div class="MV-img">
-                <img src="../../assets/img/1.jpg" alt="">
+                <img v-lazy="item.picUrl" alt="">
+                <div class="playCount">
+                  <i class="el-icon-headset"></i>
+                  <span>{{item.playCount|FormattedNumber}}</span>
+                </div>
+                <div class="time">{{item.duration|realFormatSecond}}</div>
                 <div class="play">
                   <i class="el-icon-video-play"></i>
                 </div>
               </div>
-              <div class="MV-name">xxxxx</div>
+              <div class="MV-copywriter">{{item.copywriter}}</div>
+              <div class="MV-name">{{item.name}}</div>
             </div>
           </div>
         </div>
@@ -125,6 +131,28 @@
           </div>
         </div>
       </div>
+      <div class="toplist-wrap wh" v-if="activeName==='2'">
+        <div class="toplist-title h">
+          <div class="title">歌手分类</div>
+          <ul class="list wh">
+            <li class="item" v-for="(item,index) in singer"
+                :class="{active:singerValue===item.value}"
+                @click="getSingerList(item.value)"
+                :key="index">{{item.label}}</li>
+          </ul>
+        </div>
+        <div class="toplist singerList h" v-loading="loadingSingerList">
+          <div class="singer-item" v-for="(item,index) in singers" :key="index">
+            <div class="singer-img">
+              <img v-lazy="item.img1v1Url" alt="">
+              <div class="play">
+                <i class="el-icon-video-play"></i>
+              </div>
+            </div>
+            <span class="singer-name">{{item.name}}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -146,6 +174,7 @@ export default {
       loadingAlbum: true,
       loadingSinger: true,
       loadingTopList: true,
+      loadingSingerList: true,
       toplistValue: 0,
       toplist: [
         {
@@ -286,7 +315,76 @@ export default {
         }
       ],
       toplistData: [],
-      toplistDescription: ''
+      toplistDescription: '',
+      MVData: [],
+      singer: [
+        {
+          label: '入驻歌手',
+          value: 5001
+        },
+        {
+          label: '华语男歌手',
+          value: 1001
+        },
+        {
+          label: '华语女歌手',
+          value: 1002
+        },
+        {
+          label: '华语组合 / 乐队',
+          value: 1003
+        },
+        {
+          label: '欧美男歌手',
+          value: 2001
+        },
+        {
+          label: '欧美女歌手',
+          value: 2002
+        },
+        {
+          label: '欧美组合 / 乐队',
+          value: 2003
+        },
+        {
+          label: '日本男歌手',
+          value: 6001
+        },
+        {
+          label: '日本女歌手',
+          value: 6002
+        },
+        {
+          label: '日本组合 / 乐队',
+          value: 6003
+        },
+        {
+          label: '韩国男歌手',
+          value: 7001
+        },
+        {
+          label: '韩国女歌手',
+          value: 7002
+        },
+        {
+          label: '韩国组合 / 乐队',
+          value: 7003
+        },
+        {
+          label: '其他男歌手',
+          value: 4001
+        },
+        {
+          label: '其他女歌手',
+          value: 4002
+        },
+        {
+          label: '其他组合/乐队',
+          value: 4003
+        }
+      ],
+      singerValue: 5001,
+      singers: []
     }
   },
   computed: {
@@ -311,6 +409,18 @@ export default {
     }
   },
   methods: {
+    getSingerList (val) {
+      this.singerValue = val
+      this.loadingSingerList = true
+      this.$axios.get('/artist/list', {cat: val})
+        .then((res) => {
+          if (res.data.code === 200) {
+            // console.log(res.data.artists)
+            this.singers = res.data.artists
+            this.loadingSingerList = false
+          }
+        })
+    },
     getTopList (val) {
       this.toplistValue = val
       this.loadingTopList = true
@@ -429,6 +539,26 @@ export default {
             // console.log(result)
           }
         })
+    },
+    getMVData () {
+      this.$axios.get('/personalized/mv')
+        .then((res) => {
+          if (res.data.code === 200) {
+            const result = res.data.result
+            this.MVData = result.map((item) => {
+              return {
+                copywriter: item.copywriter,
+                duration: item.duration / 1000,
+                name: item.name,
+                picUrl: item.picUrl,
+                playCount: item.playCount,
+                id: item.id
+              }
+            })
+            console.log(this.MVData)
+          }
+          console.log(res)
+        })
     }
   },
   mounted () {
@@ -436,6 +566,8 @@ export default {
     this.getAlbumData()
     this.getSingerData()
     this.getTopList(0)
+    this.getMVData()
+    this.getSingerList(this.singerValue)
   }
 }
 </script>
@@ -688,9 +820,10 @@ export default {
             display: flex;
             .MV-item{
               margin: 10px 5px 15px 5px;
-              width: 150px;
+              width: 25%;
               text-align: center;
               cursor: pointer;
+              overflow: hidden;
               .MV-img{
                 margin: 0 auto;
                 width: 125px;
@@ -699,6 +832,18 @@ export default {
                 img{
                   width: 100%;
                   height: 100%;
+                }
+                .playCount{
+                  color: #fff;
+                  position: absolute;
+                  top: 5px;
+                  right: 10px;
+                }
+                .time{
+                  color: #fff;
+                  position: absolute;
+                  bottom: 5px;
+                  left: 10px;
                 }
                 .play{
                   width: 100%;
@@ -721,7 +866,17 @@ export default {
                   }
                 }
               }
+              .MV-copywriter{
+                width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
               .MV-name{
+                width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
                 /*display: inline-block;*/
                 /*height: 30px;*/
                 /*line-height: 30px;*/
@@ -860,6 +1015,50 @@ export default {
                 }
                 .option{
                   opacity: 1;
+                }
+              }
+            }
+          }
+          &.singerList{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            overflow-y: auto;
+            .singer-item{
+              margin: 10px 5px 15px 5px;
+              width: 150px;
+              text-align: center;
+              cursor: pointer;
+              .singer-img{
+                margin: 0 auto;
+                width: 125px;
+                height: 120px;
+                position: relative;
+                img{
+                  width: 100%;
+                  height: 100%;
+                }
+                .play{
+                  opacity: 0;
+                  color: #fff;
+                  position: absolute;
+                  bottom: 5px;
+                  right: 5px;
+                  font-size: 22px;
+                  transition: opacity .5s;
+                }
+                &:hover{
+                  .play{
+                    opacity: 1;
+                  }
+                }
+              }
+              .singer-name{
+                /*display: inline-block;*/
+                /*height: 30px;*/
+                /*line-height: 30px;*/
+                &:hover{
+                  color: #13ce66;
                 }
               }
             }
