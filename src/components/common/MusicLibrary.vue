@@ -149,8 +149,8 @@
                  @click="searchSingerByAlphabet(i)"
             >{{i}}</div>
           </div>
-          <div class="singerList-wrap wh">
-            <div class="singer-item" v-for="(item,index) in singers" :key="index">
+          <ul  class="singerList-wrap wh" v-infinite-scroll="load">
+            <li class="singer-item" v-for="(item,index) in singers" :key="index">
               <div class="singer-img">
                 <img v-lazy="item.img1v1Url" alt="">
                 <div class="play">
@@ -158,8 +158,8 @@
                 </div>
               </div>
               <span class="singer-name">{{item.name}}</span>
-            </div>
-          </div>
+            </li>
+          </ul >
         </div>
       </div>
     </div>
@@ -395,7 +395,8 @@ export default {
         }
       ],
       singerValue: 5001,
-      singers: []
+      singers: [],
+      offset: 0
     }
   },
   computed: {
@@ -420,11 +421,18 @@ export default {
     }
   },
   methods: {
+    load () {
+      this.offset = this.offset + 1
+      // this.getSingerList()
+      console.log(this.offset)
+    },
     searchSingerByAlphabet (val) {
+      this.singers = []
       this.alphabetActive = val
       this.getSingerList()
     },
     searchSingerByCategory (val) {
+      this.singers = []
       this.alphabetActive = '全部'
       this.singerValue = val
       this.getSingerList()
@@ -436,10 +444,11 @@ export default {
       if (alphabet === '全部') {
         alphabet = ''
       }
-      this.$axios.get('/artist/list', {cat: singerValue, initial: alphabet})
+      this.$axios.get('/artist/list', {cat: singerValue, offset: this.offset, initial: alphabet})
         .then((res) => {
           if (res.data.code === 200) {
             // console.log(res.data.artists)
+            // this.singers = [...this.singers, ...res.data.artists]
             this.singers = res.data.artists
             this.loadingSingerList = false
           }
