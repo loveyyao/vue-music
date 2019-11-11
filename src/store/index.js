@@ -14,12 +14,19 @@ const state = {
   comment: {}, // 存储歌曲评论
   lyric: {}, // 歌词
   index: 0,
-  top: 0
+  top: 0,
+  singers: []
 }
 const getters = {
 }
 
 const mutations = {
+  delSingersData: function (state, data) {
+    state.singers = data
+  },
+  setSingersData: function (state, data) {
+    state.singers = [...state.singers, ...data]
+  },
   setWindowH: function (state, data) {
     state.windowH = data
   },

@@ -395,11 +395,13 @@ export default {
         }
       ],
       singerValue: 5001,
-      singers: [],
       offset: 0
     }
   },
   computed: {
+    singers () {
+      return this.$store.state.singers
+    },
     windowH () {
       return this.$store.state.windowH
     },
@@ -423,11 +425,12 @@ export default {
   methods: {
     load () {
       this.offset = this.offset + 1
-      // this.getSingerList()
+      this.getSingerList()
       console.log(this.offset)
     },
     searchSingerByAlphabet (val) {
-      this.singers = []
+      // this.singers = []
+      this.$store.commit('delSingersData', [])
       this.alphabetActive = val
       this.getSingerList()
     },
@@ -449,7 +452,8 @@ export default {
           if (res.data.code === 200) {
             // console.log(res.data.artists)
             // this.singers = [...this.singers, ...res.data.artists]
-            this.singers = res.data.artists
+            this.$store.commit('setSingersData', res.data.artists)
+            // this.singers = res.data.artists
             this.loadingSingerList = false
           }
         })
