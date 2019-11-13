@@ -604,7 +604,7 @@ export default {
     this.getSingerData()
     this.getTopList(0)
     this.getMVData()
-    this.getSingerList()
+    // this.getSingerList()
   }
 }
 </script>
