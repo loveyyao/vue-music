@@ -435,7 +435,8 @@ export default {
       this.getSingerList()
     },
     searchSingerByCategory (val) {
-      this.singers = []
+      // this.singers = []
+      this.$store.commit('delSingersData', [])
       this.alphabetActive = '全部'
       this.singerValue = val
       this.getSingerList()
