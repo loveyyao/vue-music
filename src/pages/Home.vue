@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import Header from './common/Header'
-import Footer from './common/Footer'
-import Body from './common/Body'
+import Header from '../components/common/Header'
+import Footer from '../components/common/Footer'
+import Body from '../components/common/Body'
 export default {
   name: 'Home',
   data () {

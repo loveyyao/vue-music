@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/styles/common/functions";
+  @import "../assets/styles/common/functions";
   .lyric-wrap{
     width: 100%;
     /*height: px2vw(530);*/

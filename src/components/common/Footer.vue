@@ -450,7 +450,11 @@ export default {
     }
   },
   mounted () {
-    this.windowUrl = window.location.href
+    const url = window.location.href
+    const index = url.indexOf('home')
+    console.log(index)
+    this.windowUrl = url.slice(0, index)
+    console.log(this.windowUrl)
     const that = this
     let volumeVal = this.$utils.getItem('volume')
     // console.log(volumeVal)

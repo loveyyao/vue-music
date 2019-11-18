@@ -17,7 +17,7 @@
       </span>
     </div>
     {{lyric}}
-<!--    haha-->
+    <!--    haha-->
   </div>
 </template>
 
@@ -86,61 +86,61 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.lyric-container{
-  height: 70px;
-  position: relative;
-  font-size: 30px;
-  line-height: 70px;
-  text-align: center;
-  transition: all .5s;
-  color: red;
-  /*background: rgba(0,0,0,.5);*/
-  /*border: 2px solid #000;*/
-  .move-box{
-    width: 100%;
-    height: 30px;
-    /*background: red;*/
-    /*background: #fff;*/
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 9;
-  }
-  .icon{
-    opacity: 0;
+  .lyric-container{
+    height: 70px;
+    position: relative;
+    font-size: 30px;
+    line-height: 70px;
+    text-align: center;
     transition: all .5s;
-    position: absolute;
-    top: 0;
-    right: 10px;
-  }
-  .music-btn{
-    opacity: 0;
-    transition: all .5s;
-    width: 250px;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    color: rgba(255,255,255,.5);
-    .icon-btn{
-      flex: 1;
+    color: red;
+    /*background: rgba(0,0,0,.5);*/
+    /*border: 2px solid #000;*/
+    .move-box{
+      width: 100%;
+      height: 30px;
+      /*background: red;*/
+      /*background: #fff;*/
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 9;
     }
-    .play-btn{
-      font-size: 35px;
-      flex: 1;
-    }
-  }
-  &:hover{
-    background: rgba(0,0,0,.5);
     .icon{
-      opacity: 1;
+      opacity: 0;
+      transition: all .5s;
+      position: absolute;
+      top: 0;
+      right: 10px;
     }
     .music-btn{
-      opacity: 1;
-      color: #fff;
+      opacity: 0;
+      transition: all .5s;
+      width: 250px;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      color: rgba(255,255,255,.5);
+      .icon-btn{
+        flex: 1;
+      }
+      .play-btn{
+        font-size: 35px;
+        flex: 1;
+      }
+    }
+    &:hover{
+      background: rgba(0,0,0,.5);
+      .icon{
+        opacity: 1;
+      }
+      .music-btn{
+        opacity: 1;
+        color: #fff;
+      }
     }
   }
-}
 </style>

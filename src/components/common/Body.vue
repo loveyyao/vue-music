@@ -49,36 +49,55 @@
     </div>
     <div class="main-right pr h" :class="{min:isMin}">
       <el-tabs v-model="rightActiveName" @tab-click="handleClick">
-        <el-tab-pane label="乐库" name="0"></el-tab-pane>
-        <el-tab-pane label="电台" name="1">待开发</el-tab-pane>
-        <el-tab-pane label="歌单" name="2">待开发</el-tab-pane>
-        <el-tab-pane label="MV" name="3">待开发</el-tab-pane>
-        <el-tab-pane label="直播" name="4">待开发</el-tab-pane>
-        <el-tab-pane label="KTV" name="5">待开发</el-tab-pane>
-        <el-tab-pane label="歌词" name="6"></el-tab-pane>
+        <el-tab-pane v-for="(tab,index) in tabs"
+                     :label="tab.label"
+                     :name="index + ''"
+                     :key="index"></el-tab-pane>
       </el-tabs>
-      <Search v-if="!rightActiveName"></Search>
-      <!--      <Search/>-->
-      <Lyric v-if="rightActiveName==='6'"></Lyric>
-      <MusicLibrary v-if="rightActiveName==='0'"></MusicLibrary>
+      <!--<Search v-if="!rightActiveName"></Search>-->
+      <!--<Lyric v-if="rightActiveName==='6'"></Lyric>-->
+      <!--<MusicLibrary v-if="rightActiveName==='0'"></MusicLibrary>-->
+      <router-view></router-view>
       <div class="line" v-show="showLine"></div>
     </div>
   </div>
 </template>
 <script>
-import Lyric from './Lyric'
-import Search from './Search'
-import MusicLibrary from './MusicLibrary'
 export default {
   props: [],
-  components: {
-    Search,
-    Lyric,
-    MusicLibrary
-  },
 
   data () {
     return {
+      tabs: [
+        {
+          label: '乐库',
+          router: 'musicLibrary'
+        },
+        {
+          label: '电台',
+          router: 'musicLibrary'
+        },
+        {
+          label: '歌单',
+          router: 'musicLibrary'
+        },
+        {
+          label: 'MV',
+          router: 'mv'
+        },
+        {
+          label: '直播',
+          router: 'musicLibrary'
+        },
+        {
+          label: 'KTV',
+          router: 'musicLibrary'
+        },
+        {
+          label: '歌词',
+          router: 'lyric'
+        }
+      ],
       rightActiveName: '0',
       activeName: '0',
       collapseActive: '',
@@ -110,6 +129,11 @@ export default {
     },
     // 监视rightActiveName的值
     rightActiveName (e) {
+      if (e) {
+        const path = this.tabs[e].router
+        this.$router.push('/home/' + path)
+        console.log(path)
+      }
       // 当值为六的时候触发更换页面背景
       if (e === '6') {
         this.$bus.$emit('setBg', true)
@@ -125,7 +149,8 @@ export default {
     }
   },
   methods: {
-    handleClick () {
+    handleClick (e) {
+      console.log(e.label)
       this.$store.commit('setShowBg', this.rightActiveName)
     },
     playMusic (data, index) {
@@ -164,6 +189,7 @@ export default {
     // 绑定一个触发搜索列表组件显示的方法
     that.$bus.$on('showSearch', function () {
       that.rightActiveName = ''
+      that.$router.push('/home/search')
       // that.rightActiveName = '7'
       // this.$store.commit('setShowBg', that.rightActiveName)
     })

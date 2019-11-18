@@ -425,7 +425,7 @@ export default {
   methods: {
     load () {
       this.offset = this.offset + 1
-      this.getSingerList()
+      // this.getSingerList()
       console.log(this.offset)
     },
     searchSingerByAlphabet (val) {

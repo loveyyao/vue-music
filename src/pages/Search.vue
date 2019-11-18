@@ -166,7 +166,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../assets/styles/common/functions";
+  @import "../assets/styles/common/functions";
   .search-container{
     /*flex: 1;*/
     /*width: 100%;*/
