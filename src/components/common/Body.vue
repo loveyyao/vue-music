@@ -75,11 +75,11 @@ export default {
         },
         {
           label: '电台',
-          router: 'musicLibrary'
+          router: 'broadcastingStation'
         },
         {
           label: '歌单',
-          router: 'musicLibrary'
+          router: 'songList'
         },
         {
           label: 'MV',
@@ -87,11 +87,11 @@ export default {
         },
         {
           label: '直播',
-          router: 'musicLibrary'
+          router: 'liveStreaming'
         },
         {
           label: 'KTV',
-          router: 'musicLibrary'
+          router: 'ktv'
         },
         {
           label: '歌词',
