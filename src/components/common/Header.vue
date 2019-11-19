@@ -21,7 +21,7 @@
     </div>
     <div class="header-right fr" :class="{min:isMin}">
       <div class="section-left cursor">
-        <span class="icon cursor">
+        <span class="icon cursor" @click="goBack">
           <i class="el-icon-arrow-left"></i>
           <span class="tooltip pa">返回</span>
         </span>
@@ -131,6 +131,9 @@ export default {
     }
   },
   methods: {
+    goBack () {
+      this.$router.go(-1)
+    },
     searchClick (e) {
       if (e.target.className === 'el-input__icon el-icon-search') {
         this.searchSong()

@@ -63,7 +63,10 @@
         <span class="text">推荐歌手</span>
       </div>
       <div class="singer-list w" v-loading="loadingSinger">
-        <div class="singer-item" v-for="(item,index) in singerList" :key="index">
+        <div class="singer-item"
+             v-for="(item,index) in singerList"
+             @click="toSingerDetails(item)"
+             :key="index">
           <div class="singer-img">
             <img v-lazy="item.img1v1Url" alt="">
             <div class="play">
@@ -125,6 +128,14 @@ export default {
     }
   },
   methods: {
+    toSingerDetails (singer) {
+      this.$router.push({
+        name: 'SingerDetails',
+        params: {
+          singer: singer
+        }
+      })
+    },
     handleClick () {},
     CurrentChange (val) {
       this.currentPage = val

@@ -18,7 +18,10 @@
         >{{i}}</div>
       </div>
       <ul  class="singerList-wrap wh" v-infinite-scroll="load">
-        <li class="singer-item" v-for="(item,index) in singers" :key="index">
+        <li class="singer-item"
+            v-for="(item,index) in singers"
+            @click="toSingerDetails(item)"
+            :key="index">
           <div class="singer-img">
             <img v-lazy="item.img1v1Url" alt="">
             <div class="play">
@@ -129,11 +132,9 @@ export default {
       console.log(this.offset)
     },
     searchSingerByCategory (val) {
-      // this.singers = []
       this.$store.commit('delSingersData', [])
       this.alphabetActive = '全部'
       this.singerValue = val
-      // this.getSingerList()
     },
     searchSingerByAlphabet (val) {
       // this.singers = []
@@ -158,7 +159,20 @@ export default {
             this.loadingSingerList = false
           }
         })
+    },
+    toSingerDetails (singer) {
+      this.$router.push({
+        name: 'SingerDetails',
+        params: {
+          singer: singer
+        }
+      })
     }
+  },
+  mounted () {
+    this.$store.commit('delSingersData', [])
+    this.offset = 0
+    this.getSingerList()
   }
 }
 </script>

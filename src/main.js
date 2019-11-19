@@ -22,7 +22,7 @@ Vue.use(ElementUI, {
   size: 'small'
 })
 Vue.use(VueLazyload, {
-  loading: '../static/loading.gif'
+  loading: '../../static/loading.gif'
 })
 Vue.filter('realFormatSecond', realFormatSecond)
 Vue.filter('FormattedNumber', FormattedNumber)

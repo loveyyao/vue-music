@@ -131,7 +131,7 @@ export default {
     rightActiveName (e) {
       if (e) {
         const path = this.tabs[e].router
-        this.$router.push('/home/' + path)
+        this.$router.replace('/home/' + path)
         console.log(path)
       }
       // 当值为六的时候触发更换页面背景

@@ -38,7 +38,12 @@ export default {
       const that = this
       if (e) {
         // 判断是否存在歌手写真路劲
-        that.triggerBg()
+        const img = document.createElement('img')
+        img.src = e
+        img.onload = function () {
+          console.log('背景加载好了')
+          that.triggerBg()
+        }
       }
     }
   },

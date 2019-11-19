@@ -94,4 +94,9 @@
   .el-tabs__active-bar{
     display: none;
   }
+  .details{
+    .el-tabs__active-bar{
+      display: block;
+    }
+  }
 }

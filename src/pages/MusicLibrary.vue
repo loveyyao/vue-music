@@ -48,7 +48,7 @@ export default {
     activeName (e) {
       if (e) {
         const path = this.tabs[e].router
-        this.$router.push('/home/musicLibrary/' + path)
+        this.$router.replace('/home/musicLibrary/' + path)
         console.log(path)
       }
     }

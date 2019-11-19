@@ -12,7 +12,9 @@
     <div class="toplist h" v-loading="loadingTopList">
       <div class="title">{{toplistDescription}}</div>
       <div class="top-list wh">
-        <div class="top-item" v-for="(item, index) in toplistData" :key="index">
+        <div class="top-item" v-for="(item, index) in toplistData"
+             @dbclick="playCellMusic(item)"
+             :key="index">
           <span class="top-number" :class="{red:index<5}">{{index+1}}</span>
           <span class="name">{{item.name}}</span>
           <div class="time">{{item.time|realFormatSecond}}</div>
@@ -229,6 +231,7 @@ export default {
     },
     getTopList (val) {
       this.toplistValue = val
+      this.toplistData = []
       this.loadingTopList = true
       this.$axios.get('/top/list', {idx: val})
         .then((res) => {
