@@ -25,7 +25,7 @@
           tooltip-effect="dark"
           class="searchTable"
           style="width: 100%"
-          :height="windowH - 280 +'px'"
+          :height="windowH - 265 +'px'"
           :header-cell-style="tableHeaderColor"
           >
           <el-table-column type="selection" width="30"></el-table-column>
@@ -82,7 +82,7 @@ export default {
           label: '资料'
         }
       ],
-      pageSize: 5,
+      // pageSize: 5,
       currentPage: 1,
       loading: true,
       id: null,
@@ -90,6 +90,9 @@ export default {
     }
   },
   computed: {
+    pageSize () {
+      return Math.floor((this.windowH - 265) / 45)
+    },
     tableData () {
       const that = this
       const data = that.singerSongData
