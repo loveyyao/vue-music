@@ -40,6 +40,7 @@
         <div class="new-album-list" v-loading="loadingAlbum">
           <div class="album-item" v-for="(item,index) in albumData" :key="index" :class="{mt:index>1}">
             <div class="album-img">
+              <div class="mask"></div>
               <img v-lazy="item.img" alt="">
               <div class="user">
                 <i class="el-icon-user"></i>
@@ -68,6 +69,7 @@
              @click="toSingerDetails(item)"
              :key="index">
           <div class="singer-img">
+            <div class="mask"></div>
             <img v-lazy="item.img1v1Url" alt="">
             <div class="play">
               <i class="el-icon-video-play"></i>
@@ -225,7 +227,7 @@ export default {
     },
     getSingerData () {
       this.loadingSinger = true
-      this.$axios.get('/top/artists', {offset: 0, limit: 8})
+      this.$axios.get('/top/artists', {offset: 0, limit: 12})
         .then((res) => {
           if (res.data.code === 200) {
             const result = res.data.artists
@@ -406,6 +408,16 @@ export default {
               width: 125px;
               height: 120px;
               position: relative;
+              .mask{
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                background: rgba(0,0,0,.4);
+                opacity: 0;
+                transition: opacity .5s;
+              }
               img{
                 width: 100%;
                 height: 100%;
@@ -432,6 +444,9 @@ export default {
                 bottom: 0;
               }
               &:hover{
+                .mask{
+                  opacity: 1;
+                }
                 .play{
                   opacity: 1;
                 }
@@ -478,6 +493,16 @@ export default {
             width: 125px;
             height: 120px;
             position: relative;
+            .mask{
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              top: 0;
+              left: 0;
+              background: rgba(0,0,0,.4);
+              opacity: 0;
+              transition: opacity .5s;
+            }
             img{
               width: 100%;
               height: 100%;
@@ -492,6 +517,9 @@ export default {
               transition: opacity .5s;
             }
             &:hover{
+              .mask{
+                opacity: 1;
+              }
               .play{
                 opacity: 1;
               }
