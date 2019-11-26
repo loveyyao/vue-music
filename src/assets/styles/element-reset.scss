@@ -1,4 +1,16 @@
 @import "./common/functions";
+.el-button--primary{
+  //width: 100%;
+  background: #41B883;
+  border-color: #41B883;
+}
+.el-button--primary:focus, .el-button--primary:hover{
+  background: #41B883;
+  border-color: #41B883;
+}
+.el-button--default:hover{
+  color: #41B883;
+}
 .main {
   .el-tabs__nav-wrap::after{
     content: '';
@@ -46,6 +58,23 @@
         //flex: 1;
         text-align: center;
         width: 100px;
+      }
+    }
+  }
+  .add-box{
+    .el-dialog__header{}
+    .el-dialog__body{
+      padding: 10px;
+      .add-main{
+        .el-input--small{
+          margin-bottom: 20px;
+        }
+        .dialog-footer{
+          //width: 100%;
+          .el-button--primary{
+            //width: 100%;
+          }
+        }
       }
     }
   }
@@ -97,6 +126,25 @@
   .details{
     .el-tabs__active-bar{
       display: block;
+    }
+  }
+}
+.header{
+  .login-box{
+    .el-dialog__header{}
+    .el-dialog__body{
+      padding-top: 10px;
+      .login-from{
+        .el-input--small{
+          margin-bottom: 20px;
+        }
+        .dialog-footer{
+          width: 100%;
+          .el-button--primary{
+            width: 100%;
+          }
+        }
+      }
     }
   }
 }

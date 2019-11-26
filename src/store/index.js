@@ -15,12 +15,24 @@ const state = {
   lyric: {}, // 歌词
   index: 0,
   top: 0,
-  singers: []
+  singers: [],
+  token: '',
+  userInfo: {},
+  playList: []
 }
 const getters = {
 }
 
 const mutations = {
+  setPlayList: function (state, data) {
+    state.playList = data
+  },
+  setToken: function (state, data) {
+    state.token = data
+  },
+  setUserInfo: function (state, data) {
+    state.userInfo = data
+  },
   delSingersData: function (state, data) {
     state.singers = data
   },

@@ -52,13 +52,12 @@ function getQueryString (name) {
 // ***********************************
 // name：设置cookies字段
 // purpose: 添加或者修改cookies某字段
-function setCookies (cName, value) {
+function setCookies (cName, value, expires) {
   let today = new Date().getTime()
-  let endDay = new Date(today + 8 * 60 * 60 * 1000)
+  let endDay = new Date(today + expires * 24 * 60 * 60 * 1000)
   let cookieStr = cName + '=' + value + ';' + endDay + ';path=/'
   document.cookie = cookieStr
 }
-
 // name：获取cookies字段
 // purpose: 根据字段名获取cookies某字段
 function getCookies (cName) {

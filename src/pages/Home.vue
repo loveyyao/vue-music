@@ -59,7 +59,9 @@ export default {
     // console.log(this.$utils)
     const that = this
     const defaultList = this.$utils.getItem('defaultList')
-    that.$store.commit('addDefaultList', defaultList)
+    if (defaultList) {
+      that.$store.commit('addDefaultList', defaultList)
+    }
     // 切换背景为歌手照片（歌手照片好像请求不到）
     that.$bus.$on('setBg', function (e) {
       if (e) {

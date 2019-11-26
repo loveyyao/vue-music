@@ -119,13 +119,13 @@ const webpackConfig = merge(baseWebpackConfig, {
       }
     ]),
     // copy custom static assets
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../version.html'),
-        to: config.build.assetsPublicPath,
-        ignore: ['.*']
-      }
-    ])
+    // new CopyWebpackPlugin([
+    //   {
+    //     from: path.resolve(__dirname, '../version.html'),
+    //     to: config.build.assetsPublicPath,
+    //     ignore: ['.*']
+    //   }
+    // ])
   ]
 })
 

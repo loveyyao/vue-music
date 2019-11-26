@@ -1,7 +1,7 @@
 <template>
   <div class="main wh">
     <div class="main-left pr h" :class="{border: showBorder,hidden:hide}">
-      <el-tabs v-model="activeName" :stretch="true" @tab-click="handleClick">
+      <el-tabs v-model="activeName" :stretch="true">
         <el-tab-pane name="0">
           <span slot="label" class="tabs-icon"><i class="el-icon-headset"></i></span>
           <el-collapse v-model="collapseActive" accordion>
@@ -10,7 +10,7 @@
                 <div class="music-list-wrap" :style="{height:listH -50 +'px'}">
                   <div class="music-item pr"
                        v-for="(item, index) in defaultList"
-                       @dblclick="playMusic(item,index)"
+                       @dblclick="playMusic(defaultList,item,index)"
                        :key="index"
                        :class="{active:playIndex===index}"
                   >
@@ -18,7 +18,7 @@
                     <span class="music-mame">{{item.name}}</span>
                     <span class="music-time">{{item.time|realFormatSecond}}</span>
                     <span class="options pa pc">
-                        <i class="el-icon-star-off cursor"></i>
+                        <i class="el-icon-star-off cursor" @click.stop="addUserPlaylist(item)"></i>
                         <i class="el-icon-delete cursor" @click.stop="deleteMusic(index)"></i>
                         <i class="el-icon-more cursor"></i>
                       </span>
@@ -30,7 +30,30 @@
         </el-tab-pane>
         <el-tab-pane name="1">
           <span slot="label" class="tabs-icon"><i class="el-icon-cloudy"></i></span>
-          待开发
+          <el-collapse v-model="collapseActive" accordion v-if="token" v-loading="loaderUser" :style="{height:listH -50 +'px'}">
+            <div class="list-container" :style="{height:listH+'px'}">
+              <el-collapse-item v-for="(e, i) in userPlaylist" :title="e.name+'[ '+e.num+' ]'" :name="i" :key="i">
+                <div class="music-list-wrap">
+                  <div class="music-item pr"
+                       v-for="(item, index) in e.list"
+                       @dblclick="playMusic(e.list,item,index)"
+                       :key="index"
+                       :class="{active:playIndex===index}"
+                  >
+                    <span class="icon cursor"><i class="el-icon-plus"></i></span>
+                    <span class="music-mame">{{item.name}}</span>
+                    <span class="music-time">{{item.time|realFormatSecond}}</span>
+                    <span class="options pa pc">
+                        <i class="el-icon-star-on cursor"></i>
+                        <i class="el-icon-delete cursor" @click.stop="deleteMusic(index)"></i>
+                        <i class="el-icon-more cursor"></i>
+                      </span>
+                  </div>
+                </div>
+              </el-collapse-item>
+            </div>
+          </el-collapse>
+          <div v-else>未登录哦</div>
         </el-tab-pane>
         <el-tab-pane name="2">
           <span slot="label" class="tabs-icon"><i class="el-icon-connection"></i></span>
@@ -60,6 +83,25 @@
       <router-view></router-view>
       <div class="line" v-show="showLine"></div>
     </div>
+    <el-dialog
+      title="添加到"
+      :visible.sync="dialogVisible"
+      custom-class="add-box"
+      width="30%"
+      >
+      <div class="add-main">
+        <el-tree :data="playlist"
+                 show-checkbox
+                 ref="tree"
+                 empty-text="您还没有歌单哦，请先创建歌单"
+                 @node-click="handleNodeClick">
+        </el-tree>
+      </div>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="getCheckedNodes">确 定</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -68,6 +110,8 @@ export default {
 
   data () {
     return {
+      addData: {},
+      dialogVisible: false,
       tabs: [
         {
           label: '乐库',
@@ -106,17 +150,29 @@ export default {
       showLine: true,
       listH: 0,
       hide: false,
-      isMin: false
+      isMin: false,
+      playlist: [],
+      userPlaylist: [],
+      loaderUser: true
     }
   },
 
   computed: {
     // 获取默认播放列表
+    playList () {
+      return this.$store.state.playList
+    },
     defaultList () {
       return this.$store.state.defaultList
     },
     atPresentPlayMusic () {
       return this.$store.state.atPresent
+    },
+    token () {
+      return this.$store.state.token
+    },
+    userInfo () {
+      return this.$store.state.userInfo
     }
   },
   watch: {
@@ -124,7 +180,7 @@ export default {
       this.$utils.setItem('defaultList', e)
     },
     playIndex (e) {
-      this.$store.commit('setAtPresentPlayMusic', this.defaultList[e])
+      this.$store.commit('setAtPresentPlayMusic', this.playList[e])
       this.$utils.setItem('nowLyric', '')
     },
     // 监视rightActiveName的值
@@ -146,18 +202,113 @@ export default {
         this.showLine = true
         this.hide = false
       }
+    },
+    activeName (e) {
+      if (e === '1') {
+        this.getUserSongs()
+      }
     }
   },
   methods: {
+    getCheckedNodes () {
+      // console.log(this.$refs.tree.getCheckedNodes())
+      const ids = this.$refs.tree.getCheckedNodes()
+      console.log(ids)
+      // this.dialogVisible = false
+      if (ids.length) {
+        ids.forEach((e) => {
+          const id = e.id
+          this.$axios.get('playlist/tracks', {
+            op: 'add',
+            pid: id,
+            tracks: this.addData.id
+          })
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.$message({
+                  type: 'success',
+                  message: '添加成功'
+                })
+                this.dialogVisible = false
+                this.getUserSongs()
+              }
+            })
+        })
+      } else {
+        this.$message.error('请选择歌单')
+      }
+    },
+    handleNodeClick (data) {
+      console.log(data)
+    },
+    addUserPlaylist (data) {
+      if (this.token) {
+        this.getUserSongs()
+        this.addData = data
+        this.dialogVisible = true
+      } else {
+        this.$message.error('尚未登录哦，请先登录')
+      }
+    },
+    getUserSongs () {
+      if (this.token) {
+        this.$axios.get('user/playlist', {
+          uid: this.userInfo.id
+        })
+          .then((res) => {
+            // console.log(res)
+            if (res.data.code === 200) {
+              this.playlist = res.data.playlist.map((e) => {
+                return {
+                  id: e.id,
+                  name: e.name,
+                  label: e.name
+                }
+              })
+              console.log(res.data.playlist)
+              this.playlist.forEach((e) => {
+                this.getPlaylistDetail(e.id)
+              })
+            }
+          })
+      } else {
+        // this.$message.error('尚未登录哦，请先登录')
+      }
+    },
+    getPlaylistDetail (id) {
+      this.$axios.get('/playlist/detail', {
+        id: id
+      })
+        .then((res) => {
+          // console.log(res)
+          if (res.data.code === 200) {
+            console.log(res.data.playlist.tracks)
+            const songList = res.data.playlist.tracks.map((e) => {
+              return {
+                name: e.name,
+                id: e.id,
+                time: e.dt / 1000
+              }
+            })
+            this.userPlaylist = this.playlist.map((e) => {
+              if (e.id === id) {
+                e.list = songList
+                e.num = songList.length
+              }
+              return e
+            })
+            this.loaderUser = false
+          }
+        })
+    },
     handleClick (e) {
       console.log(e.label)
       this.$store.commit('setShowBg', this.rightActiveName)
     },
-    playMusic (data, index) {
-      if (this.playIndex !== index) {
-        this.playIndex = index
-        this.$store.commit('setAtPresentPlayMusic', data)
-      }
+    playMusic (list, data, index) {
+      this.$store.commit('setPlayList', list)
+      this.playIndex = index
+      this.$store.commit('setAtPresentPlayMusic', data)
     },
     // 点击删除图标
     deleteMusic (index) {

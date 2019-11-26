@@ -173,7 +173,7 @@ export default {
       return this.$store.state.atPresent
     },
     defaultList () {
-      return this.$store.state.defaultList
+      return this.$store.state.playList
     },
     commentNum () {
       return this.$store.state.comment

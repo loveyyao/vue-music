@@ -30,6 +30,12 @@ export default {
   mounted () {
     // console.log(this.$utils)
     const that = this
+    if (that.$utils.getCookies('userInfo')) {
+      const userInfo = JSON.parse(that.$utils.getCookies('userInfo'))
+      const token = JSON.parse(that.$utils.getCookies('token'))
+      that.$store.commit('setToken', token)
+      that.$store.commit('setUserInfo', userInfo)
+    }
     // const defaultList = this.$utils.getItem('defaultList')
     // that.$store.commit('addDefaultList', defaultList)
     // 切换背景为歌手照片（歌手照片好像请求不到）

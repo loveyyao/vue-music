@@ -1,9 +1,11 @@
 <template>
   <div class="header ward" :style="{background:bgColor}">
-    <div class="header-left fl">
-      <div class="user">
+    <div class="header-left fl pr">
+      <div class="user cursor" @click="toLogin">
+        <img src="../../assets/img/logo.png" alt="" v-if="!userInfo.img">
+        <img v-lazy="userInfo.img" alt="" v-else>
       </div>
-      <div class="user-name">哈哈</div>
+      <div class="user-name cursor" @click="toLogin">{{userInfo.name?userInfo.name:'未登录'}}</div>
       <div class="btn" v-if="isMin">
         <span class="icon cursor" @click="max">
           <i class="el-icon-download rotate"></i>
@@ -17,6 +19,9 @@
           <i class="el-icon-close"></i>
           <span class="tooltip pa">关闭</span>
         </div>
+      </div>
+      <div class="logout pa" v-if="showLogout">
+        <span class="cursor" @click="logout">退出</span>
       </div>
     </div>
     <div class="header-right fr" :class="{min:isMin}">
@@ -112,6 +117,28 @@
         </div>
       </div>
     </div>
+    <el-dialog
+      title="登录"
+      custom-class="login-box"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      top="20%"
+      center>
+      <div class="login-from">
+        <el-input
+          placeholder="请输入手机号码"
+          v-model="phone">
+        </el-input>
+        <el-input
+          type="password"
+          placeholder="请输入密码"
+          v-model="password">
+        </el-input>
+        <span class="dialog-footer">
+          <el-button type="primary" @click="login">登录</el-button>
+        </span>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -120,6 +147,9 @@ export default {
   name: 'Header',
   data () {
     return {
+      phone: '',
+      password: '',
+      centerDialogVisible: false,
       search: '',
       hostSearch: {},
       searchSuggest: {},
@@ -127,10 +157,78 @@ export default {
       bgColor: '#41B883',
       timer: null,
       offset: 0,
-      isMin: false
+      isMin: false,
+      showLogout: false
+    }
+  },
+  computed: {
+    userInfo () {
+      return this.$store.state.userInfo
+    },
+    token () {
+      return this.$store.state.token
     }
   },
   methods: {
+    logout () {
+      this.$axios.get('logout')
+        .then((res) => {
+          console.log(res)
+          if (res.data.code === 200) {
+            this.showLogout = !this.showLogout
+            this.$store.commit('setToken', '')
+            this.$store.commit('setUserInfo', {})
+            this.$utils.setCookies('userInfo', JSON.stringify({}), 0)
+            this.$utils.setCookies('token', JSON.stringify(''), 0)
+            this.$message({
+              type: 'success',
+              message: '退出成功'
+            })
+          }
+        })
+    },
+    login () {
+      const that = this
+      that.$axios.get('login/cellphone', {
+        phone: that.phone,
+        password: that.password
+      })
+        .then((res) => {
+          console.log(res)
+          if (res.data.code === 200) {
+            console.log('用户登录')
+            console.log(res.data)
+            const token = JSON.parse(res.data.bindings[1].tokenJsonStr).access_token
+            const userInfo = {
+              id: res.data.profile.userId,
+              name: res.data.profile.nickname,
+              img: res.data.profile.avatarUrl
+            }
+            // console.log(token)
+            that.$store.commit('setToken', token)
+            that.$store.commit('setUserInfo', userInfo)
+            that.$message({
+              type: 'success',
+              message: '登录成功'
+            })
+            that.centerDialogVisible = !that.centerDialogVisible
+            that.$utils.setCookies('userInfo', JSON.stringify(userInfo), 7)
+            that.$utils.setCookies('token', JSON.stringify(token), 7)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          that.$message.error('手机号码或者密码错误！')
+        })
+    },
+    toLogin () {
+      // this.$router.replace('/login')
+      if (this.token) {
+        this.showLogout = !this.showLogout
+      } else {
+        this.centerDialogVisible = !this.centerDialogVisible
+      }
+    },
     goBack () {
       this.$router.go(-1)
     },
@@ -246,7 +344,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../assets/styles/common/functions";
+  @import "../../assets/styles/common/functions";
   .header{
     width: 100%;
     height: 50px;
@@ -260,13 +358,26 @@ export default {
       display: flex;
       /*justify-content: center;*/
       align-items: center;
+      .logout{
+        top: 40px;
+        left: 10px;
+        background: #eee;
+        padding: 5px 10px;
+        color: red;
+        z-index: 9;
+      }
       .user{
         width: px2vw(30);
         height: px2vw(30);
         border-radius: 50%;
-        background: url("../../assets/img/logo.png") no-repeat;
-        background-size: 100% 100%;
+        /*background: url("../../assets/img/logo.png") no-repeat;*/
+        /*background-size: 100% 100%;*/
         margin: 0 px2vw(10);
+        overflow: hidden;
+        img{
+          width: 100%;
+          height: 100%;
+        }
       }
       .user-name{
         color: #fff;
