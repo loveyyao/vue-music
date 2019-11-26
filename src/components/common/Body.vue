@@ -45,7 +45,7 @@
                     <span class="music-time">{{item.time|realFormatSecond}}</span>
                     <span class="options pa pc">
                         <i class="el-icon-star-on cursor"></i>
-                        <i class="el-icon-delete cursor" @click.stop="deleteMusic(index)"></i>
+                        <i class="el-icon-delete cursor" @click.stop="delPlaylist(e,item)"></i>
                         <i class="el-icon-more cursor"></i>
                       </span>
                   </div>
@@ -152,12 +152,14 @@ export default {
       hide: false,
       isMin: false,
       playlist: [],
-      userPlaylist: [],
       loaderUser: true
     }
   },
 
   computed: {
+    userPlaylist () {
+      return this.$store.state.userPlaylist
+    },
     // 获取默认播放列表
     playList () {
       return this.$store.state.playList
@@ -210,6 +212,23 @@ export default {
     }
   },
   methods: {
+    delPlaylist (songList, songItem) {
+      this.$axios.get('playlist/tracks', {
+        op: 'del',
+        pid: songList.id,
+        tracks: songItem.id
+      })
+        .then((res) => {
+          console.log(res)
+          if (res.data.code === 200) {
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            })
+            this.getUserSongs()
+          }
+        })
+    },
     getCheckedNodes () {
       // console.log(this.$refs.tree.getCheckedNodes())
       const ids = this.$refs.tree.getCheckedNodes()
@@ -253,10 +272,11 @@ export default {
     getUserSongs () {
       if (this.token) {
         this.$axios.get('user/playlist', {
-          uid: this.userInfo.id
+          uid: this.userInfo.id,
+          time: new Date().getTime()
         })
           .then((res) => {
-            // console.log(res)
+            // console.log(res.data.playlist)
             if (res.data.code === 200) {
               this.playlist = res.data.playlist.map((e) => {
                 return {
@@ -265,6 +285,7 @@ export default {
                   label: e.name
                 }
               })
+              console.log('用户歌单获取')
               console.log(res.data.playlist)
               this.playlist.forEach((e) => {
                 this.getPlaylistDetail(e.id)
@@ -277,7 +298,8 @@ export default {
     },
     getPlaylistDetail (id) {
       this.$axios.get('/playlist/detail', {
-        id: id
+        id: id,
+        time: new Date().getTime()
       })
         .then((res) => {
           // console.log(res)
@@ -290,13 +312,14 @@ export default {
                 time: e.dt / 1000
               }
             })
-            this.userPlaylist = this.playlist.map((e) => {
+            const userPlaylist = this.playlist.map((e) => {
               if (e.id === id) {
                 e.list = songList
                 e.num = songList.length
               }
               return e
             })
+            this.$store.commit('addPlayList', userPlaylist)
             this.loaderUser = false
           }
         })

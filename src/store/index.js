@@ -18,12 +18,16 @@ const state = {
   singers: [],
   token: '',
   userInfo: {},
-  playList: []
+  playList: [],
+  userPlaylist: []
 }
 const getters = {
 }
 
 const mutations = {
+  addPlayList: function (state, data) {
+    state.userPlaylist = data
+  },
   setPlayList: function (state, data) {
     state.playList = data
   },
