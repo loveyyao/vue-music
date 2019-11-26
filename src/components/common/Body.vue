@@ -70,7 +70,7 @@
       </el-tabs>
       <div class="line"></div>
     </div>
-    <div class="main-right pr h" :class="{min:isMin}">
+    <div class="main-right pr h" :class="{min:isMin}" v-if="!isMin">
       <el-tabs v-model="rightActiveName" @tab-click="handleClick">
         <el-tab-pane v-for="(tab,index) in tabs"
                      :label="tab.label"

@@ -1,11 +1,16 @@
 <template>
   <div class="header ward" :style="{background:bgColor}">
-    <div class="header-left fl pr">
-      <div class="user cursor" @click="toLogin">
-        <img src="../../assets/img/logo.png" alt="" v-if="!userInfo.img">
-        <img v-lazy="userInfo.img" alt="" v-else>
+    <div class="header-left fl">
+      <div class="user-box pr">
+        <div class="user cursor" @click="toLogin">
+          <img src="../../assets/img/logo.png" alt="" v-if="!userInfo.img">
+          <img v-lazy="userInfo.img" alt="" v-else>
+        </div>
+        <div class="user-name cursor" @click="toLogin">{{userInfo.name?userInfo.name:'未登录'}}</div>
+        <div class="logout pa" v-if="showLogout">
+          <span class="cursor" @click="logout">退出</span>
+        </div>
       </div>
-      <div class="user-name cursor" @click="toLogin">{{userInfo.name?userInfo.name:'未登录'}}</div>
       <div class="btn" v-if="isMin">
         <span class="icon cursor" @click="max">
           <i class="el-icon-download rotate"></i>
@@ -19,9 +24,6 @@
           <i class="el-icon-close"></i>
           <span class="tooltip pa">关闭</span>
         </div>
-      </div>
-      <div class="logout pa" v-if="showLogout">
-        <span class="cursor" @click="logout">退出</span>
       </div>
     </div>
     <div class="header-right fr" :class="{min:isMin}">
@@ -121,7 +123,7 @@
       title="登录"
       custom-class="login-box"
       :visible.sync="centerDialogVisible"
-      width="30%"
+      width="290px"
       top="20%"
       center>
       <div class="login-from">
@@ -356,8 +358,13 @@ export default {
       width: 300px;
       height: 100%;
       display: flex;
-      /*justify-content: center;*/
+      justify-content: space-between;
       align-items: center;
+      .user-box{
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
       .logout{
         top: 40px;
         left: 10px;
@@ -383,9 +390,9 @@ export default {
         color: #fff;
       }
       .btn{
-        margin-left: 132px;
         width: 90px;
         display: flex;
+        padding-right: 5px;
         .icon{
           flex: 1;
           height: px2vw(30);
