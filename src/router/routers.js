@@ -8,6 +8,7 @@ const Recommend = () => import('../pages/Recommend')
 const TopList = () => import('../pages/TopList')
 const Singer = () => import('../pages/Singer')
 const SingerDetails = () => import('../pages/SingerDetails')
+const SongDetails = () => import('../pages/SongDetails')
 export default [
   {
     path: '/home',
@@ -44,6 +45,11 @@ export default [
             path: '/home/musicLibrary/singer/details',
             name: 'SingerDetails',
             component: SingerDetails
+          },
+          {
+            path: '/home/musicLibrary/song/details',
+            name: 'SongDetails',
+            component: SongDetails
           },
           {
             path: '/home/musicLibrary/classify',

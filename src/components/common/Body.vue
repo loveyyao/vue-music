@@ -32,7 +32,7 @@
           <span slot="label" class="tabs-icon"><i class="el-icon-cloudy"></i></span>
           <el-collapse v-model="collapseActive" accordion v-if="token" v-loading="loaderUser" :style="{height:listH -50 +'px'}">
             <div class="list-container" :style="{height:listH+'px'}">
-              <el-collapse-item v-for="(e, i) in userPlaylist" :title="e.name+'[ '+e.num+' ]'" :name="i" :key="i">
+              <el-collapse-item v-for="(e, i) in userPlaylist" :title="e.num?e.name+'[ '+e.num+' ]':e.name+'[ ]'" :name="i" :key="i">
                 <div class="music-list-wrap">
                   <div class="music-item pr"
                        v-for="(item, index) in e.list"

@@ -34,11 +34,15 @@
       </div>
       <div class="content-right">
         <div class="right-title">
-          <span class="text">新碟上架</span>
+          <span class="text">歌单推荐</span>
           <span>更多</span>
         </div>
         <div class="new-album-list" v-loading="loadingAlbum">
-          <div class="album-item" v-for="(item,index) in albumData" :key="index" :class="{mt:index>1}">
+          <div class="album-item"
+               v-for="(item,index) in albumData"
+               :key="index"
+               @click="toSongDetails(item)"
+               :class="{mt:index>1}">
             <div class="album-img">
               <div class="mask"></div>
               <img v-lazy="item.img" alt="">
@@ -138,6 +142,14 @@ export default {
         }
       })
     },
+    toSongDetails (song) {
+      this.$router.push({
+        name: 'SongDetails',
+        params: {
+          song: song
+        }
+      })
+    },
     handleClick () {},
     CurrentChange (val) {
       this.currentPage = val
@@ -209,14 +221,15 @@ export default {
       this.loadingAlbum = true
       this.$axios.get('/top/playlist', {limit: 4, order: 'new', cat: '华语'})
         .then((res) => {
-          // console.log(res)
+          console.log(res)
           if (res.data.code === 200) {
             const result = res.data.playlists.map((item) => {
               return {
                 img: item.coverImgUrl,
                 playCount: item.playCount,
                 name: item.name,
-                user: item.creator.nickname
+                user: item.creator.nickname,
+                id: item.id
               }
             })
             this.albumData = result
