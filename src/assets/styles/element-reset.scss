@@ -148,3 +148,12 @@
     }
   }
 }
+.mobile-header{
+  .search-input{
+    .el-input{
+      .el-input__inner{
+        border-radius: rem(15);
+      }
+    }
+  }
+}

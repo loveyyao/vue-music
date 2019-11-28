@@ -16,6 +16,9 @@
         </van-tabs>
       </div>
     </van-nav-bar>
+    <div class="search-input">
+      <el-input v-model="searchName" suffix-icon="el-icon-search" placeholder="请输入内容"></el-input>
+    </div>
     <el-drawer
       title="我是标题"
       :visible.sync="drawer"
@@ -33,6 +36,7 @@ export default {
   data () {
     return {
       active: 'hear',
+      searchName: '',
       drawer: false,
       vanTabs: [
         {
@@ -73,6 +77,17 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+@import "../../../assets/styles/common/functions";
+  .mobile-header{
+    .search-input{
+      /*position: fixed;*/
+      /*top: rem(50);*/
+      /*left: 50%;*/
+      /*transform: translateX(-50%);*/
+      margin: rem(5) auto;
+      width: rem(300);
+      height: rem(32);
+    }
+  }
 </style>

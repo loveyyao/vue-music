@@ -7,7 +7,8 @@
            @ended="playEnd"
     ></audio>
     <div class="img">
-      <img v-lazy="imgSrc" alt="">
+      <img v-lazy="imgSrc" alt="" v-if="imgSrc">
+      <img src="../../../assets/img/logo.png" v-else alt="">
     </div>
     <div class="play-box">
       <div class="progress-bar-wrap">
