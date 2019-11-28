@@ -58,6 +58,12 @@ export default {
   mounted () {
     // console.log(this.$utils)
     const that = this
+    const isPc = that.$utils.IsPC()
+    if (isPc) {
+      that.$router.replace('/home/musicLibrary')
+    } else {
+      that.$router.replace('/mobile/home')
+    }
     const defaultList = this.$utils.getItem('defaultList')
     if (defaultList) {
       that.$store.commit('addDefaultList', defaultList)

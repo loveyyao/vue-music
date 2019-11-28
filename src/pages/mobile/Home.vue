@@ -6,7 +6,16 @@
 
 <script>
 export default {
-  name: 'Home'
+  name: 'Home',
+  mounted () {
+    const that = this
+    const isPc = that.$utils.IsPC()
+    if (isPc) {
+      that.$router.replace('/home/musicLibrary')
+    } else {
+      that.$router.replace('/mobile/home')
+    }
+  }
 }
 </script>
 
