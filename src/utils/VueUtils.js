@@ -8,7 +8,8 @@ import {
   setItem,
   getItem,
   removeItem,
-  clear
+  clear,
+  IsPC
 } from './utils'
 export default {
   getCookies,
@@ -20,5 +21,6 @@ export default {
   setItem,
   getItem,
   removeItem,
-  clear
+  clear,
+  IsPC
 }

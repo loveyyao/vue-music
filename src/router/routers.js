@@ -9,6 +9,7 @@ const TopList = () => import('../pages/TopList')
 const Singer = () => import('../pages/Singer')
 const SingerDetails = () => import('../pages/SingerDetails')
 const SongDetails = () => import('../pages/SongDetails')
+const MHome = () => import('../pages/mobile/Home')
 export default [
   {
     path: '/home',
@@ -33,13 +34,6 @@ export default [
           {
             path: '/home/musicLibrary/singer',
             component: Singer
-            // children: [
-            //   {
-            //     path: '/home/musicLibrary/singer/details',
-            //     name: 'SingerDetails',
-            //     component: SingerDetails
-            //   }
-            // ]
           },
           {
             path: '/home/musicLibrary/singer/details',
@@ -94,6 +88,10 @@ export default [
   {
     path: '/lyric',
     component: LyricWindow
+  },
+  {
+    path: '/mobile/home',
+    component: MHome
   },
   {
     path: '/',

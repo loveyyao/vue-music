@@ -12,6 +12,11 @@
   <!-- built files will be auto injected -->
 </body>
 <script>
+  (function () {
+    var device_width = document.documentElement.clientWidth;
+    var rem = 100 / 375 * device_width
+    document.documentElement.style.fontSize = rem + "px";
+  })()
   // 判断ie浏览器
   var userAgent = navigator.userAgent
   var isIE = userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1

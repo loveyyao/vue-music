@@ -30,6 +30,12 @@ export default {
   mounted () {
     // console.log(this.$utils)
     const that = this
+    const isPc = that.$utils.IsPC()
+    if (isPc) {
+      that.$router.replace('/home')
+    } else {
+      that.$router.replace('/mobile/home')
+    }
     if (that.$utils.getCookies('userInfo')) {
       const userInfo = JSON.parse(that.$utils.getCookies('userInfo'))
       const token = JSON.parse(that.$utils.getCookies('token'))
