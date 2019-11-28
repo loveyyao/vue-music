@@ -181,7 +181,7 @@ export default {
   },
   computed: {
     defaultList () {
-      return this.$store.state.defaultList
+      return this.$store.state.PC.defaultList
     }
   },
   methods: {

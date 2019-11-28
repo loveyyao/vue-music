@@ -20,7 +20,7 @@ export default {
   computed: {
     // 从vuex中获取当前需要播放的音乐
     atPresentPlayMusic () {
-      return this.$store.state.atPresent
+      return this.$store.state.PC.atPresent
     }
   },
 

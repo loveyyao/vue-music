@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     windowH () {
-      return this.$store.state.windowH
+      return this.$store.state.PC.windowH
     }
   },
   watch: {

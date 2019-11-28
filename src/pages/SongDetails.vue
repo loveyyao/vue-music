@@ -93,10 +93,10 @@ export default {
       return result
     },
     defaultList () {
-      return this.$store.state.defaultList
+      return this.$store.state.PC.defaultList
     },
     windowH () {
-      return this.$store.state.windowH
+      return this.$store.state.PC.windowH
     }
   },
   methods: {

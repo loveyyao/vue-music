@@ -116,7 +116,7 @@ export default {
   },
   computed: {
     singers () {
-      return this.$store.state.singers
+      return this.$store.state.PC.singers
     }
   },
   watch: {

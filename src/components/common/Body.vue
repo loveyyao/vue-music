@@ -158,23 +158,23 @@ export default {
 
   computed: {
     userPlaylist () {
-      return this.$store.state.userPlaylist
+      return this.$store.state.PC.userPlaylist
     },
     // 获取默认播放列表
     playList () {
-      return this.$store.state.playList
+      return this.$store.state.PC.playList
     },
     defaultList () {
-      return this.$store.state.defaultList
+      return this.$store.state.PC.defaultList
     },
     atPresentPlayMusic () {
-      return this.$store.state.atPresent
+      return this.$store.state.PC.atPresent
     },
     token () {
-      return this.$store.state.token
+      return this.$store.state.PC.token
     },
     userInfo () {
-      return this.$store.state.userInfo
+      return this.$store.state.PC.userInfo
     }
   },
   watch: {

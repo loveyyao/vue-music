@@ -58,11 +58,11 @@ export default {
   },
   computed: {
     windowH () {
-      return this.$store.state.windowH
+      return this.$store.state.PC.windowH
     },
     // 搜索列表
     tableData () {
-      const data = this.$store.state.searchList
+      const data = this.$store.state.PC.searchList
       const result = data.map((item) => {
         return {
           id: item.id,
@@ -76,13 +76,13 @@ export default {
       return result
     },
     defaultList () {
-      return this.$store.state.defaultList
+      return this.$store.state.PC.defaultList
     },
     keywords () {
-      return this.$store.state.keywords
+      return this.$store.state.PC.keywords
     },
     offset () {
-      return this.$store.state.offset
+      return this.$store.state.PC.offset
     }
   },
   watch: {

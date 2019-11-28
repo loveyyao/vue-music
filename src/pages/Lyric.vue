@@ -27,13 +27,13 @@ export default {
   },
   computed: {
     index () {
-      return this.$store.state.index
+      return this.$store.state.PC.index
     },
     top () {
-      return this.$store.state.top
+      return this.$store.state.PC.top
     },
     lyric () {
-      return this.$store.state.lyric
+      return this.$store.state.PC.lyric
     },
     lyricList () {
       const result = []

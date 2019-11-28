@@ -85,8 +85,8 @@
         <i class="el-icon-video-play" v-if="!isPlay"></i>
         <i class="el-icon-video-pause" v-else></i>
       </span>
-          <span class="icon cp" @click="playNextMusic">
-       <i class="el-icon-arrow-right"></i>
+      <span class="icon cp" @click="playNextMusic">
+        <i class="el-icon-arrow-right"></i>
       </span>
         </div>
         <div class="option-btn">
@@ -170,13 +170,13 @@ export default {
     },
     // 从vuex中获取当前需要播放的音乐
     atPresentPlayMusic () {
-      return this.$store.state.atPresent
+      return this.$store.state.PC.atPresent
     },
     defaultList () {
-      return this.$store.state.playList
+      return this.$store.state.PC.playList
     },
     commentNum () {
-      return this.$store.state.comment
+      return this.$store.state.PC.comment
     },
     lyricList () {
       const result = []

@@ -165,10 +165,10 @@ export default {
   },
   computed: {
     userInfo () {
-      return this.$store.state.userInfo
+      return this.$store.state.PC.userInfo
     },
     token () {
-      return this.$store.state.token
+      return this.$store.state.PC.token
     }
   },
   methods: {

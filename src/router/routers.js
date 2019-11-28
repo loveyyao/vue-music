@@ -10,6 +10,10 @@ const Singer = () => import('../pages/Singer')
 const SingerDetails = () => import('../pages/SingerDetails')
 const SongDetails = () => import('../pages/SongDetails')
 const MHome = () => import('../pages/mobile/Home')
+const Hear = () => import('../pages/mobile/Hear')
+const Look = () => import('../pages/mobile/Look')
+const Me = () => import('../pages/mobile/Me')
+const Sing = () => import('../pages/mobile/Sing')
 export default [
   {
     path: '/home',
@@ -91,7 +95,29 @@ export default [
   },
   {
     path: '/mobile/home',
-    component: MHome
+    component: MHome,
+    children: [
+      {
+        path: '/mobile/home/me',
+        component: Me
+      },
+      {
+        path: '/mobile/home/hear',
+        component: Hear
+      },
+      {
+        path: '/mobile/home/look',
+        component: Look
+      },
+      {
+        path: '/mobile/home/sing',
+        component: Sing
+      },
+      {
+        path: '/mobile/home',
+        redirect: '/mobile/home/hear'
+      }
+    ]
   },
   {
     path: '/',

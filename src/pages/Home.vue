@@ -26,10 +26,10 @@ export default {
 
   computed: {
     picUrl () {
-      return this.$store.state.picUrl
+      return this.$store.state.PC.picUrl
     },
     isShowBg () {
-      return this.$store.state.isShowBg
+      return this.$store.state.PC.isShowBg
     }
   },
 

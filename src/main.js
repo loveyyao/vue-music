@@ -14,7 +14,11 @@ import './assets/styles/element-reset.scss'
 import { realFormatSecond, FormattedNumber } from './filter'
 import elTableInfiniteScroll from 'el-table-infinite-scroll'
 import VueLazyload from 'vue-lazyload'
+import Vant from 'vant'
+import 'vant/lib/index.css'
+import './assets/styles/vant-reset.scss'
 
+Vue.use(Vant)
 Vue.use(elTableInfiniteScroll)
 require('./assets/main.css')
 Vue.config.productionTip = false

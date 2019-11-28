@@ -1,0 +1,29 @@
+@import "./common/functions";
+.mobile-header{
+  .van-nav-bar{
+    background: #41B883;
+    font-size: rem(22);
+    .van-icon{
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .van-nav-bar__right,
+    .van-nav-bar__left{
+      font-size: rem(20);
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .van-tabs__nav{
+      background: #41B883;
+      .van-tabs__line{
+        display: none;
+      }
+      .van-tab{
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .van-tab--active{
+        font-weight: bold;
+        //font-size: rem(21);
+        color: #fff;
+      }
+    }
+  }
+}
