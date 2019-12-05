@@ -102,6 +102,10 @@ function IsPC () {
   }
   return flag
 }
+// 求两个数组交集
+function arrayIntersection (arrOne, arrTow) {
+  return arrOne.filter((item) => arrTow.includes(item))
+}
 
 window.Date.prototype.format = function (fmt) {
   var o = {
@@ -132,5 +136,6 @@ export {
   getItem,
   removeItem,
   clear,
-  IsPC
+  IsPC,
+  arrayIntersection
 }

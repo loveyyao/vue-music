@@ -9,7 +9,8 @@ import {
   getItem,
   removeItem,
   clear,
-  IsPC
+  IsPC,
+  arrayIntersection
 } from './utils'
 export default {
   getCookies,
@@ -22,5 +23,6 @@ export default {
   getItem,
   removeItem,
   clear,
-  IsPC
+  IsPC,
+  arrayIntersection
 }

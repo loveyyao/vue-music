@@ -180,6 +180,13 @@ export default {
   watch: {
     defaultList (e) {
       this.$utils.setItem('defaultList', e)
+      const flag = this.$utils.arrayIntersection(e, this.playList).every((item, index) => {
+        return item === this.playList[index]
+      })
+      console.log(flag)
+      if (flag) {
+        this.$store.commit('setPlayList', e)
+      }
     },
     playIndex (e) {
       this.$store.commit('setAtPresentPlayMusic', this.playList[e])
