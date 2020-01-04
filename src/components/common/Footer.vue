@@ -280,7 +280,7 @@ export default {
         .then((res) => {
           // console.log(res)
           if (res.data.code === 200) {
-            // console.log(res.data)
+            console.log(res.data)
             this.url = res.data.data[0].url
             setTimeout(() => {
               cb && cb()

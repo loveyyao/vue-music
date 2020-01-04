@@ -97,12 +97,12 @@
           <span class="tooltip pa">消息中心</span>
         </span>
         <span class="icon cursor">
-          <i class="el-icon-microphone"></i>
-          <span class="tooltip pa">更换皮肤</span>
-        </span>
-        <span class="icon cursor">
           <i class="el-icon-setting"></i>
           <span class="tooltip pa">主菜单</span>
+        </span>
+        <span class="icon cursor" @click="download">
+          <i class="el-icon-download"></i>
+          <span class="tooltip pa">下载桌面端</span>
         </span>
         <span class="line"></span>
         <span class="icon cursor" @click="min">
@@ -172,6 +172,9 @@ export default {
     }
   },
   methods: {
+    download () {
+      window.location.href = 'http://121.40.142.20:3000/flies/setup.exe'
+    },
     logout () {
       this.$axios.get('logout')
         .then((res) => {

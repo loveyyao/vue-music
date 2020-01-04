@@ -94,6 +94,10 @@ export default [
     component: LyricWindow
   },
   {
+    path: '/love',
+    component: () => import('../pages/Love')
+  },
+  {
     path: '/mobile/home',
     component: MHome,
     children: [
